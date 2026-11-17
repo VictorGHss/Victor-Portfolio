@@ -15,7 +15,7 @@ const t = UI[locale];
 >
   <section class="section">
     <div class="container">
-      <div class="not-found p3-panel p3-panel--chamfer">
+      <div class="not-found surface-block">
         <span class="display-kicker display-kicker--accent">ERROR // {t.notFound.code}</span>
         <h1 class="display-title not-found__code">{t.notFound.code}</h1>
         <h2 class="display-title not-found__title">{t.notFound.title}</h2>
@@ -38,16 +38,16 @@ const t = UI[locale];
     padding: var(--space-7);
     max-width: 720px;
     margin-inline: auto;
-    border-color: var(--border-accent);
+    border-left: 4px solid var(--color-accent);
   }
 
   .not-found__code {
-    font-size: clamp(4rem, 12vw, 7rem);
+    font-size: clamp(4rem, 12vw, 6.5rem);
     color: var(--color-accent);
   }
 
   .not-found__title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     margin-top: 0.25rem;
   }
 

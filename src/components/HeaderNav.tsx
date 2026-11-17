@@ -4,7 +4,6 @@ import { Menu, X, Globe } from 'lucide-react';
 import type { Locale } from '../i18n/config';
 import { getAlternateLocale, localizePath, switchLocalePath } from '../i18n/config';
 import type { NavItem, UiDictionary } from '../i18n/ui';
-import AudioController from './AudioController';
 import './HeaderNav.css';
 
 interface HeaderNavProps {
@@ -77,20 +76,13 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
         </nav>
 
         <div className="header-actions">
-          <AudioController
-            onLabel={controls.audioOn}
-            offLabel={controls.audioOff}
-            hintLabel={controls.audioHint}
-            volumeLabel={controls.audioVolume}
-          />
-
           <a
             href={altPath}
             className="lang-switch"
             aria-label={`${controls.languageLabel}: ${altLocale.toUpperCase()}`}
           >
             <Globe size={14} aria-hidden="true" />
-            <span>{locale === 'pt-br' ? 'PT-BR' : 'EN'}</span>
+            <span>{locale === 'pt-br' ? 'PT' : 'EN'}</span>
             <span className="lang-switch__sep" aria-hidden="true">/</span>
             <span className="lang-switch__alt">{altLocale === 'pt-br' ? 'PT' : 'EN'}</span>
           </a>
@@ -114,10 +106,10 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             id="mobile-nav-drawer"
             className="mobile-drawer"
             aria-label="Mobile Navigation"
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.18 }}
           >
             <ul className="mobile-drawer__list">
               {navItems.map((item) => {

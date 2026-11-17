@@ -3,7 +3,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://ctrls.dev.br',
+  site: 'https://victorghss-portfolio.ctrls.dev.br',
   output: 'static',
   trailingSlash: 'always',
   integrations: [

@@ -1,4 +1,5 @@
 ---
+import { PROFILE } from '../data/profile';
 import { DEFAULT_LOCALE, localizePath } from '../i18n/config';
 
 const target = localizePath(DEFAULT_LOCALE);
@@ -9,7 +10,7 @@ const target = localizePath(DEFAULT_LOCALE);
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="refresh" content={`0;url=${target}`} />
-    <link rel="canonical" href={`https://ctrls.dev.br${target}`} />
+    <link rel="canonical" href={`${PROFILE.domain}${target}`} />
     <title>Vito.dev — Redirecionando...</title>
   </head>
   <body style="background:#071426;color:#E8F2FF;font-family:system-ui,sans-serif;padding:2rem;">

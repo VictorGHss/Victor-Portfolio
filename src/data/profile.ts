@@ -1,22 +1,22 @@
 export const PROFILE = {
   brand: 'Vito.dev',
   name: 'Victor Gabriel',
-  fullName: 'Victor Gabriel Hass',
-  domain: 'https://ctrls.dev.br',
+  fullName: 'Victor Gabriel de Oliveira Hass',
+  domain: 'https://victorghss-portfolio.ctrls.dev.br',
   githubUrl: 'https://github.com/VictorGHss',
   githubUsername: 'VictorGHss',
   linkedinUrl: 'https://www.linkedin.com/in/victor-gabriel-hass-05a291336/',
   email: 'vg.hss0101@icloud.com',
   location: {
-    'pt-br': 'Paraná, Brasil',
-    en: 'Paraná, Brazil',
+    'pt-br': 'Ponta Grossa, PR — Brasil',
+    en: 'Ponta Grossa, PR — Brazil',
   },
   education: {
-    'pt-br': 'Análise e Desenvolvimento de Sistemas — UTFPR',
-    en: 'Systems Analysis and Development — UTFPR',
+    'pt-br': 'Tecnólogo em Análise e Desenvolvimento de Sistemas — UTFPR (Prev. 2027)',
+    en: 'B.Tech in Systems Analysis and Development — UTFPR (Expected 2027)',
   },
   resumeFiles: {
-    'pt-br': null as string | null,
-    en: null as string | null,
+    'pt-br': '/resume/victor-gabriel-cv-pt-br.pdf',
+    en: '/resume/victor-gabriel-resume-en.pdf',
   },
 } as const;

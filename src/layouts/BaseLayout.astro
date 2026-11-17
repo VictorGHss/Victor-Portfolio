@@ -21,6 +21,7 @@ const altLocale = getAlternateLocale(locale);
 const canonicalUrl = new URL(currentPath, PROFILE.domain).toString();
 const ptUrl = new URL(switchLocalePath(currentPath, 'pt-br'), PROFILE.domain).toString();
 const enUrl = new URL(switchLocalePath(currentPath, 'en'), PROFILE.domain).toString();
+const ogImageUrl = new URL('/og-image.png', PROFILE.domain).toString();
 const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
 ---
 
@@ -43,17 +44,19 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:locale" content={locale === 'pt-br' ? 'pt_BR' : 'en_US'} />
     <meta property="og:locale:alternate" content={altLocale === 'pt-br' ? 'pt_BR' : 'en_US'} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
     <ClientRouter />
@@ -89,6 +92,7 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
           <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+          <a href={PROFILE.resumeFiles[locale]} download>{t.home.resumeCta}</a>
           <a href={localizePath(locale, 'contact')}>{t.nav.find((n) => n.key === 'contact')?.label}</a>
         </div>
       </div>
@@ -103,8 +107,8 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
 <style>
   .site-footer {
     margin-top: var(--space-8);
-    border-top: 1px solid var(--border-subtle);
-    background: rgba(5, 14, 27, 0.9);
+    border-top: 1px solid rgba(232, 242, 255, 0.08);
+    background: rgba(5, 14, 27, 0.94);
     padding-block: var(--space-7) var(--space-5);
   }
 
@@ -114,7 +118,7 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
     justify-content: space-between;
     gap: var(--space-5);
     padding-bottom: var(--space-5);
-    border-bottom: 1px solid rgba(85, 200, 255, 0.12);
+    border-bottom: 1px solid rgba(232, 242, 255, 0.06);
   }
 
   .site-footer__brand {
@@ -138,7 +142,7 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
     align-items: center;
     gap: 1.25rem;
     font-family: var(--font-mono);
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
 
   .site-footer__links a {

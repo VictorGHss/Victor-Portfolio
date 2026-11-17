@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ctrls.dev.br/sitemap-index.xml
+Sitemap: https://victorghss-portfolio.ctrls.dev.br/sitemap-index.xml

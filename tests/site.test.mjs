@@ -10,7 +10,10 @@ const EXPECTED_FILES = [
   '404.html',
   'robots.txt',
   'favicon.svg',
+  'og-image.png',
   'sitemap-index.xml',
+  'resume/victor-gabriel-cv-pt-br.pdf',
+  'resume/victor-gabriel-resume-en.pdf',
   'pt-br/index.html',
   'en/index.html',
   'pt-br/projects/index.html',
@@ -39,28 +42,32 @@ const EXPECTED_FILES = [
   'en/contact/index.html',
 ];
 
-test('all expected static routes and assets exist in dist/', () => {
+test('all expected static routes, resumes, and assets exist in dist/', () => {
   for (const rel of EXPECTED_FILES) {
     const fullPath = path.join(DIST, rel);
     assert.ok(fs.existsSync(fullPath), `Missing built file: ${rel}`);
   }
 });
 
-test('bilingual pages contain canonical, hreflang, and Open Graph metadata', () => {
-  for (const rel of ['pt-br/index.html', 'en/index.html', 'pt-br/projects/ctrls-itsm/index.html', 'en/projects/ctrls-itsm/index.html']) {
+test('bilingual pages contain consistent canonical, hreflang, and Open Graph metadata', () => {
+  for (const rel of [
+    'pt-br/index.html',
+    'en/index.html',
+    'pt-br/projects/ctrls-itsm/index.html',
+    'en/projects/ctrls-itsm/index.html',
+  ]) {
     const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
-    assert.match(html, /<link rel="canonical" href="https:\/\/ctrls\.dev\.br\//);
+    assert.match(html, /<link rel="canonical" href="https:\/\/victorghss-portfolio\.ctrls\.dev\.br\//);
     assert.match(html, /<link rel="alternate" hreflang="pt-BR"/);
     assert.match(html, /<link rel="alternate" hreflang="en"/);
     assert.match(html, /<meta property="og:title"/);
     assert.match(html, /<meta property="og:description"/);
+    assert.match(html, /<meta property="og:image" content="https:\/\/victorghss-portfolio\.ctrls\.dev\.br\/og-image\.png"/);
   }
 });
 
-test('prohibited branding or inaccurate claims are absent from generated pages', () => {
-  const pagesToCheck = [
-    'pt-br/index.html',
-    'en/index.html',
+test('audio controls are removed and project case studies remain neutral', () => {
+  const neutralProjectPages = [
     'pt-br/projects/index.html',
     'en/projects/index.html',
     'pt-br/projects/ctrls-itsm/index.html',
@@ -69,9 +76,13 @@ test('prohibited branding or inaccurate claims are absent from generated pages',
     'en/projects/digital-professional-profiles/index.html',
   ];
 
-  for (const rel of pagesToCheck) {
+  for (const rel of neutralProjectPages) {
     const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
-    assert.ok(!/inovare/i.test(html), `Prohibited clinic name found in ${rel}`);
-    assert.ok(!/500 mensagens por minuto/i.test(html), `Inaccurate throughput claim in ${rel}`);
+    assert.ok(!/inovare/i.test(html), `Prohibited organization name found in ${rel}`);
+  }
+
+  for (const rel of ['pt-br/index.html', 'en/index.html', ...neutralProjectPages]) {
+    const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
+    assert.ok(!/SOM:\s*OFF|SOUND:\s*OFF|AudioController/i.test(html), `Audio UI remnant found in ${rel}`);
   }
 });

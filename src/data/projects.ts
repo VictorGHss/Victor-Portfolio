@@ -28,6 +28,7 @@ export interface Project {
   name: LocalizedText;
   tagline: LocalizedText;
   status: ProjectStatus;
+  timelineContext: LocalizedText;
   priority: number;
   featured: boolean;
   secondary?: boolean;
@@ -53,10 +54,14 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Plataforma integrada de operações, automações de atendimento, controle de acesso físico e gestão ITSM.',
-      en: 'Integrated operations platform for messaging automation, physical access control, financial sync, and ITSM governance.',
+        'Plataforma integrada de operações, automações de atendimento via WhatsApp, controle de acesso físico e gestão ITSM.',
+      en: 'Integrated operations platform for WhatsApp automation, physical access control, financial sync, and ITSM governance.',
     },
     status: 'used-in-production',
+    timelineContext: {
+      'pt-br': 'Iniciado antes da efetivação como Técnico de TI • Ciclo operacional encerrado',
+      en: 'Started prior to full-time IT Technician promotion • Operational cycle concluded',
+    },
     priority: 1,
     featured: true,
     isPrivateCore: true,
@@ -64,108 +69,104 @@ export const PROJECTS: Project[] = [
     stack: [
       'Java 21',
       'Spring Boot 3',
-      'Hexagonal Architecture',
+      'Spring Security',
       'React',
       'PostgreSQL',
       'Redis',
       'Docker',
       'Prometheus',
       'Grafana',
-      'REST APIs',
+      'REST APIs & Webhooks',
       'Take Blip',
       'Feegow',
       'Conta Azul V2',
-      'GerAcesso / Control iD',
+      'GerAcesso',
       'Discord JDA',
     ],
     problem: {
       'pt-br':
-        'Operações com alto volume de atendimentos dependiam de confirmações manuais no WhatsApp, controle de acesso físico desconectado da agenda, conciliação financeira manual e chamados de TI sem rastreabilidade ou SLA estruturado.',
-      en: 'High-volume operations relied on manual WhatsApp confirmations, physical turnstile access disconnected from scheduling, manual financial reconciliation, and IT support requests without SLA tracking.',
+        'Operações com alto fluxo de atendimentos enfrentavam confirmações manuais no WhatsApp, filas na recepção por falta de autoatendimento na portaria, conciliação financeira manual e chamados internos de TI sem rastreabilidade.',
+      en: 'High-volume operations faced manual WhatsApp confirmations, reception bottlenecks without self-service turnstile access, manual financial reconciliation, and untracked internal IT support requests.',
     },
     solution: {
       'pt-br':
-        'Evoluído a partir do protótipo interno CTRLS Hub, o CTRLS ITSM foi construído como produto de software modular (arquitetura hexagonal) para orquestrar automações via WhatsApp, emissão de credenciais QR Code para catracas, conciliação financeira com MFA/TOTP, gestão de chamados, CMDB, estoque FIFO e alertas no Discord. O sistema operou em ambiente real em ciclo já encerrado (com remoção dos dados após a saída) e é estruturado para implantação e licenciamento white-label.',
-      en: 'Evolved from an earlier internal prototype (CTRLS Hub), CTRLS ITSM was engineered as a modular software product using Hexagonal Architecture to orchestrate WhatsApp automation, QR Code turnstile credentials, financial reconciliation with MFA/TOTP, ITSM ticketing, CMDB, FIFO inventory, and Discord alerts. It ran in real operations during a completed lifecycle (with data removed upon exit) and is structured for white-label deployment.',
+        'Desenvolvido do zero com backend em Java 21 / Spring Boot 3 e Arquitetura Hexagonal, conectando ERP de agenda, mensageria assíncrona no WhatsApp, controle de acesso físico por QR Code, conciliação financeira com MFA/TOTP e gestão ITSM/CMDB/estoque FIFO. O sistema teve ciclo de uso em ambiente real já encerrado, com remoção dos dados e do ambiente operacional após o encerramento.',
+      en: 'Engineered from scratch with a Java 21 / Spring Boot 3 backend using Hexagonal Architecture, connecting scheduling ERP APIs, asynchronous WhatsApp messaging, QR Code turnstile access, MFA-protected financial reconciliation, and ITSM/CMDB/FIFO inventory modules. Its real-world operational cycle has concluded, with data and environment subsequently decommissioned.',
     },
     role: {
       'pt-br':
-        'Autor e desenvolvedor principal: arquitetura backend em Java 21 / Spring Boot 3, implementação das integrações externas (Feegow, Take Blip, Conta Azul V2, GerAcesso e Discord JDA), motor de agendamentos/automações no WhatsApp, segurança (JWT, MFA/TOTP, criptografia e auditoria) e painéis operacionais em React.',
-      en: 'Author and lead developer: backend architecture in Java 21 / Spring Boot 3, external integrations (Feegow, Take Blip, Conta Azul V2, GerAcesso, Discord JDA), WhatsApp automation and scheduling engine, security (JWT, MFA/TOTP, encryption, audit trail), and React operational dashboards.',
+        'Autor e desenvolvedor principal: concepção da arquitetura em Java 21 / Spring Boot 3, integrações REST e webhooks assíncronos (Feegow, Blip, Conta Azul V2, gerAcesso e Discord), controle de taxa com Redis, segurança (JWT, MFA/TOTP, auditoria) e painéis em React.',
+      en: 'Author and lead developer: backend architecture in Java 21 / Spring Boot 3, REST and asynchronous webhook integrations (Feegow, Blip, Conta Azul V2, gerAcesso, Discord), Redis rate limiting, security (JWT, MFA/TOTP, audit trail), and React operational dashboards.',
     },
     features: {
       'pt-br': [
-        'Atendimento automatizado e motor de agendamentos via WhatsApp com Take Blip e Feegow',
-        'Confirmações, lembretes, encaminhamento para filas específicas e fluxos pós-atendimento com direcionamento para avaliações',
-        'Controle de acesso físico por QR Code integrado a catracas Control iD / GerAcesso',
-        'Integração financeira com Conta Azul V2 e emissão automatizada de recibos',
-        'Gestão de chamados ITSM, CMDB patrimonial e controle de estoque com dedução FIFO',
-        'Alertas operacionais e comandos interativos via Discord (JDA)',
-        'Autenticação com MFA/TOTP, criptografia e trilha de auditoria',
+        'Confirmações e lembretes preventivos via WhatsApp integrados ao ERP Feegow e Take Blip',
+        'Autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários',
+        'Rotina automática de captação de avaliações pós-atendimento',
+        'Gestão interna de TI (ITSM), inventário de equipamentos (CMDB), consumíveis FIFO e triagem integrada ao Discord',
+        'Conciliação financeira com Conta Azul V2 protegida por validação 2FA/TOTP',
       ],
       en: [
-        'Automated WhatsApp service and scheduling engine integrated with Take Blip and Feegow',
-        'Appointment confirmations, reminders, queue routing, and post-visit review follow-ups',
-        'Physical access control via dynamic QR Codes integrated with Control iD / GerAcesso turnstiles',
-        'Financial integration with Conta Azul V2 and automated PDF receipt generation',
-        'ITSM ticketing, asset CMDB, and FIFO consumables inventory management',
-        'Operational alerts and interactive slash commands via Discord (JDA)',
-        'MFA/TOTP protection, encryption, and immutable audit trail',
+        'Automated WhatsApp confirmations and preventive reminders integrated with Feegow ERP and Take Blip',
+        'Self-service reception access integrated with gerAcesso via temporary QR Codes',
+        'Automated post-visit review follow-up workflow',
+        'Internal ITSM ticketing, CMDB asset tracking, FIFO consumables control, and Discord webhook triage',
+        'Financial reconciliation with Conta Azul V2 protected by 2FA/TOTP validation',
       ],
     },
     architecture: {
       'pt-br': [
-        'Backend Java 21 + Spring Boot 3 organizado em Arquitetura Hexagonal (Ports & Adapters)',
-        'PostgreSQL para persistência transacional e Redis para rate limiting e cache rápido',
-        'Observabilidade com métricas Prometheus e dashboards Grafana em containers Docker',
-        'Fluxo integrado: Feegow (agenda) ↔ Motor Java ↔ Take Blip (WhatsApp) + GerAcesso (catracas) + Conta Azul V2 + Discord JDA',
+        'Backend Java 21 + Spring Boot 3 estruturado em Arquitetura Hexagonal (Ports & Adapters)',
+        'PostgreSQL para persistência transacional e Redis para rate limiting e cache',
+        'Observabilidade com Prometheus e Grafana em ambiente conteinerizado Docker',
+        'Orquestração assíncrona entre ERP, mensageria WhatsApp, catracas físicas e Discord',
       ],
       en: [
         'Java 21 + Spring Boot 3 backend structured with Hexagonal Architecture (Ports & Adapters)',
-        'PostgreSQL for transactional persistence and Redis for rate limiting and fast caching',
-        'Observability via Prometheus metrics and Grafana dashboards running in Docker',
-        'Integrated flow: Feegow (schedules) ↔ Java Engine ↔ Take Blip (WhatsApp) + GerAcesso (turnstiles) + Conta Azul V2 + Discord JDA',
+        'PostgreSQL for transactional persistence and Redis for rate limiting and caching',
+        'Observability via Prometheus and Grafana running in Docker containers',
+        'Asynchronous orchestration across ERP, WhatsApp messaging, physical turnstiles, and Discord',
       ],
     },
     challenges: {
       'pt-br': [
-        'Lidar com picos de envio de mensagens (quase 500 disparos em menos de 1 minuto) sem exceder limites das APIs externas, utilizando controle de taxa em Redis',
-        'Garantir sincronização confiável entre confirmações de agenda e liberação física em catracas com tolerância de horário',
-        'Proteger rotas financeiras e cofre de credenciais com MFA/TOTP obrigatório e auditoria completa',
+        'Controlar picos de disparo assíncrono no WhatsApp sem violar limites das APIs externas usando Redis Rate Limiting',
+        'Sincronizar liberações temporárias de QR Code nas catracas físicas com janelas de tolerância de horário',
+        'Proteger rotas financeiras e dados sensíveis com MFA/TOTP obrigatório e trilha de auditoria',
       ],
       en: [
-        'Handling outbound messaging bursts (nearly 500 dispatches in under a minute) without breaching external API limits using Redis rate limiting',
-        'Ensuring reliable sync between schedule confirmations and physical turnstile access with time-window tolerances',
-        'Securing financial workflows and credential storage with mandatory MFA/TOTP and full audit logging',
+        'Managing outbound WhatsApp dispatch bursts without exceeding external API quotas using Redis rate limiting',
+        'Synchronizing temporary QR Code turnstile releases with scheduling time-window tolerances',
+        'Securing financial workflows and sensitive records with mandatory MFA/TOTP and audit trails',
       ],
     },
     metrics: [
       {
-        value: '11.000+',
+        value: '10.000+',
         label: {
-          'pt-br': 'Mensagens automatizadas em 2 meses (picos de ~500 em <1 min)',
-          en: 'Automated messages in 2 months (bursts of ~500 in <1 min)',
+          'pt-br': 'Mensagens automatizadas processadas via WhatsApp',
+          en: 'Automated WhatsApp messages processed',
         },
       },
       {
-        value: '1.800+',
+        value: '1.700+',
         label: {
-          'pt-br': 'Credenciais digitais QR Code geradas em 2 semanas',
-          en: 'Digital QR Code credentials generated in 2 weeks',
+          'pt-br': 'QR Codes temporários gerados para acesso em portaria',
+          en: 'Temporary QR Codes generated for reception access',
+        },
+      },
+      {
+        value: '3.3 → 3.8',
+        label: {
+          'pt-br': 'Evolução da pontuação pública no Google (30 dias)',
+          en: 'Public Google rating increase over 30 days',
         },
       },
       {
         value: '96,3%',
         label: {
-          'pt-br': 'Taxa de resolução no dashboard (235 de 244 tickets)',
-          en: 'Ticket resolution rate on dashboard (235 of 244 tickets)',
-        },
-      },
-      {
-        value: '3,3 → 3,8',
-        label: {
-          'pt-br': 'Nota pública no Google durante o período documentado',
-          en: 'Public Google rating during the documented operational period',
+          'pt-br': 'Taxa de resolução no dashboard do showcase (235 / 244 tickets)',
+          en: 'Resolution rate on showcase dashboard (235 / 244 tickets)',
         },
       },
     ],
@@ -217,47 +218,147 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    slug: 'chamados-chesiquimica',
+    slug: 'ctrls-forms',
     name: {
-      'pt-br': 'Sistema de Chamados — Chesiquimica',
-      en: 'Ticketing System — Chesiquimica',
+      'pt-br': 'CTRLS Forms',
+      en: 'CTRLS Forms',
     },
     tagline: {
       'pt-br':
-        'Primeira solução real de chamados internos desenvolvida em estágio e mantida em uso na organização.',
-      en: 'First real internal ticketing solution built during an internship and still in active use.',
+        'Aplicação full stack multi-tenant de formulários clínicos estruturados e anamnese digital com geração de PDF.',
+      en: 'Multi-tenant full-stack application for structured clinical forms and digital intake with automated PDF reporting.',
+    },
+    status: 'completed',
+    timelineContext: {
+      'pt-br': 'Desenvolvimento iniciado antes da efetivação como Técnico de TI',
+      en: 'Development started prior to full-time IT Technician promotion',
+    },
+    priority: 2,
+    featured: true,
+    repoUrl: 'https://github.com/VictorGHss/CTRLS-FormsV1',
+    stack: ['Spring Boot 3', 'Java', 'React', 'TypeScript', 'PostgreSQL', 'Flyway', 'JWT & RBAC', 'Nginx'],
+    problem: {
+      'pt-br':
+        'Necessidade de digitalizar formulários de anamnese e triagem em contexto multi-unidade, evitando preenchimento em papel e garantindo separação estrita de dados por unidade.',
+      en: 'Need to digitize clinical intake and triage forms across multiple units without paper workflows while enforcing strict per-tenant data isolation.',
+    },
+    solution: {
+      'pt-br':
+        'Plataforma full stack com backend em Spring Boot 3, PostgreSQL versionado via Flyway, autenticação JWT com controle de acesso RBAC, construtor dinâmico baseado em JSON Schema e geração automática de relatórios em PDF.',
+      en: 'Full-stack platform with Spring Boot 3, Flyway-versioned PostgreSQL, JWT authentication with RBAC access control, dynamic JSON Schema form builder, and automated PDF report generation.',
+    },
+    role: {
+      'pt-br':
+        'Desenvolvimento da API REST multi-tenant, modelagem de banco com Flyway, regras de renderização dinâmica e integração com frontend React/TypeScript.',
+      en: 'Multi-tenant REST API development, Flyway schema versioning, dynamic form rendering rules, and React/TypeScript frontend integration.',
+    },
+    features: {
+      'pt-br': [
+        'Isolamento multi-tenant com autenticação JWT e controle de acesso RBAC',
+        'Construtor dinâmico de formulários orientado a JSON Schema',
+        'Geração automática de relatórios em PDF com upload em nuvem',
+        'Versionamento determinístico de schema com Flyway e proxy Nginx',
+      ],
+      en: [
+        'Multi-tenant isolation with JWT authentication and RBAC access control',
+        'Dynamic form builder driven by JSON Schema',
+        'Automated PDF report generation with cloud upload',
+        'Deterministic database migrations with Flyway and Nginx reverse proxy',
+      ],
+    },
+  },
+  {
+    slug: 'digital-professional-profiles',
+    name: {
+      'pt-br': 'Portal Clínico & Perfis Profissionais',
+      en: 'Clinical Portal & Digital Professional Profiles',
+    },
+    tagline: {
+      'pt-br':
+        'Aplicação web de vitrine profissional e páginas individuais com QR Codes automáticos e avaliações integradas.',
+      en: 'Web portal and individual professional profile pages with automated QR Codes and live review integration.',
+    },
+    status: 'completed',
+    timelineContext: {
+      'pt-br': 'Apresentação neutra sem identidade comercial da organização',
+      en: 'Neutral presentation without organization branding',
+    },
+    priority: 3,
+    featured: false,
+    secondary: true,
+    stack: ['Next.js (App Router)', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages', 'Google API'],
+    problem: {
+      'pt-br':
+        'Centralizar a apresentação de especialistas, especialidades, contatos e avaliações públicas em páginas rápidas e acessíveis via dispositivos móveis.',
+      en: 'Centralize specialist bios, specialties, contact links, and public reviews in fast, mobile-first pages.',
+    },
+    solution: {
+      'pt-br':
+        'Aplicação web desenvolvida com Next.js (App Router), TypeScript e Tailwind CSS, hospedada na Cloudflare Pages em arquitetura Edge, com geração automática de QR Codes e exibição de avaliações via Google API.',
+      en: 'Web application built with Next.js (App Router), TypeScript, and Tailwind CSS, deployed on Cloudflare Pages Edge with automated QR Code generation and Google API review integration.',
+    },
+    role: {
+      'pt-br':
+        'Desenvolvimento front-end responsivo, integração com API de avaliações e publicação na Cloudflare Pages.',
+      en: 'Responsive front-end development, review API integration, and Cloudflare Pages deployment.',
+    },
+    features: {
+      'pt-br': [
+        'Páginas individuais responsivas para apresentação profissional e especialidades',
+        'Geração automática de QR Codes para acesso rápido em ambiente presencial',
+        'Consumo da API do Google para exibição de avaliações',
+      ],
+      en: [
+        'Responsive individual pages for professional bios and specialties',
+        'Automated QR Code generation for quick on-site mobile access',
+        'Google API integration for displaying public reviews',
+      ],
+    },
+  },
+  {
+    slug: 'chamados-chesiquimica',
+    name: {
+      'pt-br': 'Sistema de Chamados — Chesiquímica',
+      en: 'Ticketing System — Chesiquímica',
+    },
+    tagline: {
+      'pt-br':
+        'Primeira solução real de abertura de chamados internos desenvolvida durante o estágio em TI.',
+      en: 'First real internal ticketing solution built during my IT internship.',
     },
     status: 'used-in-production',
-    priority: 2,
+    timelineContext: {
+      'pt-br': 'Desenvolvido durante o estágio em TI na Chesiquímica',
+      en: 'Built during the IT internship at Chesiquímica',
+    },
+    priority: 4,
     featured: true,
     repoUrl: 'https://github.com/VictorGHss/ChamadosChesiquimica',
     stack: ['HTML', 'CSS', 'JavaScript', 'SheetMonkey', 'Google Sheets', 'GitHub Pages'],
     problem: {
       'pt-br':
-        'Solicitações internas de TI e reposição de suprimentos (como toners) eram feitas de maneira informal, sem registro padronizado em planilha.',
-      en: 'Internal IT and supply requests (such as printer toners) were handled informally without a standardized tracking sheet.',
+        'Solicitações internas de suporte e suprimentos (como toners) eram feitas informalmente, sem histórico centralizado.',
+      en: 'Internal IT support and supply requests (such as printer toners) were handled informally without centralized tracking.',
     },
     solution: {
       'pt-br':
-        'Aplicação web leve hospedada no GitHub Pages com formulário estruturado (nome, e-mail, assunto e descrição) integrado ao Google Sheets via SheetMonkey. Desenvolvido antes do CTRLS ITSM, marca o ponto de partida prático da evolução das soluções de chamados.',
-      en: 'Lightweight web application hosted on GitHub Pages with a structured request form (name, email, subject, description) routed automatically to Google Sheets via SheetMonkey. Built prior to CTRLS ITSM, it marks the practical starting point of my ticketing systems.',
+        'Formulário web direto ao ponto hospedado no GitHub Pages, integrado ao Google Sheets via SheetMonkey para registro automático de solicitações.',
+      en: 'Focused web request form hosted on GitHub Pages and connected to Google Sheets via SheetMonkey for automatic ticket logging.',
     },
     role: {
       'pt-br':
-        'Desenvolvimento completo durante estágio em TI, publicação via GitHub Pages e entrega para uso contínuo pelos colaboradores.',
-      en: 'End-to-end development during an IT internship, GitHub Pages deployment, and delivery for ongoing internal use.',
+        'Desenvolvimento completo durante o estágio de suporte de TI e implantação para uso dos colaboradores.',
+      en: 'End-to-end development during the IT support internship and rollout for internal staff.',
     },
     features: {
       'pt-br': [
-        'Formulário web objetivo para abertura de solicitações internas',
-        'Captura padronizada de nome, e-mail, assunto e descrição',
-        'Envio automático para Google Sheets via integração SheetMonkey',
-        'Hospedagem estática simples e sem custo operacional no GitHub Pages',
+        'Abertura padronizada de chamados com nome, e-mail, assunto e descrição',
+        'Envio automático para planilha Google Sheets via SheetMonkey',
+        'Hospedagem estática gratuita e estável no GitHub Pages',
       ],
       en: [
-        'Focused web form for submitting internal support requests',
-        'Standardized capture of name, email, subject, and description',
-        'Automatic submission to Google Sheets via SheetMonkey integration',
+        'Standardized ticket submission with name, email, subject, and description',
+        'Automatic sync to Google Sheets via SheetMonkey',
         'Zero-maintenance static hosting on GitHub Pages',
       ],
     },
@@ -274,7 +375,11 @@ export const PROJECTS: Project[] = [
       en: 'Geo-social review network with verified physical check-ins, barcode/QR scanners, and contextual feeds.',
     },
     status: 'in-development',
-    priority: 3,
+    timelineContext: {
+      'pt-br': 'Projeto autoral em desenvolvimento ativo',
+      en: 'Personal product under active development',
+    },
+    priority: 5,
     featured: true,
     repoUrl: 'https://github.com/VictorGHss/Rewit',
     stack: [
@@ -291,33 +396,29 @@ export const PROJECTS: Project[] = [
     ],
     problem: {
       'pt-br':
-        'Avaliações online convencionais sofrem com falta de contexto geográfico e baixa confiabilidade sobre a presença real do avaliador.',
-      en: 'Conventional online reviews often lack geographic context and reliable proof that the reviewer actually visited the place.',
+        'Avaliações tradicionais carecem de contexto geográfico e verificação real de presença no local.',
+      en: 'Conventional reviews lack geographic context and reliable proof of physical presence.',
     },
     solution: {
       'pt-br':
-        'Produto autoral em desenvolvimento combinando backend geoespacial (Spring Boot + PostgreSQL/PostGIS), cache em Redis, armazenamento de mídia em SeaweedFS, app mobile em Flutter e painel administrativo em React + TypeScript.',
-      en: 'In-development product combining a geospatial backend (Spring Boot + PostgreSQL/PostGIS), Redis caching, SeaweedFS object storage, a Flutter mobile client, and a React + TypeScript admin panel.',
+        'Produto em construção com backend geoespacial (Spring Boot + PostGIS), cache em Redis, armazenamento de mídia em SeaweedFS, app mobile em Flutter e painel administrativo em React/TypeScript.',
+      en: 'In-development product combining a geospatial backend (Spring Boot + PostGIS), Redis caching, SeaweedFS object storage, a Flutter mobile client, and a React/TypeScript admin panel.',
     },
     role: {
       'pt-br':
-        'Concepção do produto, modelagem geoespacial com PostGIS, arquitetura do monorepo modular, API backend e interfaces web/mobile.',
-      en: 'Product design, geospatial modeling with PostGIS, modular monorepo architecture, backend API, and web/mobile clients.',
+        'Concepção do produto, modelagem geoespacial PostGIS, API backend e clientes web/mobile.',
+      en: 'Product design, PostGIS geospatial modeling, backend API, and web/mobile clients.',
     },
     features: {
       'pt-br': [
-        'Avaliações multi-alvo para locais, produtos e serviços',
         'Check-in físico verificado com consultas geoespaciais PostGIS',
-        'Scanner de códigos de barras e QR Codes no cliente mobile',
-        'Feed contextual e arquitetura orientada à privacidade por design',
-        'Aplicação mobile em Flutter e painel administrativo em React/TypeScript',
+        'Scanner de códigos de barras e QR Codes no aplicativo Flutter',
+        'Feed contextual e privacidade por design',
       ],
       en: [
-        'Multi-target reviews for places, products, and services',
         'Verified physical check-ins powered by PostGIS geospatial queries',
-        'Barcode and QR Code scanner in the mobile client',
-        'Contextual feed and privacy-by-design data modeling',
-        'Flutter mobile app and React/TypeScript administration panel',
+        'Barcode and QR Code scanner in the Flutter app',
+        'Contextual feed with privacy-by-design modeling',
       ],
     },
   },
@@ -333,7 +434,11 @@ export const PROJECTS: Project[] = [
       en: 'Platform for job discovery, compatibility analysis, and human-supervised application preparation.',
     },
     status: 'in-development',
-    priority: 4,
+    timelineContext: {
+      'pt-br': 'Projeto autoral em desenvolvimento ativo',
+      en: 'Personal product under active development',
+    },
+    priority: 6,
     featured: true,
     repoUrl: 'https://github.com/VictorGHss/Job-HunterV1.0',
     stack: [
@@ -349,13 +454,13 @@ export const PROJECTS: Project[] = [
     ],
     problem: {
       'pt-br':
-        'Acompanhar vagas em múltiplas fontes e adaptar currículos/propostas sem perder consistência factual exige organização e validação rigorosa.',
-      en: 'Tracking openings across multiple sources and tailoring resumes/proposals without factual drift requires structured pipelines and strict validation.',
+        'Organizar vagas de múltiplas fontes e preparar candidaturas sem distorção factual exige pipeline estruturado e validação humana.',
+      en: 'Managing openings across multiple sources and tailoring applications without factual drift requires structured pipelines and human approval.',
     },
     solution: {
       'pt-br':
-        'Monólito modular multiusuário em desenvolvimento com FastAPI, SQLAlchemy 2.0, Alembic e PostgreSQL no backend e React + TypeScript no frontend, impondo validação humana obrigatória sobre fatos do perfil.',
-      en: 'Multi-user modular monolith under active development with FastAPI, SQLAlchemy 2.0, Alembic, and PostgreSQL on the backend and React + TypeScript on the frontend, enforcing mandatory human validation on profile facts.',
+        'Monólito modular multiusuário em desenvolvimento com FastAPI, SQLAlchemy 2.0, Alembic e PostgreSQL no backend e React + TypeScript no frontend.',
+      en: 'Multi-user modular monolith under active development with FastAPI, SQLAlchemy 2.0, Alembic, and PostgreSQL on the backend and React + TypeScript on the frontend.',
     },
     role: {
       'pt-br':
@@ -364,106 +469,14 @@ export const PROJECTS: Project[] = [
     },
     features: {
       'pt-br': [
-        'Descoberta e classificação de oportunidades via conectores de fontes públicas',
-        'Análise de compatibilidade com perfil profissional validado',
-        'Pipeline de acompanhamento e organização de candidaturas',
+        'Descoberta e classificação de oportunidades em fontes públicas',
+        'Análise de compatibilidade e pipeline de acompanhamento',
         'Preparação de currículos e propostas com validação humana obrigatória',
       ],
       en: [
-        'Opportunity discovery and classification via public source connectors',
-        'Compatibility analysis against a validated professional profile',
-        'Application tracking and organization pipeline',
-        'Resume and proposal drafting with mandatory human approval',
-      ],
-    },
-  },
-  {
-    slug: 'ctrls-forms',
-    name: {
-      'pt-br': 'CTRLS Forms',
-      en: 'CTRLS Forms',
-    },
-    tagline: {
-      'pt-br':
-        'Aplicação web de formulários clínicos estruturados com suporte multi-clínica e separação entre API e frontend.',
-      en: 'Multi-clinic structured clinical forms web application with decoupled API and frontend.',
-    },
-    status: 'completed',
-    priority: 5,
-    featured: false,
-    repoUrl: 'https://github.com/VictorGHss/CTRLS-FormsV1',
-    stack: ['Java', 'Spring Boot', 'PostgreSQL', 'React', 'Vite', 'Nginx'],
-    problem: {
-      'pt-br':
-        'Necessidade de padronizar formulários de preenchimento público e interno em contexto multi-clínica com isolamento por unidade.',
-      en: 'Need to standardize public and internal structured forms in a multi-clinic context with tenant isolation.',
-    },
-    solution: {
-      'pt-br':
-        'Aplicação full-stack com API REST em Java/Spring Boot e PostgreSQL (autenticação JWT e contexto por cabeçalho X-Clinic-ID) servida com frontend React/Vite atrás de proxy reverso Nginx.',
-      en: 'Full-stack application pairing a Java/Spring Boot + PostgreSQL REST API (JWT auth and X-Clinic-ID tenant context) with a React/Vite frontend behind an Nginx reverse proxy.',
-    },
-    role: {
-      'pt-br':
-        'Desenvolvimento do backend Spring Boot, regras de renderização estruturada de formulários, integração com frontend React e empacotamento Docker.',
-      en: 'Spring Boot backend development, structured form rendering rules, React frontend integration, and Docker packaging.',
-    },
-    features: {
-      'pt-br': [
-        'Contexto multi-clínica isolado por identificador de unidade (X-Clinic-ID)',
-        'Renderização estruturada de formulários com separação entre seções e campos de entrada',
-        'Rota pública de preenchimento e endpoints autenticados via JWT',
-        'Arquitetura conteinerizada com Nginx atuando como proxy reverso para /api/',
-      ],
-      en: [
-        'Multi-clinic tenant context isolated via unit header (X-Clinic-ID)',
-        'Structured form rendering separating section headers from input payloads',
-        'Public fill route paired with JWT-authenticated management endpoints',
-        'Containerized architecture with Nginx reverse-proxying /api/',
-      ],
-    },
-  },
-  {
-    slug: 'digital-professional-profiles',
-    name: {
-      'pt-br': 'Digital Professional Profiles',
-      en: 'Digital Professional Profiles',
-    },
-    tagline: {
-      'pt-br':
-        'Páginas individuais de apresentação profissional com especialidades, contatos diretos e links de agendamento.',
-      en: 'Individual professional profile pages featuring bio, specialties, direct contacts, and scheduling links.',
-    },
-    status: 'completed',
-    priority: 6,
-    featured: false,
-    secondary: true,
-    stack: ['HTML', 'CSS', 'JavaScript'],
-    problem: {
-      'pt-br':
-        'Profissionais precisavam de páginas individuais leves e responsivas para centralizar informações de atendimento, especialidades e contato rápido.',
-      en: 'Professionals needed lightweight, responsive individual pages to centralize their bio, specialties, and direct scheduling links.',
-    },
-    solution: {
-      'pt-br':
-        'Implementação de páginas web estáticas focadas em leitura rápida no celular, exibindo apresentação profissional, especialidades, canais de contato e redirecionamento para agendamento.',
-      en: 'Static web pages optimized for fast mobile reading, presenting professional background, specialties, contact channels, and scheduling links.',
-    },
-    role: {
-      'pt-br':
-        'Estruturação front-end em HTML, CSS e JavaScript com foco em clareza visual e carregamento rápido.',
-      en: 'Front-end implementation in HTML, CSS, and JavaScript focused on visual clarity and fast loading.',
-    },
-    features: {
-      'pt-br': [
-        'Páginas individuais responsivas para apresentação profissional',
-        'Exibição clara de especialidades e informações de atendimento',
-        'Links diretos para contato e agendamento externo',
-      ],
-      en: [
-        'Responsive individual pages for professional presentation',
-        'Clear display of specialties and practice details',
-        'Direct links to contact channels and external scheduling',
+        'Opportunity discovery and classification from public sources',
+        'Compatibility analysis and application tracking pipeline',
+        'Resume and proposal drafting with mandatory human review',
       ],
     },
   },

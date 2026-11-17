@@ -52,11 +52,13 @@
   --clip-chamfer-sm: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
   --clip-chamfer-md: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
 
-  /* Motion Timing (V3 calibrated aquatic pacing) */
+  /* Motion Timing (V4 contemplative ocean pacing) */
   --ease-snappy: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-fluid: cubic-bezier(0.25, 0.8, 0.25, 1);
-  --duration-fast: 240ms;
-  --duration-base: 350ms;
-  --duration-menu: 750ms;
-  --duration-transition: 1050ms;
+  --duration-fast: 380ms;
+  --duration-base: 480ms;
+  --duration-menu-open: 1200ms;
+  --duration-menu-close: 950ms;
+  --duration-transition: 1550ms;
+  --duration-ambient: 11s;
 }

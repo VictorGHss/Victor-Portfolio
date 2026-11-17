@@ -39,8 +39,7 @@ const resumeUrl = PROFILE.resumeFiles[locale];
       </div>
     </div>
 
-    <aside class="hero__dossier surface-block" aria-label={t.home.specializationLabel}>
-      <div class="hero__dossier-bar" aria-hidden="true"></div>
+    <aside class="hero__dossier" aria-label={t.home.specializationLabel}>
       <div class="hero__dossier-top">
         <span class="hero__dossier-brand">{PROFILE.brand}</span>
         <span class="hero__dossier-loc">{PROFILE.location[locale]}</span>
@@ -297,17 +296,9 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   }
 
   .hero__dossier {
-    padding: var(--space-5);
-    box-shadow: var(--shadow-card);
-  }
-
-  .hero__dossier-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-electric-blue), var(--color-cyan), var(--color-accent));
+    padding: var(--space-4) 0 var(--space-4) var(--space-5);
+    border-left: 2px solid rgba(85, 200, 255, 0.35);
+    position: relative;
   }
 
   .hero__dossier-top {

@@ -112,4 +112,9 @@ test('career timeline, MCT Cursos education, collaboration credit, and Portal Cl
   assert.match(ptChes, /João Gabriel Anjos/);
   assert.match(ptPortal, /https:\/\/inovare\.doctors\.ctrls\.dev\.br\/m\/alisson-fucio/);
   assert.match(ptPortal, /cartao-profissional-alisson\.png/);
+
+  const ptHome = fs.readFileSync(path.join(DIST, 'pt-br/index.html'), 'utf8');
+  const enHome = fs.readFileSync(path.join(DIST, 'en/index.html'), 'utf8');
+  assert.ok(!/class="desktop-nav"/.test(ptHome), 'Redundant desktop-nav still present in header');
+  assert.ok(!/instagram\.com/i.test(ptHome) && !/instagram\.com/i.test(enHome), 'Instagram should not be included');
 });

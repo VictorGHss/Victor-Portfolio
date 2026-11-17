@@ -41,25 +41,30 @@ export interface ServiceItem {
 export const EXPERIENCE: ExperienceItem[] = [
   {
     period: {
-      'pt-br': 'Janeiro de 2025 — Ciclo documentado',
-      en: 'January 2025 — Documented cycle',
+      'pt-br': 'Janeiro de 2025 — Presente',
+      en: 'January 2025 — Present',
     },
     role: {
-      'pt-br': 'Técnico de TI',
-      en: 'IT Technician',
+      'pt-br': 'Estagiário de TI → Técnico de TI',
+      en: 'IT Intern → IT Technician',
     },
     company: {
       'pt-br': 'Inovare Serviços de Saúde',
       en: 'Inovare Serviços de Saúde',
     },
+    progressionNote: {
+      'pt-br':
+        'Estagiário de TI (Janeiro de 2025 – Setembro de 2025) • Efetivado como Técnico de TI em Outubro de 2025, permanecendo até o presente.',
+      en: 'IT Intern (January 2025 – September 2025) • Promoted to full-time IT Technician in October 2025, remaining through the present.',
+    },
     summary: {
       'pt-br':
-        'Sustentação de infraestrutura N1/N2 e desenvolvimento/implantação de soluções internas de automação e integração entre sistemas (CTRLS-ITSM). O ciclo operacional do sistema já foi encerrado e os dados foram removidos.',
-      en: 'N1/N2 infrastructure support alongside development and deployment of internal automation and system integration software (CTRLS-ITSM). The system operational cycle has concluded and data was subsequently removed.',
+        'Sustentação de infraestrutura N1/N2 e implantação do sistema CTRLS-ITSM em período anterior (ciclo operacional já encerrado, com remoção posterior do ambiente e dos dados).',
+      en: 'N1/N2 infrastructure support and deployment of CTRLS-ITSM during a previous operational period (operational cycle concluded, with environment and data subsequently removed).',
     },
     highlights: {
       'pt-br': [
-        'Desenvolvimento do zero e implantação do CTRLS-ITSM, integrando o ERP médico Feegow ao Take Blip via APIs REST e webhooks assíncronos',
+        'Implantação e operação do CTRLS-ITSM em ciclo anterior, conectando o ERP médico Feegow ao Take Blip via APIs REST e webhooks assíncronos',
         'Automação de confirmações e lembretes via WhatsApp (+10.000 mensagens processadas)',
         'Fluxo de autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários (+1.700 acessos)',
         'Rotina automática de captação de avaliações pós-consulta (evolução pública de 3.3 para 3.8 estrelas em 30 dias)',
@@ -67,7 +72,7 @@ export const EXPERIENCE: ExperienceItem[] = [
         'Suporte técnico N1/N2, diagnóstico de redes locais, manutenção de hardware e configuração de estações Windows',
       ],
       en: [
-        'Built and deployed CTRLS-ITSM from scratch, connecting Feegow medical ERP to Take Blip via REST APIs and asynchronous webhooks',
+        'Deployed and operated CTRLS-ITSM during a previous cycle, connecting Feegow medical ERP to Take Blip via REST APIs and asynchronous webhooks',
         'Automated WhatsApp appointment confirmations and reminders (10,000+ messages processed)',
         'Self-service reception check-in integrated with gerAcesso via temporary QR Codes (1,700+ visitors)',
         'Automated post-visit review collection routine (public rating rose from 3.3 to 3.8 stars in 30 days)',
@@ -79,26 +84,21 @@ export const EXPERIENCE: ExperienceItem[] = [
   },
   {
     period: {
-      'pt-br': 'Agosto de 2024 — Dezembro de 2024 (Estágio no CV) • Efetivação após 8 meses',
-      en: 'August 2024 — December 2024 (Internship in CV) • Full-time after 8 months',
+      'pt-br': 'Agosto de 2024 — Dezembro de 2024',
+      en: 'August 2024 — December 2024',
     },
     role: {
-      'pt-br': 'Estagiário de Suporte de TI → Técnico de TI',
-      en: 'IT Support Intern → IT Technician',
+      'pt-br': 'Estagiário de TI',
+      en: 'IT Intern',
     },
     company: {
       'pt-br': 'Chesiquímica Ltda.',
       en: 'Chesiquímica Ltda.',
     },
-    progressionNote: {
-      'pt-br':
-        'Início como Estagiário de Suporte de TI e efetivação para Técnico de TI após oito meses. Os sistemas CTRLS Forms e CTRLS ITSM tiveram seu desenvolvimento iniciado antes dessa efetivação.',
-      en: 'Started as an IT Support Intern and promoted to full-time IT Technician after eight months. Development of CTRLS Forms and CTRLS ITSM began prior to this promotion.',
-    },
     summary: {
       'pt-br':
-        'Atendimento de suporte técnico N1/N2 para os setores corporativo e fabril, infraestrutura de rede, recuperação de estações e entrega do primeiro sistema interno de chamados.',
-      en: 'N1/N2 technical support for corporate and manufacturing teams, network troubleshooting, workstation recovery, and delivery of the company’s first internal ticketing form.',
+        'Estágio em suporte técnico N1/N2 para os setores corporativo e fabril, infraestrutura de rede, recuperação de estações e entrega do primeiro sistema interno de chamados.',
+      en: 'IT internship delivering N1/N2 technical support for corporate and manufacturing teams, network troubleshooting, workstation recovery, and the company’s first internal ticketing form.',
     },
     highlights: {
       'pt-br': [

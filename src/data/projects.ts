@@ -59,8 +59,8 @@ export const PROJECTS: Project[] = [
     },
     status: 'used-in-production',
     timelineContext: {
-      'pt-br': 'Iniciado antes da efetivação como Técnico de TI • Ciclo operacional encerrado',
-      en: 'Started prior to full-time IT Technician promotion • Operational cycle concluded',
+      'pt-br': 'Desenvolvimento iniciado durante o período de estágio em TI (2024) • Ciclo operacional encerrado',
+      en: 'Development started during the 2024 IT internship period • Operational cycle concluded',
     },
     priority: 1,
     featured: true,
@@ -230,8 +230,8 @@ export const PROJECTS: Project[] = [
     },
     status: 'completed',
     timelineContext: {
-      'pt-br': 'Desenvolvimento iniciado antes da efetivação como Técnico de TI',
-      en: 'Development started prior to full-time IT Technician promotion',
+      'pt-br': 'Desenvolvimento iniciado durante o período de estágio em TI (2024)',
+      en: 'Development started during the 2024 IT internship period',
     },
     priority: 2,
     featured: true,

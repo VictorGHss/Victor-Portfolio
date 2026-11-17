@@ -161,7 +161,7 @@ export const UI: Record<Locale, UiDictionary> = {
       otherProjectsTitle: 'Demais Projetos & Produtos',
       trajectoryTitle: 'Trajetória Profissional',
       trajectorySubtitle:
-        'Do estágio em suporte de TI na Chesiquímica à efetivação como Técnico de TI e à construção de plataformas de automação.',
+        'Do estágio de TI na Chesiquímica à atuação e efetivação como Técnico de TI na Inovare, unindo suporte de infraestrutura e engenharia de software.',
       trajectoryCta: 'Ver Experiência Completa',
       skillsTitle: 'Competências Principais',
       skillsSubtitle:
@@ -300,7 +300,7 @@ export const UI: Record<Locale, UiDictionary> = {
       otherProjectsTitle: 'Selected Systems & Products',
       trajectoryTitle: 'Career Progression',
       trajectorySubtitle:
-        'From IT Support Intern at Chesiquímica to full-time IT Technician and building production automation platforms.',
+        'From IT Intern at Chesiquímica to IT Intern and full-time IT Technician at Inovare, combining infrastructure support and software engineering.',
       trajectoryCta: 'Full Experience',
       skillsTitle: 'Core Stack',
       skillsSubtitle:

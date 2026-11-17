@@ -86,3 +86,14 @@ test('audio controls are removed and project case studies remain neutral', () =>
     assert.ok(!/SOM:\s*OFF|SOUND:\s*OFF|AudioController/i.test(html), `Audio UI remnant found in ${rel}`);
   }
 });
+
+test('career timeline attributes promotion to Inovare (Oct 2025) and never to Chesiquimica', () => {
+  for (const rel of ['pt-br/index.html', 'en/index.html', 'pt-br/experience/index.html', 'en/experience/index.html']) {
+    const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
+    assert.ok(!/8 meses|oito meses|eight months/i.test(html), `Outdated 8-month promotion claim found in ${rel}`);
+  }
+  const ptExp = fs.readFileSync(path.join(DIST, 'pt-br/experience/index.html'), 'utf8');
+  const enExp = fs.readFileSync(path.join(DIST, 'en/experience/index.html'), 'utf8');
+  assert.match(ptExp, /Outubro de 2025/i);
+  assert.match(enExp, /October 2025/i);
+});

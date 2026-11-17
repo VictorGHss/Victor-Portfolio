@@ -1,5 +1,5 @@
 ---
-import { EXPERIENCE, SERVICES, SKILL_GROUPS } from '../data/portfolio';
+import { EXPERIENCE, SKILL_GROUPS } from '../data/portfolio';
 import { PROFILE } from '../data/profile';
 import { PROJECTS } from '../data/projects';
 import { localizePath, type Locale } from '../i18n/config';
@@ -12,9 +12,13 @@ interface Props {
 const { locale } = Astro.props;
 const t = UI[locale];
 const flagship = PROJECTS[0];
-const otherProjects = PROJECTS.filter((p) => p.slug !== flagship.slug);
+const selectedProjects = PROJECTS.filter(
+  (p) => p.slug !== flagship.slug && p.status !== 'in-development'
+);
+const inDevProjects = PROJECTS.filter((p) => p.status === 'in-development');
 const primarySkills = SKILL_GROUPS.filter((g) => g.tier === 'primary');
 const resumeUrl = PROFILE.resumeFiles[locale];
+const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.projects.publicShowcaseLabel;
 ---
 
 <section class="hero section">
@@ -108,7 +112,7 @@ const resumeUrl = PROFILE.resumeFiles[locale];
           </a>
           {flagship.repoUrl && (
             <a href={flagship.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-              {t.projects.publicRepoLabel} ↗
+              {flagshipRepoLabel} ↗
             </a>
           )}
         </div>
@@ -131,12 +135,29 @@ const resumeUrl = PROFILE.resumeFiles[locale];
     <div class="other-projects">
       <h3 class="other-projects__heading">{t.home.otherProjectsTitle}</h3>
       <div class="other-projects__list">
-        {otherProjects.map((project) => (
+        {selectedProjects.map((project) => (
           <a href={localizePath(locale, `projects/${project.slug}`)} class="project-line">
             <span class="project-line__num">0{project.priority}</span>
             <span class="project-line__title">{project.name[locale]}</span>
             <span class="project-line__desc">{project.tagline[locale]}</span>
             <span class="project-line__stack">{project.stack.slice(0, 4).join(' · ')}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="indev-strip">
+      <h3 class="other-projects__heading">{t.home.inDevTitle}</h3>
+      <div class="indev-grid">
+        {inDevProjects.map((project) => (
+          <a href={localizePath(locale, `projects/${project.slug}`)} class="indev-card">
+            <div class="indev-card__top">
+              <span class="status-label">{t.projects.statusLabels[project.status]}</span>
+              <span class="indev-card__num">0{project.priority}</span>
+            </div>
+            <strong class="indev-card__title">{project.name[locale]}</strong>
+            <p class="indev-card__desc">{project.tagline[locale]}</p>
+            <span class="indev-card__stack">{project.stack.slice(0, 5).join(' · ')}</span>
           </a>
         ))}
       </div>
@@ -148,78 +169,41 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="display-kicker">02 // {t.nav[2].label}</span>
+        <span class="display-kicker">02 // {t.nav[2].label} &amp; {t.nav[3].label}</span>
         <h2 class="display-title section-title">{t.home.trajectoryTitle}</h2>
         <p class="section-subtitle">{t.home.trajectorySubtitle}</p>
       </div>
-      <a href={localizePath(locale, 'experience')} class="p3-link">
-        {t.home.trajectoryCta} →
-      </a>
+      <div class="section-header__links">
+        <a href={localizePath(locale, 'experience')} class="p3-link">
+          {t.home.trajectoryCta} →
+        </a>
+        <a href={localizePath(locale, 'skills')} class="p3-link">
+          {t.home.skillsCta} →
+        </a>
+      </div>
     </div>
 
-    <div class="trajectory-list">
-      {EXPERIENCE.map((item) => (
-        <article class="trajectory-item">
-          <div class="trajectory-item__period">{item.period[locale]}</div>
-          <div class="trajectory-item__content">
+    <div class="exp-stack-split">
+      <div class="trajectory-list">
+        {EXPERIENCE.map((item) => (
+          <article class="trajectory-item">
+            <div class="trajectory-item__period">{item.period[locale]}</div>
             <h3 class="trajectory-item__role">
               {item.role[locale]} <span class="trajectory-item__company">— {item.company[locale]}</span>
             </h3>
             <p class="trajectory-item__summary">{item.summary[locale]}</p>
-            {item.progressionNote && (
-              <p class="trajectory-item__note">{item.progressionNote[locale]}</p>
-            )}
+          </article>
+        ))}
+      </div>
+
+      <div class="spec-list">
+        {primarySkills.map((group) => (
+          <div class="spec-row">
+            <h3 class="spec-row__cat">{group.category[locale]}</h3>
+            <p class="spec-row__items">{group.items.join(' · ')}</p>
           </div>
-        </article>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section class="section section--compact">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <span class="display-kicker">03 // {t.nav[3].label}</span>
-        <h2 class="display-title section-title">{t.home.skillsTitle}</h2>
-        <p class="section-subtitle">{t.home.skillsSubtitle}</p>
+        ))}
       </div>
-      <a href={localizePath(locale, 'skills')} class="p3-link">
-        {t.home.skillsCta} →
-      </a>
-    </div>
-
-    <div class="spec-grid">
-      {primarySkills.map((group) => (
-        <div class="spec-row">
-          <h3 class="spec-row__cat">{group.category[locale]}</h3>
-          <p class="spec-row__items">{group.items.join(' · ')}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section class="section section--compact">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <span class="display-kicker">04 // {t.nav[5].label}</span>
-        <h2 class="display-title section-title">{t.home.servicesTitle}</h2>
-        <p class="section-subtitle">{t.home.servicesSubtitle}</p>
-      </div>
-      <a href={localizePath(locale, 'services')} class="p3-link">
-        {t.home.servicesCta} →
-      </a>
-    </div>
-
-    <div class="services-compact">
-      {SERVICES.map((service) => (
-        <div class="service-entry">
-          <h3 class="service-entry__title">{service.title[locale]}</h3>
-          <p class="service-entry__desc">{service.summary[locale]}</p>
-        </div>
-      ))}
     </div>
   </div>
 </section>
@@ -228,7 +212,7 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   <div class="container">
     <div class="cta-strip surface-block">
       <div>
-        <span class="display-kicker display-kicker--accent">05 // {t.nav[6].label}</span>
+        <span class="display-kicker display-kicker--accent">03 // {t.nav[6].label}</span>
         <h2 class="display-title cta-strip__title">{t.home.contactTitle}</h2>
         <p class="cta-strip__subtitle">{t.home.contactSubtitle}</p>
       </div>
@@ -272,7 +256,7 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   }
 
   .hero__title {
-    font-size: clamp(2.35rem, 4.6vw, 3.9rem);
+    font-size: clamp(2.35rem, 4.6vw, 3.85rem);
     display: flex;
     flex-direction: column;
     gap: 0.04em;
@@ -418,9 +402,9 @@ const resumeUrl = PROFILE.resumeFiles[locale];
 
   .flagship__visual {
     margin: 0;
-    background: #040b16;
-    box-shadow: var(--shadow-card);
-    border-bottom: 2px solid var(--color-electric-blue);
+    padding: 0.9rem;
+    background: #0b1628;
+    border: 1px solid rgba(232, 242, 255, 0.1);
   }
 
   .flagship__visual img {
@@ -429,9 +413,13 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   }
 
   .flagship__visual figcaption {
-    padding: 0.75rem 1rem;
-    font-size: 0.82rem;
-    color: var(--text-muted);
+    padding-top: 0.65rem;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+
+  .other-projects {
+    margin-bottom: var(--space-6);
   }
 
   .other-projects__heading {
@@ -450,7 +438,7 @@ const resumeUrl = PROFILE.resumeFiles[locale];
 
   .project-line {
     display: grid;
-    grid-template-columns: 44px 230px 1fr auto;
+    grid-template-columns: 44px 240px 1fr auto;
     gap: var(--space-4);
     align-items: baseline;
     padding: 1rem 0.75rem;
@@ -486,6 +474,69 @@ const resumeUrl = PROFILE.resumeFiles[locale];
     white-space: nowrap;
   }
 
+  .indev-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .indev-card {
+    padding: var(--space-4);
+    background: rgba(11, 30, 56, 0.55);
+    border-left: 2px dashed rgba(85, 200, 255, 0.35);
+    display: grid;
+    gap: 0.45rem;
+    transition: background-color var(--duration-fast), border-color var(--duration-fast);
+  }
+
+  .indev-card:hover {
+    background: var(--surface-elevated);
+    border-left-color: var(--color-cyan);
+  }
+
+  .indev-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .indev-card__num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .indev-card__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--color-ice-white);
+  }
+
+  .indev-card__desc {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .indev-card__stack {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-muted);
+  }
+
+  .section-header__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .exp-stack-split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
   .trajectory-list {
     display: grid;
     gap: var(--space-5);
@@ -493,17 +544,11 @@ const resumeUrl = PROFILE.resumeFiles[locale];
     padding-left: var(--space-5);
   }
 
-  .trajectory-item {
-    display: grid;
-    grid-template-columns: 270px 1fr;
-    gap: var(--space-4);
-  }
-
   .trajectory-item__period {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--color-cyan);
-    padding-top: 0.2rem;
+    margin-bottom: 0.25rem;
   }
 
   .trajectory-item__role {
@@ -522,16 +567,9 @@ const resumeUrl = PROFILE.resumeFiles[locale];
     font-size: 0.94rem;
   }
 
-  .trajectory-item__note {
-    margin: 0.55rem 0 0;
-    font-size: 0.84rem;
-    color: var(--color-cyan);
-  }
-
-  .spec-grid {
+  .spec-list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4) var(--space-6);
+    gap: var(--space-4);
   }
 
   .spec-row {
@@ -540,38 +578,16 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   }
 
   .spec-row__cat {
-    margin: 0 0 0.35rem;
-    font-size: 1rem;
+    margin: 0 0 0.3rem;
+    font-size: 0.98rem;
     color: var(--color-cyan);
   }
 
   .spec-row__items {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     color: var(--text-secondary);
-  }
-
-  .services-compact {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-4);
-  }
-
-  .service-entry {
-    padding-left: var(--space-3);
-    border-left: 2px solid rgba(85, 200, 255, 0.28);
-  }
-
-  .service-entry__title {
-    margin: 0 0 0.3rem;
-    font-size: 0.98rem;
-  }
-
-  .service-entry__desc {
-    margin: 0;
-    font-size: 0.86rem;
-    color: var(--text-muted);
   }
 
   .cta-strip {
@@ -602,7 +618,7 @@ const resumeUrl = PROFILE.resumeFiles[locale];
   @media (max-width: 1024px) {
     .hero__grid,
     .flagship,
-    .trajectory-item {
+    .exp-stack-split {
       grid-template-columns: 1fr;
     }
 
@@ -614,16 +630,11 @@ const resumeUrl = PROFILE.resumeFiles[locale];
     .project-line__stack {
       grid-column: 2;
     }
-
-    .services-compact {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
   @media (max-width: 640px) {
     .flagship__metrics,
-    .spec-grid,
-    .services-compact {
+    .indev-grid {
       grid-template-columns: 1fr;
     }
 

@@ -35,6 +35,7 @@ export interface SkillGroup {
 export interface ServiceItem {
   title: LocalizedText;
   summary: LocalizedText;
+  proof: LocalizedText;
   deliverables: LocalizedList;
 }
 
@@ -59,25 +60,25 @@ export const EXPERIENCE: ExperienceItem[] = [
     },
     summary: {
       'pt-br':
-        'Sustentação de infraestrutura N1/N2, suporte aos colaboradores e utilização em ambiente real por aproximadamente três meses do projeto autoral CTRLS-ITSM (posteriormente desativado pelo autor, com remoção do ambiente e dos dados).',
-      en: 'N1/N2 infrastructure support, staff assistance, and ~3 months of real-world operational use of the authorial CTRLS-ITSM project (subsequently deactivated by the author, with environment and data removed).',
+        'Atuei com suporte e infraestrutura N1/N2 e também implantei o CTRLS-ITSM — um projeto meu que rodou em ambiente real por cerca de três meses antes de ser desativado e ter seus dados removidos.',
+      en: 'Worked on N1/N2 support and local infrastructure while also deploying CTRLS-ITSM — an independent project of mine that ran in real operations for roughly three months before being deactivated and having its data removed.',
     },
     highlights: {
       'pt-br': [
-        'Utilização real por cerca de 3 meses do projeto autoral CTRLS-ITSM (integração Feegow + Take Blip via APIs REST e webhooks assíncronos)',
-        'Automação de confirmações e lembretes via WhatsApp (+10.000 mensagens processadas no período)',
-        'Fluxo de autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários (+1.700 visitantes)',
+        'Operação real por ~3 meses do CTRLS-ITSM (integração Feegow + Take Blip via APIs REST e webhooks assíncronos)',
+        'Automação de confirmações e lembretes no WhatsApp (+10.000 mensagens processadas no período)',
+        'Autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários (+1.700 visitantes)',
         'Rotina automática de captação de avaliações pós-consulta (evolução pública de 3.3 para 3.8 estrelas em 30 dias)',
-        'Gestão interna de TI com inventário de equipamentos, consumíveis e triagem de chamados integrada ao Discord',
+        'Gestão interna de TI com inventário de equipamentos, controle de consumíveis e triagem de chamados no Discord',
         'Suporte técnico N1/N2, diagnóstico de redes locais, manutenção de hardware e configuração de estações Windows',
       ],
       en: [
-        '~3 months of real operational use of the authorial CTRLS-ITSM project (Feegow + Take Blip integration via REST APIs and asynchronous webhooks)',
-        'Automated WhatsApp appointment confirmations and reminders (10,000+ messages processed)',
+        '~3 months of real operational use of CTRLS-ITSM (Feegow + Take Blip integration via REST APIs and asynchronous webhooks)',
+        'Automated WhatsApp confirmations and reminders (10,000+ messages processed)',
         'Self-service reception check-in integrated with gerAcesso via temporary QR Codes (1,700+ visitors)',
         'Automated post-visit review collection workflow (public rating rose from 3.3 to 3.8 stars in 30 days)',
-        'Structured internal IT operations with equipment inventory, consumables control, and Discord ticket triage',
-        'Delivered N1/N2 technical support, LAN diagnostics, hardware maintenance, and Windows workstation setup',
+        'Internal IT operations with hardware inventory, consumables tracking, and Discord ticket triage',
+        'N1/N2 technical support, LAN troubleshooting, hardware maintenance, and Windows workstation setup',
       ],
     },
     tags: ['Java 21', 'Spring Boot', 'React', 'PostgreSQL', 'Redis', 'Take Blip', 'Docker'],
@@ -97,8 +98,8 @@ export const EXPERIENCE: ExperienceItem[] = [
     },
     summary: {
       'pt-br':
-        'Estágio em suporte técnico N1/N2 para os setores corporativo e fabril, infraestrutura de rede, recuperação de estações e colaboração na criação do sistema interno de chamados.',
-      en: 'IT internship delivering N1/N2 technical support for corporate and manufacturing teams, network troubleshooting, workstation recovery, and collaboration on the internal ticketing form.',
+        'Estágio em suporte técnico N1/N2 para os setores corporativo e fabril, manutenção de máquinas, redes TCP/IP e colaboração no sistema interno de chamados.',
+      en: 'IT internship covering N1/N2 support for corporate and manufacturing teams, hardware repair, TCP/IP networking, and collaboration on the internal ticketing form.',
     },
     highlights: {
       'pt-br': [
@@ -110,10 +111,10 @@ export const EXPERIENCE: ExperienceItem[] = [
       ],
       en: [
         'Handled N1/N2 support tickets across corporate and manufacturing environments',
-        'Performed preventive and corrective hardware maintenance, workstation bench assembly, and machine recovery',
-        'Configured peripherals, networked printers, and tested structured cabling and TCP/IP connectivity',
-        'Standardized corporate workstations via Windows imaging and internal software validation',
-        'Built the internal Ticketing System in collaboration with supervisor João Gabriel Anjos (HTML, CSS, JavaScript, SheetMonkey, Google Sheets)',
+        'Performed preventive and corrective hardware maintenance, bench assembly, and recovery of failed machines',
+        'Configured peripherals and networked printers, and tested structured cabling and TCP/IP connectivity',
+        'Standardized corporate workstations with Windows imaging and internal software validation',
+        'Built the internal ticketing web form in collaboration with supervisor João Gabriel Anjos (HTML, CSS, JavaScript, SheetMonkey, and Google Sheets)',
       ],
     },
     tags: ['Suporte N1/N2', 'TCP/IP', 'Windows', 'Hardware', 'HTML/CSS/JS', 'Google Sheets'],
@@ -124,11 +125,11 @@ export const EDUCATION: EducationItem[] = [
   {
     period: {
       'pt-br': 'Previsão de Conclusão: 2027',
-      en: 'Expected Graduation: 2027',
+      en: 'Expected graduation: 2027',
     },
     degree: {
       'pt-br': 'Tecnólogo em Análise e Desenvolvimento de Sistemas',
-      en: 'B.Tech in Systems Analysis and Development',
+      en: 'Technology Degree in Systems Analysis and Development',
     },
     institution: {
       'pt-br': 'Universidade Tecnológica Federal do Paraná (UTFPR)',
@@ -220,8 +221,8 @@ export const LANGUAGES: LanguageItem[] = [
 export const SKILL_GROUPS: SkillGroup[] = [
   {
     category: {
-      'pt-br': 'Backend & Ecossistema Java',
-      en: 'Backend & Java Ecosystem',
+      'pt-br': 'Backend & Bancos de Dados',
+      en: 'Backend & Databases',
     },
     tier: 'primary',
     items: [
@@ -229,7 +230,10 @@ export const SKILL_GROUPS: SkillGroup[] = [
       'Spring Boot 3',
       'Spring Data JPA',
       'Spring Security',
-      'Spring Web & Scheduler',
+      'PostgreSQL & SQL',
+      'MySQL',
+      'Redis (Rate Limiting & Cache)',
+      'Flyway',
     ],
   },
   {
@@ -238,36 +242,28 @@ export const SKILL_GROUPS: SkillGroup[] = [
       en: 'Frontend & Web',
     },
     tier: 'primary',
-    items: ['React', 'TypeScript', 'JavaScript', 'Next.js', 'Tailwind CSS', 'HTML5 / CSS3'],
+    items: ['React', 'TypeScript', 'JavaScript', 'Next.js', 'Tailwind CSS', 'HTML5 & CSS3'],
   },
   {
     category: {
-      'pt-br': 'Bancos de Dados & Cache',
-      en: 'Databases & Caching',
+      'pt-br': 'APIs & Integrações',
+      en: 'APIs & Integrations',
     },
     tier: 'primary',
-    items: ['SQL', 'PostgreSQL', 'MySQL', 'Redis (Rate Limiting & Cache)', 'Flyway'],
+    items: ['REST APIs', 'Asynchronous webhooks', 'OAuth2 / JWT / RBAC', 'OpenAPI / Swagger', 'Postman'],
   },
   {
     category: {
-      'pt-br': 'APIs, Webhooks & Integrações',
-      en: 'APIs, Webhooks & Integrations',
-    },
-    tier: 'primary',
-    items: ['APIs RESTful', 'Webhooks assíncronos', 'OAuth2 / JWT / RBAC', 'OpenAPI / Swagger', 'Postman'],
-  },
-  {
-    category: {
-      'pt-br': 'DevOps, Infraestrutura & Ferramentas',
-      en: 'DevOps, Infrastructure & Tools',
+      'pt-br': 'DevOps & Ferramentas',
+      en: 'DevOps & Tools',
     },
     tier: 'primary',
     items: ['Docker', 'Git & GitHub', 'GitHub Actions (CI/CD)', 'Linux (Debian / Ubuntu)', 'Cloudflare Pages / Tunnels'],
   },
   {
     category: {
-      'pt-br': 'Contexto de Projetos & Secundárias',
-      en: 'Project-Context & Secondary',
+      'pt-br': 'Tecnologias Adicionais',
+      en: 'Additional Technologies',
     },
     tier: 'secondary',
     items: ['Python', 'FastAPI', 'SQLAlchemy & Alembic', 'Flutter & Dart', 'PostGIS', 'Take Blip & Digisac'],
@@ -277,13 +273,17 @@ export const SKILL_GROUPS: SkillGroup[] = [
 export const SERVICES: ServiceItem[] = [
   {
     title: {
-      'pt-br': 'Desenvolvimento Backend',
-      en: 'Backend Development',
+      'pt-br': 'Backend e APIs',
+      en: 'Backend & APIs',
     },
     summary: {
       'pt-br':
-        'APIs RESTful, sistemas corporativos e serviços modulares em Java (Spring Boot) e bancos relacionais.',
-      en: 'RESTful APIs, business systems, and modular services in Java (Spring Boot) backed by relational databases.',
+        'Construção de APIs REST, regras de negócio, autenticação JWT/RBAC e modelagem em PostgreSQL.',
+      en: 'Building REST APIs, business rules, JWT/RBAC authentication, and PostgreSQL data modeling.',
+    },
+    proof: {
+      'pt-br': 'Demonstrado em: CTRLS ITSM (Java 21 / Spring Boot 3) e CTRLS Forms (multi-tenant + Flyway).',
+      en: 'Shown in: CTRLS ITSM (Java 21 / Spring Boot 3) and CTRLS Forms (multi-tenant + Flyway).',
     },
     deliverables: {
       'pt-br': ['Java & Spring Boot', 'PostgreSQL & Flyway', 'Autenticação JWT / RBAC'],
@@ -292,17 +292,59 @@ export const SERVICES: ServiceItem[] = [
   },
   {
     title: {
-      'pt-br': 'APIs & Integrações',
-      en: 'APIs & Integrations',
+      'pt-br': 'Integrações e Automações',
+      en: 'Integrations & Automation',
     },
     summary: {
       'pt-br':
-        'Conexão entre ERPs, plataformas financeiras, controle de acesso e serviços externos via REST e webhooks.',
-      en: 'Connecting ERPs, financial platforms, access control, and external services via REST APIs and webhooks.',
+        'Conexão entre ERPs, serviços financeiros, controle de acesso e webhooks assíncronos.',
+      en: 'Connecting ERPs, financial services, physical access control, and asynchronous webhooks.',
+    },
+    proof: {
+      'pt-br': 'Demonstrado em: integrações do CTRLS ITSM com Feegow, Conta Azul V2, gerAcesso e Discord.',
+      en: 'Shown in: CTRLS ITSM integrations with Feegow, Conta Azul V2, gerAcesso, and Discord.',
     },
     deliverables: {
-      'pt-br': ['Webhooks assíncronos', 'OAuth2 & sincronização', 'OpenAPI / Swagger'],
-      en: ['Asynchronous webhooks', 'OAuth2 & sync', 'OpenAPI / Swagger'],
+      'pt-br': ['REST APIs & Webhooks', 'Controle de taxa com Redis', 'OpenAPI / Swagger'],
+      en: ['REST APIs & Webhooks', 'Redis rate limiting', 'OpenAPI / Swagger'],
+    },
+  },
+  {
+    title: {
+      'pt-br': 'Automação no WhatsApp',
+      en: 'WhatsApp Automation',
+    },
+    summary: {
+      'pt-br':
+        'Fluxos de confirmação, lembretes e roteamento de filas ligados ao sistema da operação.',
+      en: 'Appointment confirmations, reminders, and queue routing connected directly to your internal system.',
+    },
+    proof: {
+      'pt-br': 'Experiência prática com Take Blip e Digisac em fluxos de atendimento.',
+      en: 'Hands-on experience with Take Blip and Digisac messaging workflows.',
+    },
+    deliverables: {
+      'pt-br': ['Take Blip & Digisac', 'Confirmações e lembretes', 'Integração WhatsApp ↔ ERP'],
+      en: ['Take Blip & Digisac', 'Confirmations & reminders', 'WhatsApp ↔ ERP integration'],
+    },
+  },
+  {
+    title: {
+      'pt-br': 'Aplicações Web',
+      en: 'Web Applications',
+    },
+    summary: {
+      'pt-br':
+        'Interfaces web responsivas, formulários estruturados, painéis administrativos e páginas profissionais.',
+      en: 'Responsive web interfaces, structured forms, admin dashboards, and specialist profile pages.',
+    },
+    proof: {
+      'pt-br': 'Demonstrado em: CTRLS Forms (React/TypeScript) e Portal Clínico (Next.js na Cloudflare Pages).',
+      en: 'Shown in: CTRLS Forms (React/TypeScript) and Clinical Portal (Next.js on Cloudflare Pages).',
+    },
+    deliverables: {
+      'pt-br': ['React & TypeScript', 'Next.js & Cloudflare Pages', 'Painéis e formulários'],
+      en: ['React & TypeScript', 'Next.js & Cloudflare Pages', 'Dashboards & forms'],
     },
   },
   {
@@ -312,42 +354,16 @@ export const SERVICES: ServiceItem[] = [
     },
     summary: {
       'pt-br':
-        'Redução de tarefas manuais com rotinas agendadas, triagem automatizada e integração de dados.',
-      en: 'Eliminating repetitive manual work through scheduled jobs, automated triage, and data pipelines.',
+        'Substituição de rotinas manuais por formulários, scripts, notificações e geração automática de relatórios.',
+      en: 'Replacing manual routines with structured forms, scheduled jobs, alerts, and automated reports.',
+    },
+    proof: {
+      'pt-br': 'Demonstrado em: Sistema de Chamados (Chesiquímica) e relatórios/alertas do CTRLS ITSM.',
+      en: 'Shown in: Chesiquímica Ticketing System and CTRLS ITSM reporting/alerts.',
     },
     deliverables: {
-      'pt-br': ['Rotinas agendadas', 'Alertas operacionais', 'Scripts Python & Java'],
-      en: ['Scheduled jobs', 'Operational alerts', 'Python & Java scripts'],
-    },
-  },
-  {
-    title: {
-      'pt-br': 'Automação WhatsApp (Blip & Digisac)',
-      en: 'WhatsApp Automation (Blip & Digisac)',
-    },
-    summary: {
-      'pt-br':
-        'Fluxos de confirmação, lembretes e roteamento de atendimento integrados ao sistema da operação.',
-      en: 'Confirmation workflows, reminders, and queue routing integrated directly with core business systems.',
-    },
-    deliverables: {
-      'pt-br': ['Take Blip & Digisac', 'Confirmações e lembretes', 'Integração WhatsApp ↔ ERP'],
-      en: ['Take Blip & Digisac', 'Confirmations & reminders', 'WhatsApp ↔ ERP integration'],
-    },
-  },
-  {
-    title: {
-      'pt-br': 'Aplicações Web & Painéis Administrativos',
-      en: 'Web Applications & Admin Panels',
-    },
-    summary: {
-      'pt-br':
-        'Interfaces web responsivas e painéis de operação com React, TypeScript e Next.js.',
-      en: 'Responsive web interfaces and operational dashboards built with React, TypeScript, and Next.js.',
-    },
-    deliverables: {
-      'pt-br': ['React & TypeScript', 'Painéis de gestão', 'Sistemas personalizados'],
-      en: ['React & TypeScript', 'Management dashboards', 'Custom systems'],
+      'pt-br': ['Rotinas agendadas', 'Alertas operacionais', 'Geração de PDFs'],
+      en: ['Scheduled jobs', 'Operational alerts', 'PDF report generation'],
     },
   },
 ];

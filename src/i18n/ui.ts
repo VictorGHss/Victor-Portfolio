@@ -32,15 +32,13 @@ export interface UiDictionary {
     viewCaseStudy: string;
     allProjectsCta: string;
     otherProjectsTitle: string;
+    inDevTitle: string;
     trajectoryTitle: string;
     trajectorySubtitle: string;
     trajectoryCta: string;
     skillsTitle: string;
     skillsSubtitle: string;
     skillsCta: string;
-    servicesTitle: string;
-    servicesSubtitle: string;
-    servicesCta: string;
     contactTitle: string;
     contactSubtitle: string;
     contactCta: string;
@@ -48,10 +46,11 @@ export interface UiDictionary {
   projects: {
     pageTitle: string;
     pageSubtitle: string;
+    introNote: string;
     statusLabels: {
       'concluded-operation': string;
-      'collaborative-in-use': string;
-      'authorial-completed': string;
+      collaborative: string;
+      completed: string;
       'in-development': string;
     };
     flagshipBadge: string;
@@ -63,8 +62,14 @@ export interface UiDictionary {
     metricsLabel: string;
     featuresLabel: string;
     architectureLabel: string;
+    roadmapLabel: string;
+    implementedLabel: string;
+    inProgressLabel: string;
+    plannedLabel: string;
     screenshotsLabel: string;
-    publicRepoLabel: string;
+    zoomHint: string;
+    closeLightbox: string;
+    publicShowcaseLabel: string;
     privateNoteLabel: string;
     backToProjects: string;
   };
@@ -94,7 +99,6 @@ export interface UiDictionary {
     educationTitle: string;
     coursesTitle: string;
     languagesTitle: string;
-    focusTitle: string;
   };
   contact: {
     pageTitle: string;
@@ -113,7 +117,6 @@ export interface UiDictionary {
   };
   footer: {
     note: string;
-    inspiredNote: string;
     rights: string;
   };
   notFound: {
@@ -126,7 +129,7 @@ export interface UiDictionary {
 
 export const UI: Record<Locale, UiDictionary> = {
   'pt-br': {
-    brandTagline: 'Engenharia de Software & Integrações',
+    brandTagline: 'Engenharia de Software & Automações',
     skipToContent: 'Pular para o conteúdo principal',
     nav: [
       { key: 'home', label: 'Início', slug: '', code: '01', transitionVariant: 'default' },
@@ -148,30 +151,27 @@ export const UI: Record<Locale, UiDictionary> = {
       headlineLine2: 'interfaces em React e',
       headlineAccent: 'menos trabalho manual.',
       summary:
-        'Eu sou o Victor, estudante de Análise e Desenvolvimento de Sistemas na UTFPR. Trabalho principalmente com Java e Spring Boot, mas também desenvolvo interfaces com React e TypeScript. Gosto de construir sistemas, integrar ferramentas e automatizar processos que acabam virando trabalho manual.',
+        'Eu sou o Victor, estudante de Análise e Desenvolvimento de Sistemas na UTFPR. Trabalho principalmente com Java e Spring Boot, mas também desenvolvo interfaces com React e TypeScript. Gosto de construir sistemas, integrar ferramentas e automatizar tarefas que ainda dependem de trabalho manual.',
       specializationLabel: 'No dia a dia',
       specializationText:
-        'APIs REST, webhooks assíncronos, integrações com ERPs, mensageria via WhatsApp (Take Blip e Digisac), bancos PostgreSQL e containers Docker.',
+        'APIs REST, webhooks assíncronos, integrações com ERPs, mensageria via WhatsApp (Take Blip e Digisac), PostgreSQL e Docker.',
       primaryCta: 'Ver Estudo de Caso',
       resumeCta: 'Baixar Currículo (PDF)',
-      featuredTitle: 'Estudo de Caso Principal',
+      featuredTitle: 'Projeto em Destaque',
       featuredSubtitle:
-        'Projeto autoral que conectou atendimento via WhatsApp, portaria com QR Code, conciliação financeira e chamados de TI — usado por ~3 meses em ambiente real (ciclo já encerrado).',
+        'Sistema que criei para integrar atendimento via WhatsApp, portaria com QR Code, conciliação financeira e chamados de TI — usado por ~3 meses em ambiente real (ciclo já encerrado).',
       viewCaseStudy: 'Abrir Estudo de Caso',
       allProjectsCta: 'Todos os Projetos (6)',
-      otherProjectsTitle: 'Outros Projetos & Produtos',
-      trajectoryTitle: 'Onde Trabalhei',
+      otherProjectsTitle: 'Projetos Selecionados',
+      inDevTitle: 'Em Desenvolvimento',
+      trajectoryTitle: 'Experiência & Base Técnica',
       trajectorySubtitle:
-        'Comecei em TI no suporte e infraestrutura. Com o tempo, passei a criar minhas próprias ferramentas para resolver problemas reais da operação.',
+        'Comecei em TI no suporte e infraestrutura. Com o tempo, passei a criar minhas próprias ferramentas para resolver problemas que encontrava no dia a dia.',
       trajectoryCta: 'Ver Experiência Completa',
-      skillsTitle: 'Ferramentas que Uso',
+      skillsTitle: 'Stack Principal',
       skillsSubtitle:
-        'Stack principal no backend Java/Spring, frontend React/TypeScript, bancos SQL e ambiente Linux/Docker.',
-      skillsCta: 'Ver Lista Completa',
-      servicesTitle: 'Projetos Sob Medida',
-      servicesSubtitle:
-        'Disponível para demandas pontuais de backend, integrações entre sistemas, automações e aplicações web.',
-      servicesCta: 'Ver Escopo',
+        'Ferramentas que mais uso no backend Java/Spring, frontend React/TypeScript, bancos SQL e infraestrutura.',
+      skillsCta: 'Ver Competências',
       contactTitle: 'Quer conversar sobre uma vaga ou projeto?',
       contactSubtitle:
         'Estou aberto a oportunidades como Desenvolvedor Backend Júnior ou Full Stack Júnior (Java, Spring Boot, React, TypeScript).',
@@ -180,47 +180,55 @@ export const UI: Record<Locale, UiDictionary> = {
     projects: {
       pageTitle: 'Projetos & Sistemas',
       pageSubtitle:
-        'Plataformas colocadas em operação real, aplicações corporativas e produtos autorais em desenvolvimento.',
+        'Aplicações que saíram de problemas reais de operação e produtos que venho desenvolvendo.',
+      introNote:
+        'Os projetos desta seleção nasceram de iniciativas minhas. Alguns surgiram de problemas que encontrei no dia a dia de TI; outros são produtos que venho construindo por conta própria.',
       statusLabels: {
-        'concluded-operation': 'Ciclo encerrado (~3 meses em operação real)',
-        'collaborative-in-use': 'Projeto colaborativo · Em uso',
-        'authorial-completed': 'Projeto autoral · Concluído',
-        'in-development': 'Projeto autoral · Em desenvolvimento',
+        'concluded-operation': 'Ciclo encerrado · ~3 meses em operação real',
+        collaborative: 'Projeto colaborativo',
+        completed: 'Concluído',
+        'in-development': 'Em desenvolvimento',
       },
-      flagshipBadge: 'Estudo de Caso Principal',
-      secondaryBadge: 'Projeto Secundário',
-      problemLabel: 'Contexto & Problema',
-      solutionLabel: 'Solução Desenvolvida',
-      roleLabel: 'Responsabilidades',
+      flagshipBadge: 'Principal',
+      secondaryBadge: 'Secundário',
+      problemLabel: 'O Problema',
+      solutionLabel: 'O Que Foi Construído',
+      roleLabel: 'Minha Participação',
       stackLabel: 'Tecnologias',
-      metricsLabel: 'Indicadores Documentados',
+      metricsLabel: 'Resultados Documentados',
       featuresLabel: 'Funcionalidades',
       architectureLabel: 'Arquitetura & Fluxo',
-      screenshotsLabel: 'Capturas Reais do Showcase',
-      publicRepoLabel: 'Repositório Público',
-      privateNoteLabel: 'Código-fonte principal em repositório privado; showcase técnico público disponível.',
+      roadmapLabel: 'Estágio Atual do Projeto',
+      implementedLabel: 'Já implementado',
+      inProgressLabel: 'Em desenvolvimento',
+      plannedLabel: 'Planejamento futuro',
+      screenshotsLabel: 'Evidências & Capturas Reais',
+      zoomHint: 'Ampliar',
+      closeLightbox: 'Fechar visualização',
+      publicShowcaseLabel: 'Ver showcase no GitHub',
+      privateNoteLabel: 'O código-fonte principal é privado; o showcase técnico público documenta arquitetura e módulos.',
       backToProjects: 'Voltar para Projetos',
     },
     experience: {
       pageTitle: 'Experiência Profissional',
       pageSubtitle:
-        'Progressão em suporte de TI, infraestrutura e desenvolvimento de sistemas corporativos.',
-      highlightsLabel: 'Entregas e atividades',
+        'Minha trajetória entre suporte de TI, infraestrutura e desenvolvimento de sistemas.',
+      highlightsLabel: 'Principais atividades',
       educationTitle: 'Formação Acadêmica',
     },
     skills: {
       pageTitle: 'Competências Técnicas',
       pageSubtitle:
-        'Linguagens, frameworks, bancos de dados e ferramentas de entrega contínua aplicados em produção e projetos.',
+        'Tecnologias e ferramentas que utilizo na prática entre backend, frontend, integrações e deploy.',
       primaryTier: 'Stack Principal',
-      secondaryTier: 'Contexto de Projetos & Secundárias',
+      secondaryTier: 'Tecnologias Adicionais',
     },
     services: {
       pageTitle: 'Serviços',
       pageSubtitle:
-        'Escopo técnico para integrações, automações e aplicações web sob medida.',
+        'Áreas em que posso ajudar com desenvolvimento sob medida, conectadas ao que já construí.',
       scopeNote:
-        'Escopo alinhado após diagnóstico técnico. Sem pacotes engessados ou promessas artificiais.',
+        'Vamos conversar sobre o que você precisa e ver como posso ajudar.',
       ctaLabel: 'Entrar em Contato',
     },
     about: {
@@ -233,12 +241,11 @@ export const UI: Record<Locale, UiDictionary> = {
       educationTitle: 'Formação Acadêmica',
       coursesTitle: 'Cursos & Bootcamps',
       languagesTitle: 'Idiomas',
-      focusTitle: 'Como Gosto de Trabalhar',
     },
     contact: {
       pageTitle: 'Contato & Currículo',
       pageSubtitle:
-        'Canais diretos para processos seletivos, equipes de engenharia e propostas técnicas.',
+        'Canais diretos para processos seletivos, conversas técnicas e projetos.',
       directChannels: 'Canais Verificados',
       emailLabel: 'E-mail profissional',
       copyEmail: 'Copiar e-mail',
@@ -254,19 +261,17 @@ export const UI: Record<Locale, UiDictionary> = {
     },
     footer: {
       note: 'Vito.dev — Portfólio de Engenharia de Software.',
-      inspiredNote:
-        'Direção visual original inspirada na estética geométrica de Persona 3 Reload, sem assets ou afiliação comercial.',
       rights: 'Victor Gabriel · Ponta Grossa, PR',
     },
     notFound: {
       code: '404',
-      title: 'Rota não encontrada',
+      title: 'Página não encontrada',
       description: 'O endereço acessado não existe nesta versão do portfólio.',
       backHome: 'Voltar ao Início',
     },
   },
   en: {
-    brandTagline: 'Software Engineering & Integrations',
+    brandTagline: 'Software Engineering & Automation',
     skipToContent: 'Skip to main content',
     nav: [
       { key: 'home', label: 'Home', slug: '', code: '01', transitionVariant: 'default' },
@@ -288,30 +293,27 @@ export const UI: Record<Locale, UiDictionary> = {
       headlineLine2: 'React interfaces &',
       headlineAccent: 'less manual work.',
       summary:
-        "I'm Victor, a Systems Analysis and Development student at UTFPR. I work mainly with Java and Spring Boot, and I also build web interfaces with React and TypeScript — connecting tools, APIs, and automating workflows that used to rely on manual work.",
+        "I'm Victor, a Systems Analysis and Development student at UTFPR. I work mainly with Java and Spring Boot, and I also build interfaces with React and TypeScript. I like building systems, connecting tools, and automating tasks that still depend on manual work.",
       specializationLabel: 'Day-to-day focus',
       specializationText:
         'REST APIs, asynchronous webhooks, ERP integrations, WhatsApp automation (Take Blip and Digisac), PostgreSQL, and Docker.',
       primaryCta: 'Read Case Study',
       resumeCta: 'Download Resume (PDF)',
-      featuredTitle: 'Main Case Study',
+      featuredTitle: 'Featured Project',
       featuredSubtitle:
-        'Authorial project connecting WhatsApp automation, QR Code check-in, financial sync, and IT ticketing — used in real operations for ~3 months (cycle concluded).',
+        'System I built to connect WhatsApp automation, QR Code check-in, financial sync, and IT ticketing — used in real operations for ~3 months (cycle concluded).',
       viewCaseStudy: 'Open Case Study',
       allProjectsCta: 'All Projects (6)',
-      otherProjectsTitle: 'Other Projects & Products',
-      trajectoryTitle: 'Where I Worked',
+      otherProjectsTitle: 'Selected Projects',
+      inDevTitle: 'In Development',
+      trajectoryTitle: 'Experience & Stack',
       trajectorySubtitle:
-        'I started in IT doing support and infrastructure. Over time, I began building my own tools to solve operational bottlenecks I ran into every day.',
+        'I started in IT working with support and infrastructure. Over time, I began building my own tools to solve problems I ran into every day.',
       trajectoryCta: 'Full Experience',
-      skillsTitle: 'Tools I Work With',
+      skillsTitle: 'Core Stack',
       skillsSubtitle:
-        'Core stack across Java/Spring backends, React/TypeScript frontends, SQL databases, and Linux/Docker environments.',
-      skillsCta: 'Full Stack List',
-      servicesTitle: 'Freelance Scope',
-      servicesSubtitle:
-        'Available for focused engagements in backend APIs, system integrations, automation, and web applications.',
-      servicesCta: 'View Scope',
+        'Tools I rely on across Java/Spring backends, React/TypeScript frontends, SQL databases, and Docker/Linux.',
+      skillsCta: 'View Skills',
       contactTitle: 'Want to talk about a role or project?',
       contactSubtitle:
         'Open to Junior Backend or Junior Full-Stack Developer roles (Java, Spring Boot, React, TypeScript).',
@@ -320,47 +322,55 @@ export const UI: Record<Locale, UiDictionary> = {
     projects: {
       pageTitle: 'Projects & Systems',
       pageSubtitle:
-        'Platforms deployed in real operations, business web apps, and personal products under active development.',
+        'Applications born out of real operational bottlenecks alongside independent products I am building.',
+      introNote:
+        "The projects here started as my own initiatives. Some came out of problems I ran into during day-to-day IT work; others are products I'm building independently.",
       statusLabels: {
-        'concluded-operation': 'Cycle concluded (~3 months in real operations)',
-        'collaborative-in-use': 'Collaborative project · In use',
-        'authorial-completed': 'Authorial project · Completed',
-        'in-development': 'Authorial project · In development',
+        'concluded-operation': 'Cycle concluded · ~3 months in real use',
+        collaborative: 'Collaborative project',
+        completed: 'Completed',
+        'in-development': 'In development',
       },
-      flagshipBadge: 'Flagship Case Study',
-      secondaryBadge: 'Secondary Project',
-      problemLabel: 'Context & Problem',
-      solutionLabel: 'Solution Engineered',
-      roleLabel: 'Responsibilities',
+      flagshipBadge: 'Featured',
+      secondaryBadge: 'Secondary',
+      problemLabel: 'The Problem',
+      solutionLabel: 'What I Built',
+      roleLabel: 'My Role',
       stackLabel: 'Technologies',
-      metricsLabel: 'Documented Metrics',
+      metricsLabel: 'Documented Results',
       featuresLabel: 'Capabilities',
       architectureLabel: 'Architecture & Flow',
-      screenshotsLabel: 'Showcase Screenshots',
-      publicRepoLabel: 'Public Repository',
-      privateNoteLabel: 'Core source resides in a private repository; public technical showcase available.',
+      roadmapLabel: 'Current Project Stage',
+      implementedLabel: 'Already implemented',
+      inProgressLabel: 'In development',
+      plannedLabel: 'Future planning',
+      screenshotsLabel: 'Screenshots & Visual Evidence',
+      zoomHint: 'Expand',
+      closeLightbox: 'Close preview',
+      publicShowcaseLabel: 'View public showcase on GitHub',
+      privateNoteLabel: 'Core source code is private; the public showcase documents architecture and modules.',
       backToProjects: 'Back to Projects',
     },
     experience: {
       pageTitle: 'Professional Experience',
       pageSubtitle:
-        'Progression across IT support, infrastructure, and corporate software development.',
-      highlightsLabel: 'Key deliverables',
+        'My progression across IT support, infrastructure, and software development.',
+      highlightsLabel: 'Key activities',
       educationTitle: 'Education',
     },
     skills: {
       pageTitle: 'Technical Skills',
       pageSubtitle:
-        'Languages, frameworks, databases, and delivery tooling used in production and personal engineering.',
+        'Languages, frameworks, databases, and tooling I use across backend, frontend, integrations, and deployment.',
       primaryTier: 'Core Stack',
-      secondaryTier: 'Project-Context & Secondary',
+      secondaryTier: 'Additional Technologies',
     },
     services: {
       pageTitle: 'Services',
       pageSubtitle:
-        'Focused technical scope for integrations, automation, and custom web applications.',
+        'Areas where I can help with custom development, backed by projects I have already built.',
       scopeNote:
-        'Scope is defined after technical discovery. No fixed-price gimmicks or artificial guarantees.',
+        "Let's talk about what you need and see how I can help.",
       ctaLabel: 'Get in Touch',
     },
     about: {
@@ -373,12 +383,11 @@ export const UI: Record<Locale, UiDictionary> = {
       educationTitle: 'Education',
       coursesTitle: 'Courses & Bootcamps',
       languagesTitle: 'Languages',
-      focusTitle: 'How I Work',
     },
     contact: {
       pageTitle: 'Contact & Resume',
       pageSubtitle:
-        'Direct channels for hiring teams, engineering managers, and freelance inquiries.',
+        'Direct channels for hiring teams, technical conversations, and project inquiries.',
       directChannels: 'Verified Channels',
       emailLabel: 'Professional email',
       copyEmail: 'Copy email',
@@ -394,13 +403,11 @@ export const UI: Record<Locale, UiDictionary> = {
     },
     footer: {
       note: 'Vito.dev — Software Engineering Portfolio.',
-      inspiredNote:
-        'Original visual direction inspired by modern geometric RPG interfaces, with no third-party game assets or affiliation.',
       rights: 'Victor Gabriel · Ponta Grossa, PR, Brazil',
     },
     notFound: {
       code: '404',
-      title: 'Route not found',
+      title: 'Page not found',
       description: 'The requested page does not exist in this portfolio.',
       backHome: 'Back to Home',
     },

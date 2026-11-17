@@ -58,14 +58,14 @@ test('bilingual pages contain consistent canonical, hreflang, and Open Graph met
     'en/projects/ctrls-itsm/index.html',
   ]) {
     const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
-    assert.match(html, /<link rel="canonical" href="https:\/\/victorghss-portfolio\.ctrls\.dev\.br\//);
+    assert.match(html, /<link rel="canonical" href="https:\/\/vito-dev\.ctrls\.dev\.br\//);
     assert.match(html, /<link rel="alternate" hreflang="pt-BR"/);
     assert.match(html, /<link rel="alternate" hreflang="en"/);
     assert.match(html, /<meta property="og:title"/);
     assert.match(html, /<meta property="og:description"/);
     assert.match(
       html,
-      /<meta property="og:image" content="https:\/\/victorghss-portfolio\.ctrls\.dev\.br\/og-image\.png"/
+      /<meta property="og:image" content="https:\/\/vito-dev\.ctrls\.dev\.br\/og-image\.png"/
     );
   }
 });
@@ -115,6 +115,18 @@ test('career timeline, MCT Cursos education, collaboration credit, and Portal Cl
 
   const ptHome = fs.readFileSync(path.join(DIST, 'pt-br/index.html'), 'utf8');
   const enHome = fs.readFileSync(path.join(DIST, 'en/index.html'), 'utf8');
+  const enSkills = fs.readFileSync(path.join(DIST, 'en/skills/index.html'), 'utf8');
+  const enServices = fs.readFileSync(path.join(DIST, 'en/services/index.html'), 'utf8');
+  const ptItsm = fs.readFileSync(path.join(DIST, 'pt-br/projects/ctrls-itsm/index.html'), 'utf8');
+  const enItsm = fs.readFileSync(path.join(DIST, 'en/projects/ctrls-itsm/index.html'), 'utf8');
+
   assert.ok(!/class="desktop-nav"/.test(ptHome), 'Redundant desktop-nav still present in header');
   assert.ok(!/instagram\.com/i.test(ptHome) && !/instagram\.com/i.test(enHome), 'Instagram should not be included');
+  assert.ok(!/Projeto colaborativo · Em uso|Collaborative project · In use/i.test(ptChes));
+  assert.ok(!/B\.Tech in Systems Analysis/i.test(enExp));
+  assert.ok(!/Project-Context &amp; Secondary/i.test(enSkills));
+  assert.ok(!/fixed-price gimmicks/i.test(enServices));
+  assert.ok(!/Persona 3 Reload/i.test(ptHome));
+  assert.match(ptItsm, /Ver showcase no GitHub/);
+  assert.match(enItsm, /View public showcase on GitHub/);
 });

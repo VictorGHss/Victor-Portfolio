@@ -28,6 +28,7 @@ const t = UI[locale];
           <div>
             <h2 class="display-title service-row__title">{service.title[locale]}</h2>
             <p class="service-row__summary">{service.summary[locale]}</p>
+            <p class="service-row__proof">{service.proof[locale]}</p>
           </div>
           <ul class="service-row__list">
             {service.deliverables[locale].map((item) => (
@@ -75,9 +76,16 @@ const t = UI[locale];
   }
 
   .service-row__summary {
-    margin: 0;
+    margin: 0 0 0.5rem;
     color: var(--text-secondary);
     font-size: 0.95rem;
+  }
+
+  .service-row__proof {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-cyan);
   }
 
   .service-row__list {

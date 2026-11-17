@@ -1,0 +1,21 @@
+---
+import { LOCALES, type Locale } from '../../i18n/config';
+import { UI } from '../../i18n/ui';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServicesView from '../../views/ServicesView.astro';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const locale = Astro.params.lang as Locale;
+const t = UI[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${t.services.pageTitle} | Vito.dev`}
+  description={t.services.pageSubtitle}
+>
+  <ServicesView locale={locale} />
+</BaseLayout>

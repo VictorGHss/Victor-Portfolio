@@ -1,0 +1,87 @@
+---
+import { SKILL_GROUPS } from '../data/portfolio';
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale];
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="display-kicker">04 // {t.nav[3].label}</span>
+        <h1 class="display-title section-title">{t.skills.pageTitle}</h1>
+        <p class="section-subtitle">{t.skills.pageSubtitle}</p>
+      </div>
+    </div>
+
+    <div class="skills-matrix">
+      {SKILL_GROUPS.map((group, idx) => (
+        <article class="skill-panel p3-panel p3-panel--chamfer">
+          <div class="skill-panel__top">
+            <span class="p3-tag p3-tag--cyan">0{idx + 1}</span>
+            <h2 class="display-title skill-panel__title">{group.category[locale]}</h2>
+          </div>
+          <ul class="skill-panel__items">
+            {group.items.map((item) => (
+              <li class="skill-pill">{item}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .skill-panel {
+    padding: var(--space-5);
+  }
+
+  .skill-panel__top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .skill-panel__title {
+    font-size: 1.65rem;
+  }
+
+  .skill-panel__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .skill-pill {
+    padding: 0.45rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    background: rgba(18, 59, 112, 0.52);
+    border: 1px solid var(--border-subtle);
+    clip-path: var(--clip-chamfer-sm);
+  }
+
+  @media (max-width: 768px) {
+    .skills-matrix {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

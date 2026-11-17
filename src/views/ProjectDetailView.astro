@@ -1,0 +1,306 @@
+---
+import { localizePath, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const t = UI[locale];
+const statusLabel = t.projects.statusLabels[project.status];
+---
+
+<section class="section">
+  <div class="container">
+    <a href={localizePath(locale, 'projects')} class="back-link">
+      ← {t.projects.backToProjects}
+    </a>
+
+    <header class="case-header p3-panel p3-panel--chamfer">
+      <div class="case-header__badges">
+        <span class={`p3-tag ${project.status === 'used-in-production' ? 'p3-tag--cyan' : ''}`}>
+          {statusLabel}
+        </span>
+        {project.priority === 1 && (
+          <span class="p3-tag p3-tag--accent">{t.projects.flagshipBadge}</span>
+        )}
+        {project.secondary && (
+          <span class="p3-tag">{t.projects.secondaryBadge}</span>
+        )}
+      </div>
+
+      <h1 class="display-title case-header__title">{project.name[locale]}</h1>
+      <p class="case-header__tagline">{project.tagline[locale]}</p>
+
+      <div class="case-header__actions">
+        {project.repoUrl && (
+          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
+            {t.projects.publicRepoLabel}
+          </a>
+        )}
+        {project.isPrivateCore && (
+          <span class="case-header__private-note">{t.projects.privateNoteLabel}</span>
+        )}
+      </div>
+    </header>
+
+    {project.metrics && (
+      <div class="case-metrics">
+        {project.metrics.map((metric) => (
+          <div class="case-metric p3-panel">
+            <strong class="case-metric__value">{metric.value}</strong>
+            <span class="case-metric__label">{metric.label[locale]}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <div class="case-grid">
+      <div class="case-main">
+        <article class="case-block p3-panel">
+          <h2 class="display-title case-block__title">{t.projects.problemLabel}</h2>
+          <p>{project.problem[locale]}</p>
+        </article>
+
+        <article class="case-block p3-panel">
+          <h2 class="display-title case-block__title">{t.projects.solutionLabel}</h2>
+          <p>{project.solution[locale]}</p>
+        </article>
+
+        <article class="case-block p3-panel">
+          <h2 class="display-title case-block__title">{t.projects.roleLabel}</h2>
+          <p>{project.role[locale]}</p>
+        </article>
+
+        {project.architecture && (
+          <article class="case-block p3-panel">
+            <h2 class="display-title case-block__title">{t.projects.architectureLabel}</h2>
+            <ul class="case-list">
+              {project.architecture[locale].map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        )}
+
+        {project.challenges && (
+          <article class="case-block p3-panel">
+            <h2 class="display-title case-block__title">
+              {locale === 'pt-br' ? 'Desafios de Engenharia' : 'Engineering Challenges'}
+            </h2>
+            <ul class="case-list">
+              {project.challenges[locale].map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        )}
+      </div>
+
+      <aside class="case-aside">
+        <div class="case-block p3-panel">
+          <h2 class="display-title case-block__title">{t.projects.stackLabel}</h2>
+          <ul class="case-stack">
+            {project.stack.map((tech) => (
+              <li class="p3-tag">{tech}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="case-block p3-panel">
+          <h2 class="display-title case-block__title">{t.projects.featuresLabel}</h2>
+          <ul class="case-list">
+            {project.features[locale].map((feat) => (
+              <li>{feat}</li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    {project.screenshots && project.screenshots.length > 0 && (
+      <section class="case-gallery">
+        <h2 class="display-title section-title">{t.projects.screenshotsLabel}</h2>
+        <div class="case-gallery__grid">
+          {project.screenshots.map((shot) => (
+            <figure class="case-shot p3-panel">
+              <img src={shot.src} alt={shot.alt[locale]} loading="lazy" width="960" height="540" />
+              <figcaption>{shot.caption[locale]}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</section>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-cyan);
+    margin-bottom: var(--space-4);
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  .case-header {
+    padding: var(--space-6);
+    margin-bottom: var(--space-5);
+    border-color: var(--border-strong);
+  }
+
+  .case-header__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .case-header__title {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+  }
+
+  .case-header__tagline {
+    margin: 0.6rem 0 var(--space-4);
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 68ch;
+  }
+
+  .case-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .case-header__private-note {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .case-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .case-metric {
+    padding: var(--space-4);
+    border-left: 3px solid var(--color-cyan);
+  }
+
+  .case-metric__value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--color-ice-white);
+  }
+
+  .case-metric__label {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 0.85fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .case-main,
+  .case-aside {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .case-block {
+    padding: var(--space-5);
+  }
+
+  .case-block__title {
+    font-size: 1.55rem;
+    color: var(--color-cyan);
+    margin-bottom: var(--space-3);
+  }
+
+  .case-block p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .case-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .case-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--text-secondary);
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .case-gallery {
+    margin-top: var(--space-7);
+  }
+
+  .case-gallery__grid {
+    margin-top: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .case-shot {
+    margin: 0;
+    padding: var(--space-3);
+  }
+
+  .case-shot img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .case-shot figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 1024px) {
+    .case-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .case-grid,
+    .case-gallery__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .case-metrics {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

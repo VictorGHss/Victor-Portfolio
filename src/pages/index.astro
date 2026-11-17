@@ -1,0 +1,20 @@
+---
+import { DEFAULT_LOCALE, localizePath } from '../i18n/config';
+
+const target = localizePath(DEFAULT_LOCALE);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={`https://ctrls.dev.br${target}`} />
+    <title>Vito.dev — Redirecionando...</title>
+  </head>
+  <body style="background:#071426;color:#E8F2FF;font-family:system-ui,sans-serif;padding:2rem;">
+    <p>
+      Redirecionando para <a href={target} style="color:#55C8FF;">{target}</a>...
+    </p>
+  </body>
+</html>

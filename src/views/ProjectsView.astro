@@ -1,0 +1,46 @@
+---
+import ProjectCard from '../components/ProjectCard.astro';
+import { PROJECTS } from '../data/projects';
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale];
+const sorted = [...PROJECTS].sort((a, b) => a.priority - b.priority);
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="display-kicker">02 // {t.nav[1].label}</span>
+        <h1 class="display-title section-title">{t.projects.pageTitle}</h1>
+        <p class="section-subtitle">{t.projects.pageSubtitle}</p>
+      </div>
+    </div>
+
+    <div class="projects-all-grid">
+      {sorted.map((project) => (
+        <ProjectCard project={project} locale={locale} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-all-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  @media (max-width: 768px) {
+    .projects-all-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

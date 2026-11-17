@@ -1,0 +1,100 @@
+---
+import { SERVICES } from '../data/portfolio';
+import { localizePath, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale];
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="display-kicker">05 // {t.nav[4].label}</span>
+        <h1 class="display-title section-title">{t.services.pageTitle}</h1>
+        <p class="section-subtitle">{t.services.pageSubtitle}</p>
+      </div>
+    </div>
+
+    <div class="services-grid">
+      {SERVICES.map((service, idx) => (
+        <article class="service-card p3-panel p3-panel--chamfer">
+          <span class="p3-tag p3-tag--cyan">0{idx + 1}</span>
+          <h2 class="display-title service-card__title">{service.title[locale]}</h2>
+          <p class="service-card__summary">{service.summary[locale]}</p>
+          <ul class="service-card__list">
+            {service.deliverables[locale].map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <div class="services-footer p3-panel">
+      <p>{t.services.scopeNote}</p>
+      <a href={localizePath(locale, 'contact')} class="p3-btn p3-btn--primary">
+        {t.services.ctaLabel}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+
+  .service-card {
+    padding: var(--space-5);
+  }
+
+  .service-card__title {
+    margin: var(--space-3) 0 0.5rem;
+    font-size: 1.55rem;
+  }
+
+  .service-card__summary {
+    margin: 0 0 var(--space-3);
+    color: var(--text-secondary);
+    font-size: 0.94rem;
+  }
+
+  .service-card__list {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .services-footer {
+    padding: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .services-footer p {
+    margin: 0;
+    color: var(--text-secondary);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 960px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

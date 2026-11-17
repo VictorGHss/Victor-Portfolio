@@ -1,0 +1,29 @@
+---
+import { PROJECTS, getProjectBySlug } from '../../../data/projects';
+import { LOCALES, type Locale } from '../../../i18n/config';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectDetailView from '../../../views/ProjectDetailView.astro';
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) =>
+    PROJECTS.map((project) => ({
+      params: { lang, slug: project.slug },
+    }))
+  );
+}
+
+const locale = Astro.params.lang as Locale;
+const project = getProjectBySlug(Astro.params.slug ?? '');
+
+if (!project) {
+  throw new Error(`Unknown project slug: ${Astro.params.slug}`);
+}
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${project.name[locale]} | Vito.dev`}
+  description={project.tagline[locale]}
+>
+  <ProjectDetailView project={project} locale={locale} />
+</BaseLayout>

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { DEFAULT_LOCALE, localizePath } from '../i18n/config';
+import { UI } from '../i18n/ui';
+
+const locale = DEFAULT_LOCALE;
+const t = UI[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`404 — ${t.notFound.title} | Vito.dev`}
+  description={t.notFound.description}
+  noindex={true}
+>
+  <section class="section">
+    <div class="container">
+      <div class="not-found p3-panel p3-panel--chamfer">
+        <span class="display-kicker display-kicker--accent">ERROR // {t.notFound.code}</span>
+        <h1 class="display-title not-found__code">{t.notFound.code}</h1>
+        <h2 class="display-title not-found__title">{t.notFound.title}</h2>
+        <p class="not-found__desc">{t.notFound.description}</p>
+        <div class="not-found__actions">
+          <a href={localizePath('pt-br')} class="p3-btn p3-btn--primary">
+            {UI['pt-br'].notFound.backHome} (PT-BR)
+          </a>
+          <a href={localizePath('en')} class="p3-btn p3-btn--secondary">
+            {UI.en.notFound.backHome} (EN)
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: var(--space-7);
+    max-width: 720px;
+    margin-inline: auto;
+    border-color: var(--border-accent);
+  }
+
+  .not-found__code {
+    font-size: clamp(4rem, 12vw, 7rem);
+    color: var(--color-accent);
+  }
+
+  .not-found__title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-top: 0.25rem;
+  }
+
+  .not-found__desc {
+    color: var(--text-secondary);
+    margin: var(--space-3) 0 var(--space-5);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+</style>

@@ -1,0 +1,162 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import HeaderNav from '../components/HeaderNav';
+import PageTransitionOverlay from '../components/PageTransitionOverlay';
+import { PROFILE } from '../data/profile';
+import { getAlternateLocale, localizePath, switchLocalePath, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { locale, title, description, noindex = false } = Astro.props;
+const t = UI[locale];
+const currentPath = Astro.url.pathname;
+const altLocale = getAlternateLocale(locale);
+const canonicalUrl = new URL(currentPath, PROFILE.domain).toString();
+const ptUrl = new URL(switchLocalePath(currentPath, 'pt-br'), PROFILE.domain).toString();
+const enUrl = new URL(switchLocalePath(currentPath, 'en'), PROFILE.domain).toString();
+const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="pt-BR" href={ptUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={ptUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={PROFILE.brand} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={locale === 'pt-br' ? 'pt_BR' : 'en_US'} />
+    <meta property="og:locale:alternate" content={altLocale === 'pt-br' ? 'pt_BR' : 'en_US'} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <ClientRouter />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">{t.skipToContent}</a>
+
+    <PageTransitionOverlay client:load transition:persist="p3-overlay" />
+
+    <HeaderNav
+      client:load
+      transition:persist="p3-header"
+      locale={locale}
+      currentPath={currentPath}
+      navItems={t.nav}
+      controls={t.controls}
+    />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__brand">
+            <span class="brand-mark__slash" aria-hidden="true"></span>
+            <strong>{PROFILE.brand}</strong> — {t.brandTagline}
+          </p>
+          <p class="site-footer__note">{t.footer.inspiredNote}</p>
+        </div>
+        <div class="site-footer__links">
+          <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+          <a href={localizePath(locale, 'contact')}>{t.nav.find((n) => n.key === 'contact')?.label}</a>
+        </div>
+      </div>
+      <div class="container site-footer__bottom">
+        <span>{t.footer.note}</span>
+        <span>{t.footer.rights}</span>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-8);
+    border-top: 1px solid var(--border-subtle);
+    background: rgba(5, 14, 27, 0.9);
+    padding-block: var(--space-7) var(--space-5);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid rgba(85, 200, 255, 0.12);
+  }
+
+  .site-footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .site-footer__note {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    max-width: 58ch;
+  }
+
+  .site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+  }
+
+  .site-footer__links a {
+    color: var(--color-cyan);
+    transition: color var(--duration-fast);
+  }
+
+  .site-footer__links a:hover {
+    color: var(--color-ice-white);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: var(--space-4);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+</style>

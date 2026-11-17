@@ -1,0 +1,64 @@
+:root {
+  /* Core Persona 3 Reload-Inspired Palette */
+  --color-midnight: #071426;
+  --color-midnight-elevated: #0b1d36;
+  --color-deep-blue: #123B70;
+  --color-electric-blue: #168BFF;
+  --color-cyan: #55C8FF;
+  --color-ice-white: #E8F2FF;
+  --color-accent: #F04E67;
+
+  /* Semantic Surfaces & Borders */
+  --surface-bg: var(--color-midnight);
+  --surface-panel: rgba(11, 29, 54, 0.84);
+  --surface-panel-strong: rgba(18, 59, 112, 0.42);
+  --surface-glass: rgba(7, 20, 38, 0.78);
+  --border-subtle: rgba(85, 200, 255, 0.18);
+  --border-strong: rgba(22, 139, 255, 0.55);
+  --border-accent: rgba(240, 78, 103, 0.65);
+
+  /* Text Hierarchy */
+  --text-primary: var(--color-ice-white);
+  --text-secondary: rgba(232, 242, 255, 0.78);
+  --text-muted: rgba(232, 242, 255, 0.56);
+  --text-inverse: #050e1b;
+
+  /* Typography */
+  --font-display: 'Barlow Condensed', 'Oswald', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 6.5rem;
+
+  /* Layout */
+  --container-max: 1220px;
+  --header-height: 76px;
+
+  /* Shadows & Glows */
+  --shadow-card: 0 18px 45px rgba(2, 9, 20, 0.55);
+  --glow-electric: 0 0 28px rgba(22, 139, 255, 0.35);
+  --glow-cyan: 0 0 22px rgba(85, 200, 255, 0.3);
+  --glow-accent: 0 0 20px rgba(240, 78, 103, 0.32);
+
+  /* Geometric Clip Paths */
+  --clip-chamfer-sm: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  --clip-chamfer-md: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
+  --clip-chamfer-lg: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+  --clip-slant-card: polygon(16px 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+
+  /* Motion Timing */
+  --ease-snappy: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sweep: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 460ms;
+}

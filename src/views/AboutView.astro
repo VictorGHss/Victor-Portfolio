@@ -1,0 +1,95 @@
+---
+import { PROFILE } from '../data/profile';
+import { localizePath, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale];
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="display-kicker">06 // {t.nav[5].label}</span>
+        <h1 class="display-title section-title">{t.about.pageTitle}</h1>
+        <p class="section-subtitle">{t.about.pageSubtitle}</p>
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <article class="about-card p3-panel p3-panel--chamfer">
+        <h2 class="display-title about-card__title">{t.about.educationTitle}</h2>
+        <p><strong>{PROFILE.education[locale]}</strong></p>
+        <p>
+          {locale === 'pt-br'
+            ? 'Formação voltada à engenharia de software, estruturas de dados, bancos relacionais e construção de sistemas web e backend.'
+            : 'Academic background focused on software engineering, data structures, relational databases, and backend/web systems.'}
+        </p>
+      </article>
+
+      <article class="about-card p3-panel p3-panel--chamfer">
+        <h2 class="display-title about-card__title">{t.about.focusTitle}</h2>
+        <p>
+          {locale === 'pt-br'
+            ? 'Desenvolvimento backend com Java (Spring Boot) e Python (FastAPI), integrações entre APIs e ERPs, automações via WhatsApp (Take Blip e Digisac), segurança (JWT, OAuth2, MFA/TOTP) e aplicações React + TypeScript.'
+            : 'Backend engineering with Java (Spring Boot) and Python (FastAPI), API/ERP integrations, WhatsApp automation (Take Blip and Digisac), security (JWT, OAuth2, MFA/TOTP), and React + TypeScript web apps.'}
+        </p>
+      </article>
+
+      <article class="about-card p3-panel p3-panel--chamfer">
+        <h2 class="display-title about-card__title">{t.about.approachTitle}</h2>
+        <p>
+          {locale === 'pt-br'
+            ? 'Priorizo código limpo, arquitetura modular (como Ports & Adapters), observabilidade real e entregas que resolvem gargalos operacionais concretos.'
+            : 'I prioritize clean code, modular architecture (such as Ports & Adapters), practical observability, and software that solves concrete operational bottlenecks.'}
+        </p>
+        <div class="about-card__cta">
+          <a href={localizePath(locale, 'projects')} class="p3-btn p3-btn--primary">
+            {t.home.primaryCta}
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .about-card {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .about-card__title {
+    font-size: 1.55rem;
+    color: var(--color-cyan);
+  }
+
+  .about-card p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .about-card__cta {
+    margin-top: auto;
+    padding-top: var(--space-3);
+  }
+
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

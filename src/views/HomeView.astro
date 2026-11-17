@@ -1,5 +1,4 @@
 ---
-import ProjectCard from '../components/ProjectCard.astro';
 import { EXPERIENCE, SERVICES, SKILL_GROUPS } from '../data/portfolio';
 import { PROFILE } from '../data/profile';
 import { PROJECTS } from '../data/projects';
@@ -13,11 +12,13 @@ interface Props {
 const { locale } = Astro.props;
 const t = UI[locale];
 const flagship = PROJECTS[0];
-const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.slug);
+const otherProjects = PROJECTS.filter((p) => p.slug !== flagship.slug);
+const primarySkills = SKILL_GROUPS.filter((g) => g.tier === 'primary');
+const resumeUrl = PROFILE.resumeFiles[locale];
 ---
 
 <section class="hero section">
-  <div class="hero__bg-slash" aria-hidden="true"></div>
+  <div class="hero__slash" aria-hidden="true"></div>
   <div class="container hero__grid">
     <div class="hero__content">
       <span class="display-kicker display-kicker--accent">{t.home.kicker}</span>
@@ -29,37 +30,39 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
       <p class="hero__summary">{t.home.summary}</p>
 
       <div class="hero__actions">
-        <a href={localizePath(locale, 'projects')} class="p3-btn p3-btn--primary">
+        <a href={localizePath(locale, `projects/${flagship.slug}`)} class="p3-btn p3-btn--primary">
           {t.home.primaryCta}
         </a>
-        <a href={localizePath(locale, 'contact')} class="p3-btn p3-btn--secondary">
-          {t.home.secondaryCta}
-        </a>
-        <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-          GitHub
-        </a>
-        <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-          LinkedIn
+        <a href={resumeUrl} download class="p3-btn p3-btn--secondary">
+          {t.home.resumeCta}
         </a>
       </div>
     </div>
 
-    <aside class="hero__card p3-panel p3-panel--chamfer" aria-label={t.home.specializationLabel}>
-      <div class="hero__card-header">
-        <span class="p3-tag p3-tag--cyan">{PROFILE.brand}</span>
-        <span class="hero__card-loc">{PROFILE.location[locale]}</span>
+    <aside class="hero__dossier surface-block" aria-label={t.home.specializationLabel}>
+      <div class="hero__dossier-bar" aria-hidden="true"></div>
+      <div class="hero__dossier-top">
+        <span class="hero__dossier-brand">{PROFILE.brand}</span>
+        <span class="hero__dossier-loc">{PROFILE.location[locale]}</span>
       </div>
-      <h2 class="hero__card-name display-title">{PROFILE.name}</h2>
-      <p class="hero__card-edu">{PROFILE.education[locale]}</p>
+      <h2 class="hero__dossier-name display-title">{PROFILE.fullName}</h2>
+      <p class="hero__dossier-edu">{PROFILE.education[locale]}</p>
 
       <div class="hero__spec">
         <span class="hero__spec-label">{t.home.specializationLabel}</span>
         <p class="hero__spec-text">{t.home.specializationText}</p>
       </div>
 
-      <div class="hero__resume-box">
-        <span class="hero__resume-title">{t.home.resumeCta}</span>
-        <p class="hero__resume-note">{t.home.resumeNote}</p>
+      <div class="hero__links">
+        <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
+          GitHub ↗
+        </a>
+        <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
+          LinkedIn ↗
+        </a>
+        <a href={`mailto:${PROFILE.email}`} class="p3-link">
+          {PROFILE.email}
+        </a>
       </div>
     </aside>
   </div>
@@ -69,35 +72,36 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="display-kicker">02 // {t.nav[1].label}</span>
-        <h2 class="display-title section-title">{t.home.featuredTitle}</h2>
+        <span class="display-kicker">01 // {t.home.featuredTitle}</span>
+        <h2 class="display-title section-title">{flagship.name[locale]}</h2>
         <p class="section-subtitle">{t.home.featuredSubtitle}</p>
       </div>
-      <a href={localizePath(locale, 'projects')} class="p3-btn p3-btn--secondary">
-        {t.home.allProjectsCta}
+      <a href={localizePath(locale, 'projects')} class="p3-link">
+        {t.home.allProjectsCta} →
       </a>
     </div>
 
-    <article class="flagship p3-panel p3-panel--chamfer">
-      <div class="flagship__content">
-        <div class="flagship__badges">
-          <span class="p3-tag p3-tag--accent">{t.projects.flagshipBadge}</span>
-          <span class="p3-tag p3-tag--cyan">{t.projects.statusLabels[flagship.status]}</span>
+    <div class="flagship">
+      <div class="flagship__body">
+        <div class="flagship__meta">
+          <span class="status-label status-label--accent">{t.projects.flagshipBadge}</span>
+          <span class="status-label status-label--cyan">{t.projects.statusLabels[flagship.status]}</span>
         </div>
-        <h3 class="display-title flagship__title">{flagship.name[locale]}</h3>
-        <p class="flagship__tagline">{flagship.tagline[locale]}</p>
+
         <p class="flagship__desc">{flagship.solution[locale]}</p>
 
         {flagship.metrics && (
           <div class="flagship__metrics">
-            {flagship.metrics.map((metric) => (
-              <div class="metric-box">
-                <strong class="metric-box__value">{metric.value}</strong>
-                <span class="metric-box__label">{metric.label[locale]}</span>
+            {flagship.metrics.slice(0, 3).map((metric) => (
+              <div class="metric-item">
+                <strong class="metric-item__value">{metric.value}</strong>
+                <span class="metric-item__label">{metric.label[locale]}</span>
               </div>
             ))}
           </div>
         )}
+
+        <p class="flagship__stack">{flagship.stack.slice(0, 9).join(' · ')}</p>
 
         <div class="flagship__actions">
           <a href={localizePath(locale, `projects/${flagship.slug}`)} class="p3-btn p3-btn--primary">
@@ -105,14 +109,14 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
           </a>
           {flagship.repoUrl && (
             <a href={flagship.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-              {t.projects.publicRepoLabel}
+              {t.projects.publicRepoLabel} ↗
             </a>
           )}
         </div>
       </div>
 
       {flagship.screenshots && flagship.screenshots[0] && (
-        <div class="flagship__visual">
+        <figure class="flagship__visual">
           <img
             src={flagship.screenshots[0].src}
             alt={flagship.screenshots[0].alt[locale]}
@@ -120,14 +124,23 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
             width="960"
             height="540"
           />
-        </div>
+          <figcaption>{flagship.screenshots[0].caption[locale]}</figcaption>
+        </figure>
       )}
-    </article>
+    </div>
 
-    <div class="projects-grid">
-      {otherFeatured.map((project) => (
-        <ProjectCard project={project} locale={locale} />
-      ))}
+    <div class="other-projects">
+      <h3 class="other-projects__heading">{t.home.otherProjectsTitle}</h3>
+      <div class="other-projects__list">
+        {otherProjects.map((project) => (
+          <a href={localizePath(locale, `projects/${project.slug}`)} class="project-line">
+            <span class="project-line__num">0{project.priority}</span>
+            <span class="project-line__title">{project.name[locale]}</span>
+            <span class="project-line__desc">{project.tagline[locale]}</span>
+            <span class="project-line__stack">{project.stack.slice(0, 4).join(' · ')}</span>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </section>
@@ -136,22 +149,28 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="display-kicker">03 // {t.nav[2].label}</span>
-        <h2 class="display-title section-title">{t.home.experienceTitle}</h2>
-        <p class="section-subtitle">{t.home.experienceSubtitle}</p>
+        <span class="display-kicker">02 // {t.nav[2].label}</span>
+        <h2 class="display-title section-title">{t.home.trajectoryTitle}</h2>
+        <p class="section-subtitle">{t.home.trajectorySubtitle}</p>
       </div>
-      <a href={localizePath(locale, 'experience')} class="p3-btn p3-btn--secondary">
-        {t.home.experienceCta}
+      <a href={localizePath(locale, 'experience')} class="p3-link">
+        {t.home.trajectoryCta} →
       </a>
     </div>
 
-    <div class="exp-grid">
+    <div class="trajectory-list">
       {EXPERIENCE.map((item) => (
-        <article class="exp-card p3-panel">
-          <span class="exp-card__period">{item.period[locale]}</span>
-          <h3 class="exp-card__role">{item.role[locale]}</h3>
-          <p class="exp-card__context">{item.context[locale]}</p>
-          <p class="exp-card__summary">{item.summary[locale]}</p>
+        <article class="trajectory-item">
+          <div class="trajectory-item__period">{item.period[locale]}</div>
+          <div class="trajectory-item__content">
+            <h3 class="trajectory-item__role">
+              {item.role[locale]} <span class="trajectory-item__company">— {item.company[locale]}</span>
+            </h3>
+            <p class="trajectory-item__summary">{item.summary[locale]}</p>
+            {item.progressionNote && (
+              <p class="trajectory-item__note">{item.progressionNote[locale]}</p>
+            )}
+          </div>
         </article>
       ))}
     </div>
@@ -162,24 +181,20 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="display-kicker">04 // {t.nav[3].label}</span>
+        <span class="display-kicker">03 // {t.nav[3].label}</span>
         <h2 class="display-title section-title">{t.home.skillsTitle}</h2>
         <p class="section-subtitle">{t.home.skillsSubtitle}</p>
       </div>
-      <a href={localizePath(locale, 'skills')} class="p3-btn p3-btn--secondary">
-        {t.home.skillsCta}
+      <a href={localizePath(locale, 'skills')} class="p3-link">
+        {t.home.skillsCta} →
       </a>
     </div>
 
-    <div class="skills-grid">
-      {SKILL_GROUPS.map((group) => (
-        <div class="skill-card p3-panel">
-          <h3 class="skill-card__title display-title">{group.category[locale]}</h3>
-          <ul class="skill-card__list">
-            {group.items.map((skill) => (
-              <li class="p3-tag">{skill}</li>
-            ))}
-          </ul>
+    <div class="spec-grid">
+      {primarySkills.map((group) => (
+        <div class="spec-row">
+          <h3 class="spec-row__cat">{group.category[locale]}</h3>
+          <p class="spec-row__items">{group.items.join(' · ')}</p>
         </div>
       ))}
     </div>
@@ -190,20 +205,20 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="display-kicker">05 // {t.nav[4].label}</span>
+        <span class="display-kicker">04 // {t.nav[5].label}</span>
         <h2 class="display-title section-title">{t.home.servicesTitle}</h2>
         <p class="section-subtitle">{t.home.servicesSubtitle}</p>
       </div>
-      <a href={localizePath(locale, 'services')} class="p3-btn p3-btn--secondary">
-        {t.home.servicesCta}
+      <a href={localizePath(locale, 'services')} class="p3-link">
+        {t.home.servicesCta} →
       </a>
     </div>
 
-    <div class="services-strip">
+    <div class="services-compact">
       {SERVICES.map((service) => (
-        <div class="service-mini p3-panel">
-          <h3 class="service-mini__title">{service.title[locale]}</h3>
-          <p class="service-mini__desc">{service.summary[locale]}</p>
+        <div class="service-entry">
+          <h3 class="service-entry__title">{service.title[locale]}</h3>
+          <p class="service-entry__desc">{service.summary[locale]}</p>
         </div>
       ))}
     </div>
@@ -212,18 +227,18 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
 
 <section class="section section--compact">
   <div class="container">
-    <div class="cta-banner p3-panel p3-panel--chamfer">
+    <div class="cta-strip surface-block">
       <div>
-        <span class="display-kicker display-kicker--accent">07 // {t.nav[6].label}</span>
-        <h2 class="display-title cta-banner__title">{t.home.contactTitle}</h2>
-        <p class="cta-banner__subtitle">{t.home.contactSubtitle}</p>
+        <span class="display-kicker display-kicker--accent">05 // {t.nav[6].label}</span>
+        <h2 class="display-title cta-strip__title">{t.home.contactTitle}</h2>
+        <p class="cta-strip__subtitle">{t.home.contactSubtitle}</p>
       </div>
-      <div class="cta-banner__actions">
+      <div class="cta-strip__actions">
         <a href={localizePath(locale, 'contact')} class="p3-btn p3-btn--primary">
-          {t.home.secondaryCta}
+          {t.home.contactCta}
         </a>
-        <a href={`mailto:${PROFILE.email}`} class="p3-btn p3-btn--secondary">
-          {PROFILE.email}
+        <a href={resumeUrl} download class="p3-btn p3-btn--secondary">
+          {t.home.resumeCta}
         </a>
       </div>
     </div>
@@ -234,22 +249,23 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   .hero {
     overflow: hidden;
     padding-top: var(--space-7);
+    padding-bottom: var(--space-7);
   }
 
-  .hero__bg-slash {
+  .hero__slash {
     position: absolute;
-    top: -12%;
-    right: -8%;
-    width: 52vw;
-    height: 115%;
-    background: linear-gradient(155deg, rgba(22, 139, 255, 0.16), rgba(18, 59, 112, 0.08));
-    clip-path: polygon(28% 0, 100% 0, 72% 100%, 0 100%);
+    top: -10%;
+    right: -6%;
+    width: 46vw;
+    height: 118%;
+    background: linear-gradient(160deg, rgba(18, 59, 112, 0.35), rgba(7, 20, 38, 0.05));
+    clip-path: polygon(32% 0, 100% 0, 68% 100%, 0 100%);
     pointer-events: none;
   }
 
   .hero__grid {
     display: grid;
-    grid-template-columns: 1.35fr 0.95fr;
+    grid-template-columns: 1.3fr 0.9fr;
     gap: var(--space-6);
     align-items: center;
     position: relative;
@@ -257,63 +273,75 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   }
 
   .hero__title {
-    font-size: clamp(3rem, 7vw, 5.6rem);
+    font-size: clamp(2.35rem, 4.6vw, 3.9rem);
     display: flex;
     flex-direction: column;
+    gap: 0.04em;
   }
 
   .hero__title-accent {
     color: var(--color-cyan);
-    text-shadow: 0 0 28px rgba(85, 200, 255, 0.35);
   }
 
   .hero__summary {
     margin: var(--space-4) 0 var(--space-5);
     color: var(--text-secondary);
-    font-size: 1.08rem;
+    font-size: 1.06rem;
     max-width: 56ch;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.85rem;
   }
 
-  .hero__card {
+  .hero__dossier {
     padding: var(--space-5);
-    border-color: var(--border-strong);
+    box-shadow: var(--shadow-card);
   }
 
-  .hero__card-header {
+  .hero__dossier-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-electric-blue), var(--color-cyan), var(--color-accent));
+  }
+
+  .hero__dossier-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: var(--space-3);
-  }
-
-  .hero__card-loc {
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    color: var(--text-muted);
   }
 
-  .hero__card-name {
-    font-size: 2.1rem;
-  }
-
-  .hero__card-edu {
-    margin: 0.35rem 0 var(--space-4);
+  .hero__dossier-brand {
     color: var(--color-cyan);
-    font-size: 0.92rem;
     font-weight: 600;
   }
 
+  .hero__dossier-loc {
+    color: var(--text-muted);
+  }
+
+  .hero__dossier-name {
+    font-size: 1.5rem;
+  }
+
+  .hero__dossier-edu {
+    margin: 0.35rem 0 var(--space-4);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
   .hero__spec {
-    padding: var(--space-3) var(--space-4);
-    background: rgba(7, 20, 38, 0.65);
-    border-left: 3px solid var(--color-electric-blue);
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--color-electric-blue);
     margin-bottom: var(--space-4);
   }
 
@@ -332,85 +360,62 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
     color: var(--text-secondary);
   }
 
-  .hero__resume-box {
-    border-top: 1px solid var(--border-subtle);
+  .hero__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
     padding-top: var(--space-3);
-  }
-
-  .hero__resume-title {
-    font-family: var(--font-mono);
-    font-size: 0.76rem;
-    text-transform: uppercase;
-    color: var(--color-ice-white);
-    font-weight: 600;
-  }
-
-  .hero__resume-note {
-    margin: 0.2rem 0 0;
-    font-size: 0.84rem;
-    color: var(--text-muted);
+    border-top: 1px solid rgba(232, 242, 255, 0.08);
   }
 
   .flagship {
     display: grid;
-    grid-template-columns: 1.2fr 0.95fr;
+    grid-template-columns: 1.15fr 1fr;
     gap: var(--space-6);
-    padding: var(--space-6);
-    margin-bottom: var(--space-5);
-    border-color: rgba(22, 139, 255, 0.65);
-    background: linear-gradient(135deg, rgba(18, 59, 112, 0.58), rgba(7, 20, 38, 0.94));
-    align-items: center;
+    align-items: start;
+    margin-bottom: var(--space-6);
   }
 
-  .flagship__badges {
+  .flagship__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1.25rem;
     margin-bottom: var(--space-3);
   }
 
-  .flagship__title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin-bottom: 0.4rem;
-  }
-
-  .flagship__tagline {
-    margin: 0 0 0.75rem;
-    color: var(--color-cyan);
-    font-weight: 600;
-  }
-
   .flagship__desc {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-5);
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .flagship__metrics {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-    margin-bottom: var(--space-5);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    padding-block: var(--space-3);
+    border-top: 1px solid rgba(232, 242, 255, 0.09);
+    border-bottom: 1px solid rgba(232, 242, 255, 0.09);
   }
 
-  .metric-box {
-    padding: 0.75rem 0.9rem;
-    background: rgba(7, 20, 38, 0.72);
-    border: 1px solid var(--border-subtle);
-    border-left: 3px solid var(--color-cyan);
-  }
-
-  .metric-box__value {
+  .metric-item__value {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-style: italic;
-    color: var(--color-ice-white);
-    line-height: 1.05;
+    font-size: 1.75rem;
+    color: var(--color-cyan);
+    line-height: 1.1;
   }
 
-  .metric-box__label {
+  .metric-item__label {
     font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .flagship__stack {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     color: var(--text-muted);
   }
 
@@ -421,9 +426,10 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
   }
 
   .flagship__visual {
-    border: 1px solid var(--border-strong);
+    margin: 0;
     background: #040b16;
-    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    border-bottom: 2px solid var(--color-electric-blue);
   }
 
   .flagship__visual img {
@@ -431,114 +437,172 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
     height: auto;
   }
 
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-5);
-  }
-
-  .exp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-4);
-  }
-
-  .exp-card {
-    padding: var(--space-4);
-    border-top: 3px solid var(--color-electric-blue);
-  }
-
-  .exp-card__period {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-cyan);
-  }
-
-  .exp-card__role {
-    margin: 0.35rem 0 0.25rem;
-    font-size: 1.05rem;
-  }
-
-  .exp-card__context {
-    margin: 0 0 0.6rem;
+  .flagship__visual figcaption {
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
-    font-size: 0.86rem;
   }
 
-  .exp-card__summary {
-    margin: 0;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
-  }
-
-  .skill-card {
-    padding: var(--space-4);
-  }
-
-  .skill-card__title {
-    font-size: 1.35rem;
-    margin-bottom: var(--space-3);
+  .other-projects__heading {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--color-cyan);
   }
 
-  .skill-card__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .services-strip {
+  .other-projects__list {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: var(--space-3);
+    border-top: 1px solid rgba(232, 242, 255, 0.09);
   }
 
-  .service-mini {
-    padding: var(--space-4);
+  .project-line {
+    display: grid;
+    grid-template-columns: 44px 230px 1fr auto;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
+    transition: background-color var(--duration-fast), padding-left var(--duration-fast);
   }
 
-  .service-mini__title {
-    margin: 0 0 0.45rem;
-    font-size: 0.98rem;
+  .project-line:hover {
+    background: var(--surface-elevated);
+    padding-left: 1.15rem;
+  }
+
+  .project-line__num {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-cyan);
+  }
+
+  .project-line__title {
+    font-weight: 700;
     color: var(--color-ice-white);
   }
 
-  .service-mini__desc {
+  .project-line__desc {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+  }
+
+  .project-line__stack {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .trajectory-list {
+    display: grid;
+    gap: var(--space-5);
+    border-left: 2px solid rgba(22, 139, 255, 0.45);
+    padding-left: var(--space-5);
+  }
+
+  .trajectory-item {
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    gap: var(--space-4);
+  }
+
+  .trajectory-item__period {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-cyan);
+    padding-top: 0.2rem;
+  }
+
+  .trajectory-item__role {
+    margin: 0 0 0.4rem;
+    font-size: 1.08rem;
+  }
+
+  .trajectory-item__company {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .trajectory-item__summary {
     margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.94rem;
+  }
+
+  .trajectory-item__note {
+    margin: 0.55rem 0 0;
     font-size: 0.84rem;
+    color: var(--color-cyan);
+  }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4) var(--space-6);
+  }
+
+  .spec-row {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
+  }
+
+  .spec-row__cat {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+    color: var(--color-cyan);
+  }
+
+  .spec-row__items {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+
+  .services-compact {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .service-entry {
+    padding-left: var(--space-3);
+    border-left: 2px solid rgba(85, 200, 255, 0.28);
+  }
+
+  .service-entry__title {
+    margin: 0 0 0.3rem;
+    font-size: 0.98rem;
+  }
+
+  .service-entry__desc {
+    margin: 0;
+    font-size: 0.86rem;
     color: var(--text-muted);
   }
 
-  .cta-banner {
+  .cta-strip {
     padding: var(--space-6);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-5);
-    border-color: var(--border-strong);
-    background: linear-gradient(125deg, rgba(18, 59, 112, 0.65), rgba(7, 20, 38, 0.92));
+    border-left: 4px solid var(--color-electric-blue);
   }
 
-  .cta-banner__title {
-    font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  .cta-strip__title {
+    font-size: clamp(1.5rem, 2.8vw, 2.15rem);
   }
 
-  .cta-banner__subtitle {
+  .cta-strip__subtitle {
     margin: 0.4rem 0 0;
     color: var(--text-secondary);
   }
 
-  .cta-banner__actions {
+  .cta-strip__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -546,30 +610,37 @@ const otherFeatured = PROJECTS.filter((p) => p.featured && p.slug !== flagship.s
 
   @media (max-width: 1024px) {
     .hero__grid,
-    .flagship {
+    .flagship,
+    .trajectory-item {
       grid-template-columns: 1fr;
     }
 
-    .projects-grid,
-    .exp-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .project-line {
+      grid-template-columns: 38px 1fr;
     }
 
-    .services-strip {
+    .project-line__desc,
+    .project-line__stack {
+      grid-column: 2;
+    }
+
+    .services-compact {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 640px) {
-    .projects-grid,
-    .exp-grid,
-    .skills-grid,
-    .services-strip,
-    .flagship__metrics {
+    .flagship__metrics,
+    .spec-grid,
+    .services-compact {
       grid-template-columns: 1fr;
     }
 
-    .flagship {
+    .trajectory-list {
+      padding-left: var(--space-4);
+    }
+
+    .cta-strip {
       padding: var(--space-4);
     }
   }

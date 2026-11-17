@@ -3,14 +3,32 @@ import type { LocalizedList, LocalizedText } from './projects';
 export interface ExperienceItem {
   period: LocalizedText;
   role: LocalizedText;
-  context: LocalizedText;
+  company: LocalizedText;
+  progressionNote?: LocalizedText;
   summary: LocalizedText;
   highlights: LocalizedList;
   tags: string[];
 }
 
+export interface EducationItem {
+  period: LocalizedText;
+  degree: LocalizedText;
+  institution: LocalizedText;
+}
+
+export interface CourseItem {
+  name: LocalizedText;
+  provider: string;
+}
+
+export interface LanguageItem {
+  name: LocalizedText;
+  level: LocalizedText;
+}
+
 export interface SkillGroup {
   category: LocalizedText;
+  tier: 'primary' | 'secondary';
   items: string[];
 }
 
@@ -23,239 +41,313 @@ export interface ServiceItem {
 export const EXPERIENCE: ExperienceItem[] = [
   {
     period: {
-      'pt-br': '2026 — Operação & Engenharia',
-      en: '2026 — Operations & Engineering',
+      'pt-br': 'Janeiro de 2025 — Presente',
+      en: 'January 2025 — Present',
     },
     role: {
-      'pt-br': 'Desenvolvedor de Software, Integrações & Operações',
-      en: 'Software, Integrations & Operations Developer',
+      'pt-br': 'Estagiário de TI → Técnico de TI',
+      en: 'IT Intern → IT Technician',
     },
-    context: {
-      'pt-br': 'Plataforma CTRLS ITSM & Ecossistema de Automações',
-      en: 'CTRLS ITSM Platform & Automation Ecosystem',
+    company: {
+      'pt-br': 'Inovare Serviços de Saúde',
+      en: 'Inovare Serviços de Saúde',
+    },
+    progressionNote: {
+      'pt-br':
+        'Estagiário de TI (Janeiro de 2025 – Setembro de 2025) • Efetivado como Técnico de TI em Outubro de 2025, permanecendo até o presente.',
+      en: 'IT Intern (January 2025 – September 2025) • Promoted to full-time IT Technician in October 2025, remaining through the present.',
     },
     summary: {
       'pt-br':
-        'Projeto e implementação de plataformas backend em Java 21 / Spring Boot 3 conectando ERPs, mensageria no WhatsApp (Take Blip e Digisac), controle de acesso físico e gestão de chamados.',
-      en: 'Design and implementation of Java 21 / Spring Boot 3 backend platforms connecting ERPs, WhatsApp messaging (Take Blip and Digisac), physical access control, and ITSM workflows.',
+        'Sustentação de infraestrutura N1/N2 e implantação do sistema CTRLS-ITSM em período anterior (ciclo operacional já encerrado, com remoção posterior do ambiente e dos dados).',
+      en: 'N1/N2 infrastructure support and deployment of CTRLS-ITSM during a previous operational period (operational cycle concluded, with environment and data subsequently removed).',
     },
     highlights: {
       'pt-br': [
-        'Arquitetura Hexagonal com 18 módulos delimitados, PostgreSQL, Redis e Docker',
-        'Automação de +11.000 mensagens em 2 meses e geração de +1.800 credenciais QR Code em 2 semanas',
-        'Integrações REST/OAuth2 com Feegow, Take Blip, Conta Azul V2, GerAcesso e Discord JDA',
+        'Implantação e operação do CTRLS-ITSM em ciclo anterior, conectando o ERP médico Feegow ao Take Blip via APIs REST e webhooks assíncronos',
+        'Automação de confirmações e lembretes via WhatsApp (+10.000 mensagens processadas)',
+        'Fluxo de autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários (+1.700 acessos)',
+        'Rotina automática de captação de avaliações pós-consulta (evolução pública de 3.3 para 3.8 estrelas em 30 dias)',
+        'Gestão interna de TI com inventário de equipamentos, consumíveis e triagem de chamados integrada ao Discord',
+        'Suporte técnico N1/N2, diagnóstico de redes locais, manutenção de hardware e configuração de estações Windows',
       ],
       en: [
-        'Hexagonal Architecture across 18 bounded modules with PostgreSQL, Redis, and Docker',
-        'Automated 11,000+ messages in 2 months and generated 1,800+ QR Code credentials in 2 weeks',
-        'REST/OAuth2 integrations with Feegow, Take Blip, Conta Azul V2, GerAcesso, and Discord JDA',
+        'Deployed and operated CTRLS-ITSM during a previous cycle, connecting Feegow medical ERP to Take Blip via REST APIs and asynchronous webhooks',
+        'Automated WhatsApp appointment confirmations and reminders (10,000+ messages processed)',
+        'Self-service reception check-in integrated with gerAcesso via temporary QR Codes (1,700+ visitors)',
+        'Automated post-visit review collection routine (public rating rose from 3.3 to 3.8 stars in 30 days)',
+        'Structured internal IT operations with equipment inventory, consumables control, and Discord ticket triage',
+        'Delivered N1/N2 technical support, LAN diagnostics, hardware maintenance, and Windows workstation setup',
       ],
     },
-    tags: ['Java 21', 'Spring Boot 3', 'Take Blip', 'Digisac', 'PostgreSQL', 'Redis', 'Docker'],
+    tags: ['Java 21', 'Spring Boot', 'React', 'PostgreSQL', 'Redis', 'Take Blip', 'Docker'],
   },
   {
     period: {
-      'pt-br': 'Estágio em TI',
-      en: 'IT Internship',
+      'pt-br': 'Agosto de 2024 — Dezembro de 2024',
+      en: 'August 2024 — December 2024',
     },
     role: {
-      'pt-br': 'Estagiário de Tecnologia da Informação',
-      en: 'Information Technology Intern',
+      'pt-br': 'Estagiário de TI',
+      en: 'IT Intern',
     },
-    context: {
-      'pt-br': 'Chesiquimica',
-      en: 'Chesiquimica',
+    company: {
+      'pt-br': 'Chesiquímica Ltda.',
+      en: 'Chesiquímica Ltda.',
     },
     summary: {
       'pt-br':
-        'Suporte operacional de TI e desenvolvimento da primeira solução real de abertura de chamados da empresa, publicada no GitHub Pages e mantida em uso.',
-      en: 'IT operations support and development of the company’s first internal ticketing form, deployed on GitHub Pages and still in active use.',
+        'Estágio em suporte técnico N1/N2 para os setores corporativo e fabril, infraestrutura de rede, recuperação de estações e entrega do primeiro sistema interno de chamados.',
+      en: 'IT internship delivering N1/N2 technical support for corporate and manufacturing teams, network troubleshooting, workstation recovery, and the company’s first internal ticketing form.',
     },
     highlights: {
       'pt-br': [
-        'Entrega do Sistema de Chamados (HTML, CSS, JavaScript + SheetMonkey + Google Sheets)',
-        'Padronização de solicitações internas de suporte e suprimentos',
+        'Atendimento a chamados N1/N2 para os setores corporativo e fabril, diagnosticando e resolvendo incidentes diários',
+        'Manutenção preventiva e corretiva de computadores, montagem de bancadas de trabalho e recuperação de máquinas inoperantes',
+        'Configuração de periféricos, impressoras compartilhadas em rede e testes de cabeamento estruturado e conectividade TCP/IP',
+        'Padronização de máquinas corporativas com formatação, instalação de imagens Windows e homologação de softwares internos',
+        'Desenvolvimento do Sistema de Chamados interno em HTML, CSS, JavaScript, SheetMonkey e Google Sheets',
       ],
       en: [
-        'Delivered the internal Ticketing System (HTML, CSS, JavaScript + SheetMonkey + Google Sheets)',
-        'Standardized internal support and consumables requests',
+        'Handled N1/N2 support tickets across corporate and manufacturing environments',
+        'Performed preventive and corrective hardware maintenance, workstation bench assembly, and machine recovery',
+        'Configured peripherals, networked printers, and tested structured cabling and TCP/IP connectivity',
+        'Standardized corporate workstations via Windows imaging and internal software validation',
+        'Built the internal Ticketing System using HTML, CSS, JavaScript, SheetMonkey, and Google Sheets',
       ],
     },
-    tags: ['HTML', 'CSS', 'JavaScript', 'Google Sheets', 'GitHub Pages'],
+    tags: ['Suporte N1/N2', 'TCP/IP', 'Windows', 'Hardware', 'HTML/CSS/JS', 'Google Sheets'],
   },
+];
+
+export const EDUCATION: EducationItem[] = [
   {
     period: {
-      'pt-br': 'Em andamento',
-      en: 'Ongoing',
+      'pt-br': 'Previsão de Conclusão: 2027',
+      en: 'Expected Graduation: 2027',
     },
-    role: {
-      'pt-br': 'Graduação em Análise e Desenvolvimento de Sistemas',
+    degree: {
+      'pt-br': 'Tecnólogo em Análise e Desenvolvimento de Sistemas',
       en: 'B.Tech in Systems Analysis and Development',
     },
-    context: {
-      'pt-br': 'UTFPR — Universidade Tecnológica Federal do Paraná',
-      en: 'UTFPR — Federal University of Technology - Paraná',
+    institution: {
+      'pt-br': 'Universidade Tecnológica Federal do Paraná (UTFPR)',
+      en: 'Federal University of Technology – Paraná (UTFPR)',
     },
-    summary: {
-      'pt-br':
-        'Formação acadêmica em engenharia de software, algoritmos, estruturas de dados, bancos de dados e desenvolvimento web.',
-      en: 'Academic training in software engineering, algorithms, data structures, databases, and web development.',
+  },
+  {
+    period: {
+      'pt-br': 'Conclusão: 2023',
+      en: 'Completed: 2023',
     },
-    highlights: {
-      'pt-br': [
-        'Base sólida em Programação Orientada a Objetos (Java), estruturas de dados e modelagem relacional',
-        'Aplicação contínua dos conceitos em produtos autorais (Rewit e Job Hunter)',
-      ],
-      en: [
-        'Strong foundation in Object-Oriented Programming (Java), data structures, and relational modeling',
-        'Continuous application in original products (Rewit and Job Hunter)',
-      ],
+    degree: {
+      'pt-br': 'Técnico em Logística',
+      en: 'Technical Degree in Logistics',
     },
-    tags: ['UTFPR', 'Java', 'Algorithms', 'Databases', 'Software Engineering'],
+    institution: {
+      'pt-br': 'Colégio Estadual Professor Meneleu de Almeida Torres',
+      en: 'Colégio Estadual Professor Meneleu de Almeida Torres',
+    },
+  },
+  {
+    period: {
+      'pt-br': 'Conclusão: 2019',
+      en: 'Completed: 2019',
+    },
+    degree: {
+      'pt-br': 'Técnico em Administração',
+      en: 'Technical Degree in Business Administration',
+    },
+    institution: {
+      'pt-br': 'Colégio Estadual Professor Meneleu de Almeida Torres',
+      en: 'Colégio Estadual Professor Meneleu de Almeida Torres',
+    },
+  },
+  {
+    period: {
+      'pt-br': 'Conclusão: 2018',
+      en: 'Completed: 2018',
+    },
+    degree: {
+      'pt-br': 'Técnico em Informática',
+      en: 'Technical Degree in Information Technology',
+    },
+    institution: {
+      'pt-br': 'SENAI Paraná',
+      en: 'SENAI Paraná',
+    },
+  },
+];
+
+export const COURSES: CourseItem[] = [
+  {
+    name: {
+      'pt-br': 'Java COMPLETO: Programação Orientada a Objetos + Projetos (Prof. Leonardo Moura Leitão)',
+      en: 'Complete Java: Object-Oriented Programming + Projects (Prof. Leonardo Moura Leitão)',
+    },
+    provider: 'Udemy',
+  },
+  {
+    name: {
+      'pt-br': 'Bootcamp Santander: Backend com Java',
+      en: 'Santander Bootcamp: Java Backend',
+    },
+    provider: 'Digital Innovation One (DIO)',
+  },
+  {
+    name: {
+      'pt-br': 'Bootcamp Bradesco: Java Cloud Native',
+      en: 'Bradesco Bootcamp: Java Cloud Native',
+    },
+    provider: 'Digital Innovation One (DIO)',
+  },
+];
+
+export const LANGUAGES: LanguageItem[] = [
+  {
+    name: { 'pt-br': 'Português', en: 'Portuguese' },
+    level: { 'pt-br': 'Nativo', en: 'Native' },
+  },
+  {
+    name: { 'pt-br': 'Inglês', en: 'English' },
+    level: {
+      'pt-br': 'Intermediário (boa leitura técnica, documentação e escrita funcional)',
+      en: 'Intermediate (solid technical reading, documentation, and functional writing)',
+    },
   },
 ];
 
 export const SKILL_GROUPS: SkillGroup[] = [
   {
     category: {
-      'pt-br': 'Backend & Arquitetura',
-      en: 'Backend & Architecture',
+      'pt-br': 'Backend & Ecossistema Java',
+      en: 'Backend & Java Ecosystem',
     },
+    tier: 'primary',
     items: [
-      'Java 21',
+      'Java (17 / 21)',
       'Spring Boot 3',
-      'Python',
-      'FastAPI',
-      'Pydantic',
-      'SQLAlchemy',
-      'APIs REST',
-      'Arquitetura Hexagonal',
-      'JWT / OAuth2 / MFA (TOTP)',
+      'Spring Data JPA',
+      'Spring Security',
+      'Spring Web & Scheduler',
     ],
   },
   {
     category: {
-      'pt-br': 'Integrações & Automações',
-      en: 'Integrations & Automation',
+      'pt-br': 'Frontend & Web',
+      en: 'Frontend & Web',
     },
-    items: [
-      'Take Blip',
-      'Digisac',
-      'Webhooks',
-      'Feegow API',
-      'Conta Azul V2',
-      'GerAcesso / Control iD',
-      'Discord JDA',
-      'Scripts Python',
-    ],
+    tier: 'primary',
+    items: ['React', 'TypeScript', 'JavaScript', 'Next.js', 'Tailwind CSS', 'HTML5 / CSS3'],
   },
   {
     category: {
-      'pt-br': 'Dados & Infraestrutura',
-      en: 'Data & Infrastructure',
+      'pt-br': 'Bancos de Dados & Cache',
+      en: 'Databases & Caching',
     },
-    items: [
-      'PostgreSQL',
-      'PostGIS',
-      'Redis',
-      'Alembic / Flyway',
-      'Docker & Compose',
-      'Linux',
-      'Nginx',
-      'Prometheus & Grafana',
-      'Cloudflare Pages / Tunnels',
-    ],
+    tier: 'primary',
+    items: ['SQL', 'PostgreSQL', 'MySQL', 'Redis (Rate Limiting & Cache)', 'Flyway'],
   },
   {
     category: {
-      'pt-br': 'Frontend & Mobile',
-      en: 'Frontend & Mobile',
+      'pt-br': 'APIs, Webhooks & Integrações',
+      en: 'APIs, Webhooks & Integrations',
     },
-    items: [
-      'React',
-      'TypeScript',
-      'Astro',
-      'Vite',
-      'HTML5 & CSS3',
-      'Flutter / Dart',
-    ],
+    tier: 'primary',
+    items: ['APIs RESTful', 'Webhooks assíncronos', 'OAuth2 / JWT / RBAC', 'OpenAPI / Swagger', 'Postman'],
+  },
+  {
+    category: {
+      'pt-br': 'DevOps, Infraestrutura & Ferramentas',
+      en: 'DevOps, Infrastructure & Tools',
+    },
+    tier: 'primary',
+    items: ['Docker', 'Git & GitHub', 'GitHub Actions (CI/CD)', 'Linux (Debian / Ubuntu)', 'Cloudflare Pages / Tunnels'],
+  },
+  {
+    category: {
+      'pt-br': 'Contexto de Projetos & Secundárias',
+      en: 'Project-Context & Secondary',
+    },
+    tier: 'secondary',
+    items: ['Python', 'FastAPI', 'SQLAlchemy & Alembic', 'Flutter & Dart', 'PostGIS', 'Take Blip & Digisac'],
   },
 ];
 
 export const SERVICES: ServiceItem[] = [
   {
     title: {
-      'pt-br': 'Backend Development',
+      'pt-br': 'Desenvolvimento Backend',
       en: 'Backend Development',
     },
     summary: {
       'pt-br':
-        'Desenvolvimento de APIs REST, serviços modulares e sistemas de negócio com foco em clareza arquitetural e segurança.',
-      en: 'REST APIs, modular services, and business systems built with clean architecture and security.',
+        'APIs RESTful, sistemas corporativos e serviços modulares em Java (Spring Boot) e bancos relacionais.',
+      en: 'RESTful APIs, business systems, and modular services in Java (Spring Boot) backed by relational databases.',
     },
     deliverables: {
-      'pt-br': ['Java & Spring Boot', 'Python & FastAPI', 'Modelagem PostgreSQL & Redis', 'Autenticação JWT / OAuth2'],
-      en: ['Java & Spring Boot', 'Python & FastAPI', 'PostgreSQL & Redis modeling', 'JWT / OAuth2 authentication'],
+      'pt-br': ['Java & Spring Boot', 'PostgreSQL & Flyway', 'Autenticação JWT / RBAC'],
+      en: ['Java & Spring Boot', 'PostgreSQL & Flyway', 'JWT / RBAC authentication'],
     },
   },
   {
     title: {
-      'pt-br': 'Integrations & APIs',
-      en: 'Integrations & APIs',
+      'pt-br': 'APIs & Integrações',
+      en: 'APIs & Integrations',
     },
     summary: {
       'pt-br':
-        'Conexão entre ERPs, plataformas financeiras, mensageria e sistemas externos por meio de webhooks e APIs.',
-      en: 'Connecting ERPs, financial platforms, messaging tools, and external systems via webhooks and APIs.',
+        'Conexão entre ERPs, plataformas financeiras, controle de acesso e serviços externos via REST e webhooks.',
+      en: 'Connecting ERPs, financial platforms, access control, and external services via REST APIs and webhooks.',
     },
     deliverables: {
-      'pt-br': ['Webhooks resilientes', 'OAuth2 & tokens', 'Integração com ERPs e sistemas médicos', 'Sincronização de dados'],
-      en: ['Resilient webhooks', 'OAuth2 flows', 'ERP & healthcare system integrations', 'Data synchronization'],
+      'pt-br': ['Webhooks assíncronos', 'OAuth2 & sincronização', 'OpenAPI / Swagger'],
+      en: ['Asynchronous webhooks', 'OAuth2 & sync', 'OpenAPI / Swagger'],
     },
   },
   {
     title: {
-      'pt-br': 'WhatsApp Automation',
-      en: 'WhatsApp Automation',
-    },
-    summary: {
-      'pt-br':
-        'Fluxos automatizados de atendimento, lembretes e roteamento de filas conectados ao sistema da operação.',
-      en: 'Automated messaging workflows, reminders, and queue routing connected directly to business operations.',
-    },
-    deliverables: {
-      'pt-br': ['Take Blip & Digisac', 'Confirmação de consultas', 'Notificações e lembretes', 'Integração WhatsApp ↔ ERP'],
-      en: ['Take Blip & Digisac', 'Appointment confirmations', 'Notifications & reminders', 'WhatsApp ↔ ERP integration'],
-    },
-  },
-  {
-    title: {
-      'pt-br': 'Process Automation',
+      'pt-br': 'Automação de Processos',
       en: 'Process Automation',
     },
     summary: {
       'pt-br':
-        'Automação de rotinas repetitivas, coleta estruturada e integração de dados entre planilhas, APIs e bancos.',
-      en: 'Automation of repetitive workflows, structured data pipelines, and synchronization across spreadsheets, APIs, and databases.',
+        'Redução de tarefas manuais com rotinas agendadas, triagem automatizada e integração de dados.',
+      en: 'Eliminating repetitive manual work through scheduled jobs, automated triage, and data pipelines.',
     },
     deliverables: {
-      'pt-br': ['Python & scripts dedicados', 'Relatórios automatizados', 'Alertas operacionais', 'Redução de tarefas manuais'],
-      en: ['Python & dedicated scripts', 'Automated reporting', 'Operational alerts', 'Manual task reduction'],
+      'pt-br': ['Rotinas agendadas', 'Alertas operacionais', 'Scripts Python & Java'],
+      en: ['Scheduled jobs', 'Operational alerts', 'Python & Java scripts'],
     },
   },
   {
     title: {
-      'pt-br': 'Web Development',
-      en: 'Web Development',
+      'pt-br': 'Automação WhatsApp (Blip & Digisac)',
+      en: 'WhatsApp Automation (Blip & Digisac)',
     },
     summary: {
       'pt-br':
-        'Aplicações web, painéis administrativos e sites profissionais responsivos com React, TypeScript e Astro.',
-      en: 'Web applications, admin dashboards, and responsive professional websites built with React, TypeScript, and Astro.',
+        'Fluxos de confirmação, lembretes e roteamento de atendimento integrados ao sistema da operação.',
+      en: 'Confirmation workflows, reminders, and queue routing integrated directly with core business systems.',
     },
     deliverables: {
-      'pt-br': ['React & TypeScript', 'Painéis administrativos', 'Landing pages & sites profissionais', 'Sistemas personalizados'],
-      en: ['React & TypeScript', 'Admin dashboards', 'Landing pages & professional sites', 'Custom web systems'],
+      'pt-br': ['Take Blip & Digisac', 'Confirmações e lembretes', 'Integração WhatsApp ↔ ERP'],
+      en: ['Take Blip & Digisac', 'Confirmations & reminders', 'WhatsApp ↔ ERP integration'],
+    },
+  },
+  {
+    title: {
+      'pt-br': 'Aplicações Web & Painéis Administrativos',
+      en: 'Web Applications & Admin Panels',
+    },
+    summary: {
+      'pt-br':
+        'Interfaces web responsivas e painéis de operação com React, TypeScript e Next.js.',
+      en: 'Responsive web interfaces and operational dashboards built with React, TypeScript, and Next.js.',
+    },
+    deliverables: {
+      'pt-br': ['React & TypeScript', 'Painéis de gestão', 'Sistemas personalizados'],
+      en: ['React & TypeScript', 'Management dashboards', 'Custom systems'],
     },
   },
 ];

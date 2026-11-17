@@ -10,7 +10,9 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = UI[locale];
-const resumePath = PROFILE.resumeFiles[locale];
+const primaryResume = PROFILE.resumeFiles[locale];
+const altResume = locale === 'pt-br' ? PROFILE.resumeFiles.en : PROFILE.resumeFiles['pt-br'];
+const altResumeLabel = locale === 'pt-br' ? 'English Version (PDF)' : 'Versão em Português (PDF)';
 ---
 
 <section class="section">
@@ -24,7 +26,7 @@ const resumePath = PROFILE.resumeFiles[locale];
     </div>
 
     <div class="contact-grid">
-      <article class="contact-card p3-panel p3-panel--chamfer">
+      <article class="contact-card surface-block">
         <h2 class="display-title contact-card__title">{t.contact.directChannels}</h2>
 
         <div class="contact-item">
@@ -42,27 +44,29 @@ const resumePath = PROFILE.resumeFiles[locale];
 
         <div class="contact-links">
           <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
-            {t.contact.githubLabel} — @{PROFILE.githubUsername}
+            {t.contact.githubLabel} — @{PROFILE.githubUsername} ↗
           </a>
           <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-            {t.contact.linkedinLabel}
+            {t.contact.linkedinLabel} ↗
           </a>
         </div>
       </article>
 
       <div class="contact-side">
-        <article class="contact-card p3-panel">
+        <article class="contact-card surface-block">
           <h2 class="display-title contact-card__title">{t.contact.resumeTitle}</h2>
-          {resumePath ? (
-            <a href={resumePath} download class="p3-btn p3-btn--primary">
-              {t.home.resumeCta} (PDF)
+          <div class="resume-actions">
+            <a href={primaryResume} download class="p3-btn p3-btn--primary">
+              {t.contact.resumeDownload}
             </a>
-          ) : (
-            <p class="contact-card__text">{t.contact.resumePending}</p>
-          )}
+            <a href={altResume} download class="p3-link">
+              {altResumeLabel} ↓
+            </a>
+          </div>
+          <p class="contact-card__note">{t.contact.resumeAltNote}</p>
         </article>
 
-        <article class="contact-card p3-panel">
+        <article class="contact-card surface-block">
           <h2 class="display-title contact-card__title">{t.contact.availabilityTitle}</h2>
           <p class="contact-card__text">{t.contact.availabilityText}</p>
         </article>
@@ -88,7 +92,7 @@ const resumePath = PROFILE.resumeFiles[locale];
   }
 
   .contact-card__title {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
     color: var(--color-cyan);
     margin-bottom: var(--space-4);
   }
@@ -96,6 +100,12 @@ const resumePath = PROFILE.resumeFiles[locale];
   .contact-card__text {
     margin: 0;
     color: var(--text-secondary);
+  }
+
+  .contact-card__note {
+    margin: var(--space-3) 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
   }
 
   .contact-item {
@@ -121,10 +131,12 @@ const resumePath = PROFILE.resumeFiles[locale];
     color: var(--color-ice-white);
   }
 
-  .contact-links {
+  .contact-links,
+  .resume-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 0.85rem;
   }
 
   @media (max-width: 820px) {

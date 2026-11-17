@@ -14,118 +14,138 @@ const statusLabel = t.projects.statusLabels[project.status];
 const detailHref = localizePath(locale, `projects/${project.slug}`);
 ---
 
-<article class={`project-card p3-panel p3-panel--chamfer ${project.priority === 1 ? 'project-card--flagship' : ''}`}>
-  <div class="project-card__top">
-    <div class="project-card__badges">
-      <span class={`p3-tag ${project.status === 'used-in-production' ? 'p3-tag--cyan' : ''}`}>
+<article class={`proj-row ${project.priority === 1 ? 'proj-row--flagship' : ''}`}>
+  <div class="proj-row__index">0{project.priority}</div>
+
+  <div class="proj-row__body">
+    <div class="proj-row__meta">
+      <span class={`status-label ${project.status === 'used-in-production' ? 'status-label--cyan' : ''}`}>
         {statusLabel}
       </span>
       {project.priority === 1 && (
-        <span class="p3-tag p3-tag--accent">{t.projects.flagshipBadge}</span>
+        <span class="status-label status-label--accent">{t.projects.flagshipBadge}</span>
       )}
       {project.secondary && (
-        <span class="p3-tag">{t.projects.secondaryBadge}</span>
+        <span class="proj-row__secondary">{t.projects.secondaryBadge}</span>
       )}
     </div>
-    <span class="project-card__index">0{project.priority}</span>
+
+    <h2 class="proj-row__title display-title">
+      <a href={detailHref}>{project.name[locale]}</a>
+    </h2>
+
+    <p class="proj-row__tagline">{project.tagline[locale]}</p>
+    <p class="proj-row__context">{project.timelineContext[locale]}</p>
+    <p class="proj-row__stack">{project.stack.join(' · ')}</p>
   </div>
 
-  <h3 class="project-card__title display-title">
-    <a href={detailHref}>{project.name[locale]}</a>
-  </h3>
-
-  <p class="project-card__tagline">{project.tagline[locale]}</p>
-
-  <ul class="project-card__stack" aria-label={t.projects.stackLabel}>
-    {project.stack.slice(0, 6).map((tech) => (
-      <li class="p3-tag">{tech}</li>
-    ))}
-    {project.stack.length > 6 && <li class="p3-tag">+{project.stack.length - 6}</li>}
-  </ul>
-
-  <div class="project-card__actions">
+  <div class="proj-row__actions">
     <a href={detailHref} class="p3-btn p3-btn--primary">
       {t.home.viewCaseStudy}
     </a>
     {project.repoUrl && (
-      <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-        GitHub
+      <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
+        GitHub ↗
       </a>
     )}
   </div>
 </article>
 
 <style>
-  .project-card {
+  .proj-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: var(--space-5);
+    align-items: start;
     padding: var(--space-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
+    background: var(--surface-elevated);
+    border-left: 3px solid transparent;
     transition:
-      transform var(--duration-base) var(--ease-snappy),
-      border-color var(--duration-base) var(--ease-snappy);
+      border-color var(--duration-base) var(--ease-snappy),
+      background-color var(--duration-base) var(--ease-snappy),
+      transform var(--duration-base) var(--ease-snappy);
   }
 
-  .project-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--color-cyan);
+  .proj-row:hover {
+    border-left-color: var(--color-cyan);
+    background: #0e2442;
+    transform: translateX(4px);
   }
 
-  .project-card--flagship {
-    border-color: rgba(22, 139, 255, 0.65);
-    background: linear-gradient(145deg, rgba(18, 59, 112, 0.56), rgba(7, 20, 38, 0.92));
+  .proj-row--flagship {
+    border-left-color: var(--color-electric-blue);
+    background: linear-gradient(115deg, rgba(18, 59, 112, 0.52), rgba(11, 30, 56, 0.95));
   }
 
-  .project-card__top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
+  .proj-row__index {
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    opacity: 0.72;
+    padding-top: 0.2rem;
   }
 
-  .project-card__badges {
+  .proj-row__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
   }
 
-  .project-card__index {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-style: italic;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: rgba(85, 200, 255, 0.42);
+  .proj-row__secondary {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-muted);
   }
 
-  .project-card__title {
-    font-size: clamp(1.45rem, 2.5vw, 1.95rem);
+  .proj-row__title {
+    font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+    margin-bottom: 0.45rem;
   }
 
-  .project-card__title a:hover {
+  .proj-row__title a:hover {
     color: var(--color-cyan);
   }
 
-  .project-card__tagline {
-    margin: 0;
+  .proj-row__tagline {
+    margin: 0 0 0.5rem;
     color: var(--text-secondary);
-    font-size: 0.96rem;
-    flex-grow: 1;
+    max-width: 68ch;
   }
 
-  .project-card__stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    list-style: none;
+  .proj-row__context {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-cyan);
+  }
+
+  .proj-row__stack {
     margin: 0;
-    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
   }
 
-  .project-card__actions {
+  .proj-row__actions {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-end;
     gap: 0.65rem;
-    padding-top: var(--space-2);
+  }
+
+  @media (max-width: 820px) {
+    .proj-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      padding: var(--space-4);
+    }
+
+    .proj-row__actions {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 </style>

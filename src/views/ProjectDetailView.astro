@@ -15,30 +15,31 @@ const statusLabel = t.projects.statusLabels[project.status];
 
 <section class="section">
   <div class="container">
-    <a href={localizePath(locale, 'projects')} class="back-link">
+    <a href={localizePath(locale, 'projects')} class="p3-link back-link">
       ← {t.projects.backToProjects}
     </a>
 
-    <header class="case-header p3-panel p3-panel--chamfer">
+    <header class="case-header surface-block">
       <div class="case-header__badges">
-        <span class={`p3-tag ${project.status === 'used-in-production' ? 'p3-tag--cyan' : ''}`}>
+        <span class={`status-label ${project.status === 'used-in-production' ? 'status-label--cyan' : ''}`}>
           {statusLabel}
         </span>
         {project.priority === 1 && (
-          <span class="p3-tag p3-tag--accent">{t.projects.flagshipBadge}</span>
+          <span class="status-label status-label--accent">{t.projects.flagshipBadge}</span>
         )}
         {project.secondary && (
-          <span class="p3-tag">{t.projects.secondaryBadge}</span>
+          <span class="status-label">{t.projects.secondaryBadge}</span>
         )}
       </div>
 
       <h1 class="display-title case-header__title">{project.name[locale]}</h1>
       <p class="case-header__tagline">{project.tagline[locale]}</p>
+      <p class="case-header__timeline">{project.timelineContext[locale]}</p>
 
       <div class="case-header__actions">
         {project.repoUrl && (
           <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
-            {t.projects.publicRepoLabel}
+            {t.projects.publicRepoLabel} ↗
           </a>
         )}
         {project.isPrivateCore && (
@@ -50,7 +51,7 @@ const statusLabel = t.projects.statusLabels[project.status];
     {project.metrics && (
       <div class="case-metrics">
         {project.metrics.map((metric) => (
-          <div class="case-metric p3-panel">
+          <div class="case-metric">
             <strong class="case-metric__value">{metric.value}</strong>
             <span class="case-metric__label">{metric.label[locale]}</span>
           </div>
@@ -60,23 +61,23 @@ const statusLabel = t.projects.statusLabels[project.status];
 
     <div class="case-grid">
       <div class="case-main">
-        <article class="case-block p3-panel">
+        <article class="case-block">
           <h2 class="display-title case-block__title">{t.projects.problemLabel}</h2>
           <p>{project.problem[locale]}</p>
         </article>
 
-        <article class="case-block p3-panel">
+        <article class="case-block">
           <h2 class="display-title case-block__title">{t.projects.solutionLabel}</h2>
           <p>{project.solution[locale]}</p>
         </article>
 
-        <article class="case-block p3-panel">
+        <article class="case-block">
           <h2 class="display-title case-block__title">{t.projects.roleLabel}</h2>
           <p>{project.role[locale]}</p>
         </article>
 
         {project.architecture && (
-          <article class="case-block p3-panel">
+          <article class="case-block">
             <h2 class="display-title case-block__title">{t.projects.architectureLabel}</h2>
             <ul class="case-list">
               {project.architecture[locale].map((item) => (
@@ -87,7 +88,7 @@ const statusLabel = t.projects.statusLabels[project.status];
         )}
 
         {project.challenges && (
-          <article class="case-block p3-panel">
+          <article class="case-block">
             <h2 class="display-title case-block__title">
               {locale === 'pt-br' ? 'Desafios de Engenharia' : 'Engineering Challenges'}
             </h2>
@@ -100,17 +101,13 @@ const statusLabel = t.projects.statusLabels[project.status];
         )}
       </div>
 
-      <aside class="case-aside">
-        <div class="case-block p3-panel">
+      <aside class="case-aside surface-block">
+        <div class="case-aside__section">
           <h2 class="display-title case-block__title">{t.projects.stackLabel}</h2>
-          <ul class="case-stack">
-            {project.stack.map((tech) => (
-              <li class="p3-tag">{tech}</li>
-            ))}
-          </ul>
+          <p class="case-stack-text">{project.stack.join(' · ')}</p>
         </div>
 
-        <div class="case-block p3-panel">
+        <div class="case-aside__section">
           <h2 class="display-title case-block__title">{t.projects.featuresLabel}</h2>
           <ul class="case-list">
             {project.features[locale].map((feat) => (
@@ -126,7 +123,7 @@ const statusLabel = t.projects.statusLabels[project.status];
         <h2 class="display-title section-title">{t.projects.screenshotsLabel}</h2>
         <div class="case-gallery__grid">
           {project.screenshots.map((shot) => (
-            <figure class="case-shot p3-panel">
+            <figure class="case-shot surface-block">
               <img src={shot.src} alt={shot.alt[locale]} loading="lazy" width="960" height="540" />
               <figcaption>{shot.caption[locale]}</figcaption>
             </figure>
@@ -139,41 +136,38 @@ const statusLabel = t.projects.statusLabels[project.status];
 
 <style>
   .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-cyan);
     margin-bottom: var(--space-4);
-  }
-
-  .back-link:hover {
-    text-decoration: underline;
   }
 
   .case-header {
     padding: var(--space-6);
-    margin-bottom: var(--space-5);
-    border-color: var(--border-strong);
+    margin-bottom: var(--space-6);
+    border-left: 4px solid var(--color-electric-blue);
   }
 
   .case-header__badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1.25rem;
     margin-bottom: var(--space-3);
   }
 
   .case-header__title {
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
   }
 
   .case-header__tagline {
-    margin: 0.6rem 0 var(--space-4);
-    font-size: 1.1rem;
+    margin: 0.6rem 0 0.4rem;
+    font-size: 1.08rem;
     color: var(--text-secondary);
     max-width: 68ch;
+  }
+
+  .case-header__timeline {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-cyan);
   }
 
   .case-header__actions {
@@ -192,21 +186,18 @@ const statusLabel = t.projects.statusLabels[project.status];
   .case-metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-4);
-    margin-bottom: var(--space-5);
-  }
-
-  .case-metric {
-    padding: var(--space-4);
-    border-left: 3px solid var(--color-cyan);
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
+    padding-block: var(--space-4);
+    border-top: 1px solid rgba(232, 242, 255, 0.09);
+    border-bottom: 1px solid rgba(232, 242, 255, 0.09);
   }
 
   .case-metric__value {
     display: block;
     font-family: var(--font-display);
-    font-size: 2rem;
-    font-style: italic;
-    color: var(--color-ice-white);
+    font-size: 1.85rem;
+    color: var(--color-cyan);
   }
 
   .case-metric__label {
@@ -217,22 +208,22 @@ const statusLabel = t.projects.statusLabels[project.status];
   .case-grid {
     display: grid;
     grid-template-columns: 1.35fr 0.85fr;
-    gap: var(--space-5);
+    gap: var(--space-6);
     align-items: start;
   }
 
-  .case-main,
-  .case-aside {
+  .case-main {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 
   .case-block {
-    padding: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
   }
 
   .case-block__title {
-    font-size: 1.55rem;
+    font-size: 1.35rem;
     color: var(--color-cyan);
     margin-bottom: var(--space-3);
   }
@@ -242,13 +233,18 @@ const statusLabel = t.projects.statusLabels[project.status];
     color: var(--text-secondary);
   }
 
-  .case-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    list-style: none;
+  .case-aside {
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .case-stack-text {
     margin: 0;
-    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
   }
 
   .case-list {
@@ -278,7 +274,6 @@ const statusLabel = t.projects.statusLabels[project.status];
   .case-shot img {
     width: 100%;
     height: auto;
-    border: 1px solid var(--border-subtle);
   }
 
   .case-shot figcaption {
@@ -301,6 +296,10 @@ const statusLabel = t.projects.statusLabels[project.status];
   @media (max-width: 640px) {
     .case-metrics {
       grid-template-columns: 1fr;
+    }
+
+    .case-header {
+      padding: var(--space-4);
     }
   }
 </style>

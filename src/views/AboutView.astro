@@ -1,5 +1,5 @@
 ---
-import { PROFILE } from '../data/profile';
+import { COURSES, EDUCATION, LANGUAGES } from '../data/portfolio';
 import { localizePath, type Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 
@@ -15,81 +15,142 @@ const t = UI[locale];
   <div class="container">
     <div class="section-header">
       <div>
-        <span class="display-kicker">06 // {t.nav[5].label}</span>
+        <span class="display-kicker">05 // {t.nav[4].label}</span>
         <h1 class="display-title section-title">{t.about.pageTitle}</h1>
         <p class="section-subtitle">{t.about.pageSubtitle}</p>
       </div>
     </div>
 
-    <div class="about-grid">
-      <article class="about-card p3-panel p3-panel--chamfer">
-        <h2 class="display-title about-card__title">{t.about.educationTitle}</h2>
-        <p><strong>{PROFILE.education[locale]}</strong></p>
-        <p>
-          {locale === 'pt-br'
-            ? 'Formação voltada à engenharia de software, estruturas de dados, bancos relacionais e construção de sistemas web e backend.'
-            : 'Academic background focused on software engineering, data structures, relational databases, and backend/web systems.'}
-        </p>
-      </article>
+    <div class="about-layout">
+      <div class="about-essay">
+        <h2 class="display-title about-heading">{t.about.bioTitle}</h2>
+        <p class="about-lead">{t.about.bioText}</p>
 
-      <article class="about-card p3-panel p3-panel--chamfer">
-        <h2 class="display-title about-card__title">{t.about.focusTitle}</h2>
-        <p>
-          {locale === 'pt-br'
-            ? 'Desenvolvimento backend com Java (Spring Boot) e Python (FastAPI), integrações entre APIs e ERPs, automações via WhatsApp (Take Blip e Digisac), segurança (JWT, OAuth2, MFA/TOTP) e aplicações React + TypeScript.'
-            : 'Backend engineering with Java (Spring Boot) and Python (FastAPI), API/ERP integrations, WhatsApp automation (Take Blip and Digisac), security (JWT, OAuth2, MFA/TOTP), and React + TypeScript web apps.'}
-        </p>
-      </article>
-
-      <article class="about-card p3-panel p3-panel--chamfer">
-        <h2 class="display-title about-card__title">{t.about.approachTitle}</h2>
-        <p>
-          {locale === 'pt-br'
-            ? 'Priorizo código limpo, arquitetura modular (como Ports & Adapters), observabilidade real e entregas que resolvem gargalos operacionais concretos.'
-            : 'I prioritize clean code, modular architecture (such as Ports & Adapters), practical observability, and software that solves concrete operational bottlenecks.'}
-        </p>
-        <div class="about-card__cta">
-          <a href={localizePath(locale, 'projects')} class="p3-btn p3-btn--primary">
-            {t.home.primaryCta}
-          </a>
+        <h2 class="display-title about-heading">{t.about.educationTitle}</h2>
+        <div class="about-list">
+          {EDUCATION.map((edu) => (
+            <div class="about-row">
+              <span class="about-row__meta">{edu.period[locale]}</span>
+              <div>
+                <strong>{edu.degree[locale]}</strong>
+                <span class="about-row__sub">{edu.institution[locale]}</span>
+              </div>
+            </div>
+          ))}
         </div>
-      </article>
+      </div>
+
+      <aside class="about-aside surface-block">
+        <div>
+          <h2 class="display-title about-aside__title">{t.about.coursesTitle}</h2>
+          <ul class="about-courses">
+            {COURSES.map((course) => (
+              <li>
+                <strong>{course.name[locale]}</strong>
+                <span>{course.provider}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="display-title about-aside__title">{t.about.languagesTitle}</h2>
+          <ul class="about-langs">
+            {LANGUAGES.map((lang) => (
+              <li>
+                <strong>{lang.name[locale]}:</strong> {lang.level[locale]}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <a href={localizePath(locale, 'projects')} class="p3-btn p3-btn--primary">
+          {t.home.allProjectsCta}
+        </a>
+      </aside>
     </div>
   </div>
 </section>
 
 <style>
-  .about-grid {
+  .about-layout {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-5);
+    grid-template-columns: 1.3fr 0.85fr;
+    gap: var(--space-6);
+    align-items: start;
   }
 
-  .about-card {
-    padding: var(--space-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .about-card__title {
+  .about-heading {
     font-size: 1.55rem;
+    color: var(--color-cyan);
+    margin: 0 0 var(--space-3);
+  }
+
+  .about-lead {
+    margin: 0 0 var(--space-6);
+    color: var(--text-secondary);
+    font-size: 1.04rem;
+  }
+
+  .about-list {
+    border-top: 1px solid rgba(232, 242, 255, 0.09);
+  }
+
+  .about-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
+  }
+
+  .about-row__meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     color: var(--color-cyan);
   }
 
-  .about-card p {
+  .about-row__sub {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  .about-aside {
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-5);
+    border-left: 3px solid var(--color-electric-blue);
+  }
+
+  .about-aside__title {
+    font-size: 1.25rem;
+    color: var(--color-cyan);
+    margin-bottom: var(--space-3);
+  }
+
+  .about-courses,
+  .about-langs {
     margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.65rem;
     color: var(--text-secondary);
+    font-size: 0.92rem;
   }
 
-  .about-card__cta {
-    margin-top: auto;
-    padding-top: var(--space-3);
+  .about-courses span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-muted);
   }
 
-  @media (max-width: 900px) {
-    .about-grid {
+  @media (max-width: 860px) {
+    .about-layout,
+    .about-row {
       grid-template-columns: 1fr;
+      gap: var(--space-3);
     }
   }
 </style>

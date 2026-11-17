@@ -14,6 +14,7 @@ const EXPECTED_FILES = [
   'sitemap-index.xml',
   'resume/victor-gabriel-cv-pt-br.pdf',
   'resume/victor-gabriel-resume-en.pdf',
+  'images/projects/portal-clinico/cartao-profissional-alisson.png',
   'pt-br/index.html',
   'en/index.html',
   'pt-br/projects/index.html',
@@ -62,23 +63,29 @@ test('bilingual pages contain consistent canonical, hreflang, and Open Graph met
     assert.match(html, /<link rel="alternate" hreflang="en"/);
     assert.match(html, /<meta property="og:title"/);
     assert.match(html, /<meta property="og:description"/);
-    assert.match(html, /<meta property="og:image" content="https:\/\/victorghss-portfolio\.ctrls\.dev\.br\/og-image\.png"/);
+    assert.match(
+      html,
+      /<meta property="og:image" content="https:\/\/victorghss-portfolio\.ctrls\.dev\.br\/og-image\.png"/
+    );
   }
 });
 
-test('audio controls are removed and project case studies remain neutral', () => {
+test('audio controls are removed and CTRLS ITSM is clearly concluded/deactivated', () => {
   const neutralProjectPages = [
     'pt-br/projects/index.html',
     'en/projects/index.html',
     'pt-br/projects/ctrls-itsm/index.html',
     'en/projects/ctrls-itsm/index.html',
-    'pt-br/projects/digital-professional-profiles/index.html',
-    'en/projects/digital-professional-profiles/index.html',
   ];
+
+  for (const rel of ['pt-br/projects/ctrls-itsm/index.html', 'en/projects/ctrls-itsm/index.html']) {
+    const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
+    assert.ok(!/inovare/i.test(html), `Organization name found in ${rel}`);
+  }
 
   for (const rel of neutralProjectPages) {
     const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
-    assert.ok(!/inovare/i.test(html), `Prohibited organization name found in ${rel}`);
+    assert.ok(!/ciclo encerrado \/ em uso/i.test(html), `Contradictory active badge in ${rel}`);
   }
 
   for (const rel of ['pt-br/index.html', 'en/index.html', ...neutralProjectPages]) {
@@ -87,13 +94,22 @@ test('audio controls are removed and project case studies remain neutral', () =>
   }
 });
 
-test('career timeline attributes promotion to Inovare (Oct 2025) and never to Chesiquimica', () => {
-  for (const rel of ['pt-br/index.html', 'en/index.html', 'pt-br/experience/index.html', 'en/experience/index.html']) {
-    const html = fs.readFileSync(path.join(DIST, rel), 'utf8');
-    assert.ok(!/8 meses|oito meses|eight months/i.test(html), `Outdated 8-month promotion claim found in ${rel}`);
-  }
+test('career timeline, MCT Cursos education, collaboration credit, and Portal Clinico link are accurate', () => {
   const ptExp = fs.readFileSync(path.join(DIST, 'pt-br/experience/index.html'), 'utf8');
   const enExp = fs.readFileSync(path.join(DIST, 'en/experience/index.html'), 'utf8');
-  assert.match(ptExp, /Outubro de 2025/i);
-  assert.match(enExp, /October 2025/i);
+  const ptAbout = fs.readFileSync(path.join(DIST, 'pt-br/about/index.html'), 'utf8');
+  const ptChes = fs.readFileSync(path.join(DIST, 'pt-br/projects/chamados-chesiquimica/index.html'), 'utf8');
+  const ptPortal = fs.readFileSync(path.join(DIST, 'pt-br/projects/digital-professional-profiles/index.html'), 'utf8');
+
+  assert.match(ptExp, /Outubro de 2026/);
+  assert.match(enExp, /October 2026/);
+  assert.ok(!/Janeiro de 2025\s*[—–-]\s*Presente/i.test(ptExp));
+  assert.ok(!/January 2025\s*[—–-]\s*Present/i.test(enExp));
+  assert.ok(!/8 meses|oito meses|eight months/i.test(ptExp));
+
+  assert.match(ptAbout, /MCT Cursos/);
+  assert.match(ptAbout, /2021/);
+  assert.match(ptChes, /João Gabriel Anjos/);
+  assert.match(ptPortal, /https:\/\/inovare\.doctors\.ctrls\.dev\.br\/m\/alisson-fucio/);
+  assert.match(ptPortal, /cartao-profissional-alisson\.png/);
 });

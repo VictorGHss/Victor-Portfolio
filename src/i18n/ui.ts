@@ -49,9 +49,10 @@ export interface UiDictionary {
     pageTitle: string;
     pageSubtitle: string;
     statusLabels: {
-      'used-in-production': string;
+      'concluded-operation': string;
+      'collaborative-in-use': string;
+      'authorial-completed': string;
       'in-development': string;
-      completed: string;
     };
     flagshipBadge: string;
     secondaryBadge: string;
@@ -181,9 +182,10 @@ export const UI: Record<Locale, UiDictionary> = {
       pageSubtitle:
         'Plataformas colocadas em operação real, aplicações corporativas e produtos autorais em desenvolvimento.',
       statusLabels: {
-        'used-in-production': 'Operação real (ciclo encerrado / em uso)',
-        'in-development': 'Em desenvolvimento',
-        completed: 'Concluído',
+        'concluded-operation': 'Ciclo encerrado (~3 meses em operação real)',
+        'collaborative-in-use': 'Projeto colaborativo · Em uso',
+        'authorial-completed': 'Projeto autoral · Concluído',
+        'in-development': 'Projeto autoral · Em desenvolvimento',
       },
       flagshipBadge: 'Estudo de Caso Principal',
       secondaryBadge: 'Projeto Secundário',
@@ -320,9 +322,10 @@ export const UI: Record<Locale, UiDictionary> = {
       pageSubtitle:
         'Platforms deployed in real operations, business web apps, and personal products under active development.',
       statusLabels: {
-        'used-in-production': 'Real operations (concluded / active)',
-        'in-development': 'In development',
-        completed: 'Completed',
+        'concluded-operation': 'Cycle concluded (~3 months in real operations)',
+        'collaborative-in-use': 'Collaborative project · In use',
+        'authorial-completed': 'Authorial project · Completed',
+        'in-development': 'Authorial project · In development',
       },
       flagshipBadge: 'Flagship Case Study',
       secondaryBadge: 'Secondary Project',

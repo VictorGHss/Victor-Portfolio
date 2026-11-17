@@ -19,7 +19,7 @@ const detailHref = localizePath(locale, `projects/${project.slug}`);
 
   <div class="proj-row__body">
     <div class="proj-row__meta">
-      <span class={`status-label ${project.status === 'used-in-production' ? 'status-label--cyan' : ''}`}>
+      <span class={`status-label ${project.status === 'concluded-operation' || project.status === 'collaborative-in-use' ? 'status-label--cyan' : ''}`}>
         {statusLabel}
       </span>
       {project.priority === 1 && (
@@ -43,6 +43,11 @@ const detailHref = localizePath(locale, `projects/${project.slug}`);
     <a href={detailHref} class="p3-btn p3-btn--primary">
       {t.home.viewCaseStudy}
     </a>
+    {project.liveUrl && (
+      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
+        {project.liveLabel ? project.liveLabel[locale] : 'Live ↗'}
+      </a>
+    )}
     {project.repoUrl && (
       <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
         GitHub ↗

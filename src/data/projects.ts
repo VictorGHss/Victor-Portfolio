@@ -1,6 +1,10 @@
 import type { Locale } from '../i18n/config';
 
-export type ProjectStatus = 'used-in-production' | 'in-development' | 'completed';
+export type ProjectStatus =
+  | 'concluded-operation'
+  | 'collaborative-in-use'
+  | 'authorial-completed'
+  | 'in-development';
 
 export interface LocalizedText {
   'pt-br': string;
@@ -21,6 +25,7 @@ export interface ProjectScreenshot {
   src: string;
   alt: LocalizedText;
   caption: LocalizedText;
+  compact?: boolean;
 }
 
 export interface Project {
@@ -34,6 +39,8 @@ export interface Project {
   secondary?: boolean;
   isPrivateCore?: boolean;
   repoUrl?: string;
+  liveUrl?: string;
+  liveLabel?: LocalizedText;
   stack: string[];
   problem: LocalizedText;
   solution: LocalizedText;
@@ -54,13 +61,13 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Plataforma integrada de operações, automações de atendimento via WhatsApp, controle de acesso físico e gestão ITSM.',
-      en: 'Integrated operations platform for WhatsApp automation, physical access control, financial sync, and ITSM governance.',
+        'Projeto autoral de operações integradas, automações via WhatsApp, controle de acesso físico e gestão ITSM.',
+      en: 'Authorial platform for integrated operations, WhatsApp automation, physical access control, financial sync, and ITSM governance.',
     },
-    status: 'used-in-production',
+    status: 'concluded-operation',
     timelineContext: {
-      'pt-br': 'Desenvolvimento iniciado durante o período de estágio em TI (2024) • Ciclo operacional encerrado',
-      en: 'Development started during the 2024 IT internship period • Operational cycle concluded',
+      'pt-br': 'Projeto autoral • Utilizado em ambiente operacional real por aproximadamente 3 meses • Ciclo encerrado',
+      en: 'Authorial project • Used in real operations for ~3 months • Cycle concluded',
     },
     priority: 1,
     featured: true,
@@ -90,13 +97,13 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       'pt-br':
-        'Desenvolvido do zero com backend em Java 21 / Spring Boot 3 e Arquitetura Hexagonal, conectando ERP de agenda, mensageria assíncrona no WhatsApp, controle de acesso físico por QR Code, conciliação financeira com MFA/TOTP e gestão ITSM/CMDB/estoque FIFO. O sistema teve ciclo de uso em ambiente real já encerrado, com remoção dos dados e do ambiente operacional após o encerramento.',
-      en: 'Engineered from scratch with a Java 21 / Spring Boot 3 backend using Hexagonal Architecture, connecting scheduling ERP APIs, asynchronous WhatsApp messaging, QR Code turnstile access, MFA-protected financial reconciliation, and ITSM/CMDB/FIFO inventory modules. Its real-world operational cycle has concluded, with data and environment subsequently decommissioned.',
+        'Iniciativa própria concebida e desenvolvida pelo autor a partir do período de estágio em TI (2024), com backend em Java 21 / Spring Boot 3 e Arquitetura Hexagonal. Durante a passagem pela operação, o sistema foi utilizado em ambiente real por aproximadamente três meses. Atualmente não está em uso nem em produção: foi desativado pelo autor, com encerramento do ciclo operacional e remoção completa do ambiente e dos dados.',
+      en: 'Authorial initiative conceived and built by the author starting during the 2024 IT internship period, using Java 21 / Spring Boot 3 and Hexagonal Architecture. It was used in real operations for approximately three months; it is no longer active or in production, having been deactivated by the author with its environment and operational data removed.',
     },
     role: {
       'pt-br':
-        'Autor e desenvolvedor principal: concepção da arquitetura em Java 21 / Spring Boot 3, integrações REST e webhooks assíncronos (Feegow, Blip, Conta Azul V2, gerAcesso e Discord), controle de taxa com Redis, segurança (JWT, MFA/TOTP, auditoria) e painéis em React.',
-      en: 'Author and lead developer: backend architecture in Java 21 / Spring Boot 3, REST and asynchronous webhook integrations (Feegow, Blip, Conta Azul V2, gerAcesso, Discord), Redis rate limiting, security (JWT, MFA/TOTP, audit trail), and React operational dashboards.',
+        'Autor e desenvolvedor principal por iniciativa própria: arquitetura em Java 21 / Spring Boot 3, integrações REST e webhooks assíncronos (Feegow, Blip, Conta Azul V2, gerAcesso e Discord), controle de taxa com Redis, segurança (JWT, MFA/TOTP, auditoria) e painéis em React.',
+      en: 'Author and lead developer by own initiative: backend architecture in Java 21 / Spring Boot 3, REST and asynchronous webhook integrations (Feegow, Blip, Conta Azul V2, gerAcesso, Discord), Redis rate limiting, security (JWT, MFA/TOTP, audit trail), and React dashboards.',
     },
     features: {
       'pt-br': [
@@ -144,14 +151,14 @@ export const PROJECTS: Project[] = [
       {
         value: '10.000+',
         label: {
-          'pt-br': 'Mensagens automatizadas processadas via WhatsApp',
+          'pt-br': 'Mensagens automatizadas processadas no período',
           en: 'Automated WhatsApp messages processed',
         },
       },
       {
         value: '1.700+',
         label: {
-          'pt-br': 'QR Codes temporários gerados para acesso em portaria',
+          'pt-br': 'QR Codes temporários gerados para portaria',
           en: 'Temporary QR Codes generated for reception access',
         },
       },
@@ -178,8 +185,8 @@ export const PROJECTS: Project[] = [
           en: 'CTRLS ITSM ticket dashboard showing 244 total tickets and 235 resolved',
         },
         caption: {
-          'pt-br': 'Painel executivo de chamados ITSM e indicadores operacionais.',
-          en: 'Executive ITSM ticketing dashboard and operational metrics.',
+          'pt-br': 'Painel executivo de chamados ITSM (ciclo operacional encerrado).',
+          en: 'Executive ITSM ticketing dashboard (operational cycle concluded).',
         },
       },
       {
@@ -225,13 +232,13 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Aplicação full stack multi-tenant de formulários clínicos estruturados e anamnese digital com geração de PDF.',
-      en: 'Multi-tenant full-stack application for structured clinical forms and digital intake with automated PDF reporting.',
+        'Projeto autoral full stack multi-tenant de formulários clínicos estruturados e anamnese digital com geração de PDF.',
+      en: 'Authorial multi-tenant full-stack application for structured clinical forms and digital intake with PDF reporting.',
     },
-    status: 'completed',
+    status: 'authorial-completed',
     timelineContext: {
-      'pt-br': 'Desenvolvimento iniciado durante o período de estágio em TI (2024)',
-      en: 'Development started during the 2024 IT internship period',
+      'pt-br': 'Projeto autoral • Desenvolvido por iniciativa própria a partir do estágio em TI (2024)',
+      en: 'Authorial project • Developed by own initiative starting during the 2024 IT internship',
     },
     priority: 2,
     featured: true,
@@ -244,13 +251,13 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       'pt-br':
-        'Plataforma full stack com backend em Spring Boot 3, PostgreSQL versionado via Flyway, autenticação JWT com controle de acesso RBAC, construtor dinâmico baseado em JSON Schema e geração automática de relatórios em PDF.',
-      en: 'Full-stack platform with Spring Boot 3, Flyway-versioned PostgreSQL, JWT authentication with RBAC access control, dynamic JSON Schema form builder, and automated PDF report generation.',
+        'Iniciativa própria concebida e desenvolvida com backend em Spring Boot 3, PostgreSQL versionado via Flyway, autenticação JWT com controle de acesso RBAC, construtor dinâmico baseado em JSON Schema e geração automática de relatórios em PDF.',
+      en: 'Authorial initiative built with Spring Boot 3, Flyway-versioned PostgreSQL, JWT authentication with RBAC access control, dynamic JSON Schema form builder, and automated PDF report generation.',
     },
     role: {
       'pt-br':
-        'Desenvolvimento da API REST multi-tenant, modelagem de banco com Flyway, regras de renderização dinâmica e integração com frontend React/TypeScript.',
-      en: 'Multi-tenant REST API development, Flyway schema versioning, dynamic form rendering rules, and React/TypeScript frontend integration.',
+        'Concepção e desenvolvimento da API REST multi-tenant, modelagem de banco com Flyway, regras de renderização dinâmica e integração com frontend React/TypeScript.',
+      en: 'Design and development of the multi-tenant REST API, Flyway schema versioning, dynamic form rendering rules, and React/TypeScript frontend integration.',
     },
     features: {
       'pt-br': [
@@ -275,45 +282,64 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Aplicação web de vitrine profissional e páginas individuais com QR Codes automáticos e avaliações integradas.',
-      en: 'Web portal and individual professional profile pages with automated QR Codes and live review integration.',
+        'Projeto autoral para vitrine de especialistas e cartões profissionais com QR Code e páginas individuais.',
+      en: 'Authorial web portal for specialist showcases and QR Code professional cards with individual profile pages.',
     },
-    status: 'completed',
+    status: 'authorial-completed',
     timelineContext: {
-      'pt-br': 'Apresentação neutra sem identidade comercial da organização',
-      en: 'Neutral presentation without organization branding',
+      'pt-br': 'Projeto autoral • Páginas individuais e cartões profissionais com QR Code',
+      en: 'Authorial project • Individual specialist pages and QR Code cards',
     },
     priority: 3,
     featured: false,
     secondary: true,
+    liveUrl: 'https://inovare.doctors.ctrls.dev.br/m/alisson-fucio',
+    liveLabel: {
+      'pt-br': 'Abrir Página de Exemplo (Dr. Alisson Fucio)',
+      en: 'Open Live Specialist Page (Dr. Alisson Fucio)',
+    },
     stack: ['Next.js (App Router)', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages', 'Google API'],
     problem: {
       'pt-br':
-        'Centralizar a apresentação de especialistas, especialidades, contatos e avaliações públicas em páginas rápidas e acessíveis via dispositivos móveis.',
-      en: 'Centralize specialist bios, specialties, contact links, and public reviews in fast, mobile-first pages.',
+        'Centralizar a apresentação de especialistas, especialidades, contatos e avaliações públicas em páginas rápidas e acessíveis por QR Code em cartões físicos.',
+      en: 'Centralize specialist bios, specialties, contact links, and public reviews in fast mobile-first pages linked from physical QR Code cards.',
     },
     solution: {
       'pt-br':
-        'Aplicação web desenvolvida com Next.js (App Router), TypeScript e Tailwind CSS, hospedada na Cloudflare Pages em arquitetura Edge, com geração automática de QR Codes e exibição de avaliações via Google API.',
-      en: 'Web application built with Next.js (App Router), TypeScript, and Tailwind CSS, deployed on Cloudflare Pages Edge with automated QR Code generation and Google API review integration.',
+        'Iniciativa própria desenvolvida com Next.js (App Router), TypeScript e Tailwind CSS, hospedada na Cloudflare Pages em arquitetura Edge, com geração automática de QR Codes para cartões profissionais e consumo da Google API para exibição de avaliações.',
+      en: 'Authorial initiative built with Next.js (App Router), TypeScript, and Tailwind CSS, deployed on Cloudflare Pages Edge with automated QR Code generation for professional cards and Google API review integration.',
     },
     role: {
       'pt-br':
-        'Desenvolvimento front-end responsivo, integração com API de avaliações e publicação na Cloudflare Pages.',
-      en: 'Responsive front-end development, review API integration, and Cloudflare Pages deployment.',
+        'Desenvolvimento completo da aplicação, geração de QR Codes, layout dos cartões de referência e publicação na Cloudflare Pages.',
+      en: 'Full application development, QR Code generation, card layout integration, and Cloudflare Pages deployment.',
     },
     features: {
       'pt-br': [
         'Páginas individuais responsivas para apresentação profissional e especialidades',
-        'Geração automática de QR Codes para acesso rápido em ambiente presencial',
+        'Geração automática de QR Codes ligando o cartão impresso ao perfil digital',
         'Consumo da API do Google para exibição de avaliações',
       ],
       en: [
         'Responsive individual pages for professional bios and specialties',
-        'Automated QR Code generation for quick on-site mobile access',
+        'Automated QR Code generation connecting printed cards to digital profiles',
         'Google API integration for displaying public reviews',
       ],
     },
+    screenshots: [
+      {
+        src: '/images/projects/portal-clinico/cartao-profissional-alisson.png',
+        alt: {
+          'pt-br': 'Cartão profissional do Dr. Alisson Fucio com CRM, RQE, descrição e QR Code',
+          en: 'Dr. Alisson Fucio professional card with CRM, RQE, bio, and QR Code',
+        },
+        caption: {
+          'pt-br': 'Exemplo de cartão profissional com QR Code para acesso ao perfil do especialista.',
+          en: 'Sample professional card with QR Code linking to the specialist’s profile.',
+        },
+        compact: true,
+      },
+    ],
   },
   {
     slug: 'chamados-chesiquimica',
@@ -323,13 +349,13 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Primeira solução real de abertura de chamados internos desenvolvida durante o estágio em TI.',
-      en: 'First real internal ticketing solution built during my IT internship.',
+        'Iniciativa desenvolvida em colaboração com João Gabriel Anjos, supervisor durante o estágio na Chesiquimica.',
+      en: 'Initiative developed in collaboration with João Gabriel Anjos, supervisor during the internship at Chesiquímica.',
     },
-    status: 'used-in-production',
+    status: 'collaborative-in-use',
     timelineContext: {
-      'pt-br': 'Desenvolvido durante o estágio em TI na Chesiquímica',
-      en: 'Built during the IT internship at Chesiquímica',
+      'pt-br': 'Iniciativa desenvolvida em colaboração com João Gabriel Anjos, supervisor durante o estágio na Chesiquimica.',
+      en: 'Initiative developed in collaboration with João Gabriel Anjos, supervisor during the internship at Chesiquímica.',
     },
     priority: 4,
     featured: true,
@@ -342,13 +368,13 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       'pt-br':
-        'Formulário web direto ao ponto hospedado no GitHub Pages, integrado ao Google Sheets via SheetMonkey para registro automático de solicitações.',
-      en: 'Focused web request form hosted on GitHub Pages and connected to Google Sheets via SheetMonkey for automatic ticket logging.',
+        'Formulário web objetivo hospedado no GitHub Pages e integrado ao Google Sheets via SheetMonkey para registro automático de solicitações, construído em colaboração com o supervisor João Gabriel Anjos.',
+      en: 'Focused web request form hosted on GitHub Pages and connected to Google Sheets via SheetMonkey for automatic ticket logging, built in collaboration with supervisor João Gabriel Anjos.',
     },
     role: {
       'pt-br':
-        'Desenvolvimento completo durante o estágio de suporte de TI e implantação para uso dos colaboradores.',
-      en: 'End-to-end development during the IT support internship and rollout for internal staff.',
+        'Desenvolvimento colaborativo durante o estágio de TI na Chesiquímica em conjunto com o supervisor João Gabriel Anjos.',
+      en: 'Collaborative development during the IT internship at Chesiquímica alongside supervisor João Gabriel Anjos.',
     },
     features: {
       'pt-br': [
@@ -371,13 +397,13 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Rede social geográfica de avaliações com check-in físico verificado, scanners inteligentes e feeds contextuais.',
-      en: 'Geo-social review network with verified physical check-ins, barcode/QR scanners, and contextual feeds.',
+        'Projeto autoral em desenvolvimento: rede social geográfica de avaliações com check-in físico verificado e feeds contextuais.',
+      en: 'Authorial project in development: geo-social review network with verified physical check-ins and contextual feeds.',
     },
     status: 'in-development',
     timelineContext: {
-      'pt-br': 'Projeto autoral em desenvolvimento ativo',
-      en: 'Personal product under active development',
+      'pt-br': 'Projeto autoral • Em desenvolvimento ativo',
+      en: 'Authorial project • Under active development',
     },
     priority: 5,
     featured: true,
@@ -401,8 +427,8 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       'pt-br':
-        'Produto em construção com backend geoespacial (Spring Boot + PostGIS), cache em Redis, armazenamento de mídia em SeaweedFS, app mobile em Flutter e painel administrativo em React/TypeScript.',
-      en: 'In-development product combining a geospatial backend (Spring Boot + PostGIS), Redis caching, SeaweedFS object storage, a Flutter mobile client, and a React/TypeScript admin panel.',
+        'Produto autoral em construção com backend geoespacial (Spring Boot + PostGIS), cache em Redis, armazenamento de mídia em SeaweedFS, app mobile em Flutter e painel administrativo em React/TypeScript.',
+      en: 'In-development authorial product combining a geospatial backend (Spring Boot + PostGIS), Redis caching, SeaweedFS object storage, a Flutter mobile client, and a React/TypeScript admin panel.',
     },
     role: {
       'pt-br':
@@ -430,13 +456,13 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Plataforma de descoberta, análise de compatibilidade e preparação supervisionada de candidaturas.',
-      en: 'Platform for job discovery, compatibility analysis, and human-supervised application preparation.',
+        'Projeto autoral em desenvolvimento: plataforma de descoberta, análise de compatibilidade e gestão de candidaturas.',
+      en: 'Authorial project in development: job discovery, compatibility analysis, and supervised application pipeline.',
     },
     status: 'in-development',
     timelineContext: {
-      'pt-br': 'Projeto autoral em desenvolvimento ativo',
-      en: 'Personal product under active development',
+      'pt-br': 'Projeto autoral • Em desenvolvimento ativo',
+      en: 'Authorial project • Under active development',
     },
     priority: 6,
     featured: true,

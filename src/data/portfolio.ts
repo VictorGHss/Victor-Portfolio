@@ -41,8 +41,8 @@ export interface ServiceItem {
 export const EXPERIENCE: ExperienceItem[] = [
   {
     period: {
-      'pt-br': 'Janeiro de 2025 — Presente',
-      en: 'January 2025 — Present',
+      'pt-br': 'Janeiro de 2025 — Outubro de 2026',
+      en: 'January 2025 — October 2026',
     },
     role: {
       'pt-br': 'Estagiário de TI → Técnico de TI',
@@ -54,28 +54,28 @@ export const EXPERIENCE: ExperienceItem[] = [
     },
     progressionNote: {
       'pt-br':
-        'Estagiário de TI (Janeiro de 2025 – Setembro de 2025) • Efetivado como Técnico de TI em Outubro de 2025, permanecendo até o presente.',
-      en: 'IT Intern (January 2025 – September 2025) • Promoted to full-time IT Technician in October 2025, remaining through the present.',
+        'Estagiário de TI (Janeiro de 2025 – Setembro de 2025) • Efetivado como Técnico de TI em Outubro de 2025, permanecendo até Outubro de 2026.',
+      en: 'IT Intern (January 2025 – September 2025) • Transitioned from IT Intern to IT Technician in October 2025, remaining until October 2026.',
     },
     summary: {
       'pt-br':
-        'Sustentação de infraestrutura N1/N2 e implantação do sistema CTRLS-ITSM em período anterior (ciclo operacional já encerrado, com remoção posterior do ambiente e dos dados).',
-      en: 'N1/N2 infrastructure support and deployment of CTRLS-ITSM during a previous operational period (operational cycle concluded, with environment and data subsequently removed).',
+        'Sustentação de infraestrutura N1/N2, suporte aos colaboradores e utilização em ambiente real por aproximadamente três meses do projeto autoral CTRLS-ITSM (posteriormente desativado pelo autor, com remoção do ambiente e dos dados).',
+      en: 'N1/N2 infrastructure support, staff assistance, and ~3 months of real-world operational use of the authorial CTRLS-ITSM project (subsequently deactivated by the author, with environment and data removed).',
     },
     highlights: {
       'pt-br': [
-        'Implantação e operação do CTRLS-ITSM em ciclo anterior, conectando o ERP médico Feegow ao Take Blip via APIs REST e webhooks assíncronos',
-        'Automação de confirmações e lembretes via WhatsApp (+10.000 mensagens processadas)',
-        'Fluxo de autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários (+1.700 acessos)',
+        'Utilização real por cerca de 3 meses do projeto autoral CTRLS-ITSM (integração Feegow + Take Blip via APIs REST e webhooks assíncronos)',
+        'Automação de confirmações e lembretes via WhatsApp (+10.000 mensagens processadas no período)',
+        'Fluxo de autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários (+1.700 visitantes)',
         'Rotina automática de captação de avaliações pós-consulta (evolução pública de 3.3 para 3.8 estrelas em 30 dias)',
         'Gestão interna de TI com inventário de equipamentos, consumíveis e triagem de chamados integrada ao Discord',
         'Suporte técnico N1/N2, diagnóstico de redes locais, manutenção de hardware e configuração de estações Windows',
       ],
       en: [
-        'Deployed and operated CTRLS-ITSM during a previous cycle, connecting Feegow medical ERP to Take Blip via REST APIs and asynchronous webhooks',
+        '~3 months of real operational use of the authorial CTRLS-ITSM project (Feegow + Take Blip integration via REST APIs and asynchronous webhooks)',
         'Automated WhatsApp appointment confirmations and reminders (10,000+ messages processed)',
         'Self-service reception check-in integrated with gerAcesso via temporary QR Codes (1,700+ visitors)',
-        'Automated post-visit review collection routine (public rating rose from 3.3 to 3.8 stars in 30 days)',
+        'Automated post-visit review collection workflow (public rating rose from 3.3 to 3.8 stars in 30 days)',
         'Structured internal IT operations with equipment inventory, consumables control, and Discord ticket triage',
         'Delivered N1/N2 technical support, LAN diagnostics, hardware maintenance, and Windows workstation setup',
       ],
@@ -97,8 +97,8 @@ export const EXPERIENCE: ExperienceItem[] = [
     },
     summary: {
       'pt-br':
-        'Estágio em suporte técnico N1/N2 para os setores corporativo e fabril, infraestrutura de rede, recuperação de estações e entrega do primeiro sistema interno de chamados.',
-      en: 'IT internship delivering N1/N2 technical support for corporate and manufacturing teams, network troubleshooting, workstation recovery, and the company’s first internal ticketing form.',
+        'Estágio em suporte técnico N1/N2 para os setores corporativo e fabril, infraestrutura de rede, recuperação de estações e colaboração na criação do sistema interno de chamados.',
+      en: 'IT internship delivering N1/N2 technical support for corporate and manufacturing teams, network troubleshooting, workstation recovery, and collaboration on the internal ticketing form.',
     },
     highlights: {
       'pt-br': [
@@ -106,14 +106,14 @@ export const EXPERIENCE: ExperienceItem[] = [
         'Manutenção preventiva e corretiva de computadores, montagem de bancadas de trabalho e recuperação de máquinas inoperantes',
         'Configuração de periféricos, impressoras compartilhadas em rede e testes de cabeamento estruturado e conectividade TCP/IP',
         'Padronização de máquinas corporativas com formatação, instalação de imagens Windows e homologação de softwares internos',
-        'Desenvolvimento do Sistema de Chamados interno em HTML, CSS, JavaScript, SheetMonkey e Google Sheets',
+        'Desenvolvimento do Sistema de Chamados interno em colaboração com o supervisor João Gabriel Anjos (HTML, CSS, JavaScript, SheetMonkey e Google Sheets)',
       ],
       en: [
         'Handled N1/N2 support tickets across corporate and manufacturing environments',
         'Performed preventive and corrective hardware maintenance, workstation bench assembly, and machine recovery',
         'Configured peripherals, networked printers, and tested structured cabling and TCP/IP connectivity',
         'Standardized corporate workstations via Windows imaging and internal software validation',
-        'Built the internal Ticketing System using HTML, CSS, JavaScript, SheetMonkey, and Google Sheets',
+        'Built the internal Ticketing System in collaboration with supervisor João Gabriel Anjos (HTML, CSS, JavaScript, SheetMonkey, Google Sheets)',
       ],
     },
     tags: ['Suporte N1/N2', 'TCP/IP', 'Windows', 'Hardware', 'HTML/CSS/JS', 'Google Sheets'],
@@ -151,16 +151,16 @@ export const EDUCATION: EducationItem[] = [
   },
   {
     period: {
-      'pt-br': 'Conclusão: 2019',
-      en: 'Completed: 2019',
+      'pt-br': 'Conclusão: 2021',
+      en: 'Completed: 2021',
     },
     degree: {
       'pt-br': 'Técnico em Administração',
       en: 'Technical Degree in Business Administration',
     },
     institution: {
-      'pt-br': 'Colégio Estadual Professor Meneleu de Almeida Torres',
-      en: 'Colégio Estadual Professor Meneleu de Almeida Torres',
+      'pt-br': 'MCT Cursos',
+      en: 'MCT Cursos',
     },
   },
   {

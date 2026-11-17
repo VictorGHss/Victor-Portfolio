@@ -1,20 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 
-type TransitionVariant = 'default' | 'diagonal' | 'stripes' | 'cards';
-
-function pickVariant(pathname: string): TransitionVariant {
-  if (pathname.includes('/projects')) return 'diagonal';
-  if (pathname.includes('/experience') || pathname.includes('/about')) return 'stripes';
-  if (pathname.includes('/skills') || pathname.includes('/services') || pathname.includes('/contact')) {
-    return 'cards';
-  }
-  return 'default';
-}
-
 export default function PageTransitionOverlay() {
   const [active, setActive] = useState(false);
-  const [variant, setVariant] = useState<TransitionVariant>('default');
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -25,33 +13,38 @@ export default function PageTransitionOverlay() {
 
     let timer: ReturnType<typeof setTimeout> | undefined;
 
-    const handleBeforePrep = (ev: Event) => {
+    const handleBeforePrep = () => {
       if (mq.matches) return;
-      const customEv = ev as CustomEvent<{ to?: URL }>;
-      const targetPath = customEv.detail?.to?.pathname ?? window.location.pathname;
-      setVariant(pickVariant(targetPath));
       setActive(true);
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => setActive(false), 430);
+      timer = setTimeout(() => setActive(false), 1080);
     };
 
-    const handlePageLoad = () => {
+    const handleAfterSwap = () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => setActive(false), 180);
+      timer = setTimeout(() => setActive(false), 420);
     };
 
     document.addEventListener('astro:before-preparation', handleBeforePrep);
-    document.addEventListener('astro:after-swap', handlePageLoad);
+    document.addEventListener('astro:after-swap', handleAfterSwap);
 
     return () => {
       mq.removeEventListener('change', onChange);
       document.removeEventListener('astro:before-preparation', handleBeforePrep);
-      document.removeEventListener('astro:after-swap', handlePageLoad);
+      document.removeEventListener('astro:after-swap', handleAfterSwap);
       if (timer) clearTimeout(timer);
     };
   }, []);
 
   if (reducedMotion) return null;
+
+  const bubbles = [
+    { left: '14%', size: 12, delay: 0.08 },
+    { left: '29%', size: 18, delay: 0.16 },
+    { left: '47%', size: 10, delay: 0.05 },
+    { left: '66%', size: 22, delay: 0.14 },
+    { left: '83%', size: 14, delay: 0.22 },
+  ];
 
   return (
     <AnimatePresence>
@@ -66,108 +59,84 @@ export default function PageTransitionOverlay() {
             overflow: 'hidden',
           }}
         >
-          {variant === 'default' &&
-            ['#071426', '#123B70', '#168BFF', '#55C8FF'].map((color, i) => (
-              <motion.div
-                key={color}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: color,
-                  transformOrigin: 'left center',
-                }}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: [0, 1, 1, 0] }}
-                transition={{
-                  duration: 0.4,
-                  delay: i * 0.035,
-                  times: [0, 0.4, 0.55, 1],
-                  ease: [0.76, 0, 0.24, 1],
-                }}
-              />
-            ))}
+          {/* SVG displacement filter for subtle organic water-crest distortion */}
+          <svg width="0" height="0" style={{ position: 'absolute' }}>
+            <defs>
+              <filter id="aquatic-ripple">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.012 0.035"
+                  numOctaves="2"
+                  seed="7"
+                  result="noise"
+                />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" />
+              </filter>
+            </defs>
+          </svg>
 
-          {variant === 'diagonal' &&
-            [
-              { color: '#071426', top: '-12vh', height: '42vh', delay: 0 },
-              { color: '#168BFF', top: '22vh', height: '38vh', delay: 0.04 },
-              { color: '#55C8FF', top: '54vh', height: '44vh', delay: 0.08 },
-              { color: '#F04E67', top: '48vh', height: '6vh', delay: 0.1 },
-            ].map((panel, i) => (
-              <motion.div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  left: '-15vw',
-                  width: '130vw',
-                  top: panel.top,
-                  height: panel.height,
-                  background: panel.color,
-                  clipPath: 'polygon(0 0, 100% 0, calc(100% - 110px) 100%, 0 100%)',
-                  transform: 'rotate(-8deg)',
-                }}
-                initial={{ x: '-105%' }}
-                animate={{ x: ['-105%', '0%', '105%'] }}
-                transition={{
-                  duration: 0.42,
-                  delay: panel.delay,
-                  times: [0, 0.45, 1],
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              />
-            ))}
+          {/* Deep oceanic sweep layer */}
+          <motion.div
+            style={{
+              position: 'absolute',
+              inset: '-8vh -8vw',
+              background:
+                'linear-gradient(155deg, rgba(7,20,38,0.97) 0%, rgba(18,59,112,0.94) 58%, rgba(22,139,255,0.86) 100%)',
+              transformOrigin: 'bottom center',
+            }}
+            initial={{ y: '105%', opacity: 0.92 }}
+            animate={{ y: ['105%', '0%', '-105%'], opacity: [0.92, 1, 0.85] }}
+            transition={{
+              duration: 1.05,
+              times: [0, 0.48, 1],
+              ease: [0.25, 0.8, 0.25, 1],
+            }}
+          />
 
-          {variant === 'stripes' &&
-            [
-              { color: '#071426', left: '-10vw', width: '48vw', delay: 0 },
-              { color: '#123B70', left: '28vw', width: '36vw', delay: 0.03 },
-              { color: '#168BFF', left: '56vw', width: '28vw', delay: 0.06 },
-              { color: '#E8F2FF', left: '78vw', width: '32vw', delay: 0.09 },
-            ].map((stripe, i) => (
-              <motion.div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  top: '-10vh',
-                  left: stripe.left,
-                  width: stripe.width,
-                  height: '120vh',
-                  background: stripe.color,
-                  transform: 'skewX(-14deg)',
-                }}
-                initial={{ y: '-105%' }}
-                animate={{ y: ['-105%', '0%', '105%'] }}
-                transition={{
-                  duration: 0.42,
-                  delay: stripe.delay,
-                  times: [0, 0.45, 1],
-                  ease: [0.76, 0, 0.24, 1],
-                }}
-              />
-            ))}
+          {/* Luminous water-crest wave with SVG turbulence */}
+          <motion.div
+            style={{
+              position: 'absolute',
+              left: '-10vw',
+              right: '-10vw',
+              height: '46vh',
+              background:
+                'radial-gradient(ellipse 80% 60% at 50% 45%, rgba(85,200,255,0.45) 0%, rgba(22,139,255,0.22) 55%, transparent 100%)',
+              filter: 'url(#aquatic-ripple)',
+            }}
+            initial={{ y: '110vh', opacity: 0 }}
+            animate={{ y: ['110vh', '22vh', '-50vh'], opacity: [0, 0.95, 0] }}
+            transition={{
+              duration: 1.05,
+              delay: 0.06,
+              times: [0, 0.46, 1],
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
 
-          {variant === 'cards' &&
-            ['#071426', '#123B70', '#168BFF', '#55C8FF', '#071426'].map((color, i) => (
-              <motion.div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: `${i * 20}vh`,
-                  height: '21vh',
-                  background: color,
-                }}
-                initial={{ x: i % 2 === 0 ? '-100%' : '100%' }}
-                animate={{ x: [i % 2 === 0 ? '-100%' : '100%', '0%', i % 2 === 0 ? '100%' : '-100%'] }}
-                transition={{
-                  duration: 0.42,
-                  delay: i * 0.025,
-                  times: [0, 0.45, 1],
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              />
-            ))}
+          {/* Subtle rising bubbles */}
+          {bubbles.map((b, i) => (
+            <motion.div
+              key={i}
+              style={{
+                position: 'absolute',
+                left: b.left,
+                bottom: '-30px',
+                width: b.size,
+                height: b.size,
+                borderRadius: '999px',
+                border: '1px solid rgba(232, 242, 255, 0.55)',
+                background: 'radial-gradient(circle at 30% 30%, rgba(85,200,255,0.45), transparent 70%)',
+              }}
+              initial={{ y: 0, opacity: 0 }}
+              animate={{ y: '-115vh', opacity: [0, 0.75, 0] }}
+              transition={{
+                duration: 0.98,
+                delay: b.delay,
+                ease: 'easeOut',
+              }}
+            />
+          ))}
         </div>
       )}
     </AnimatePresence>

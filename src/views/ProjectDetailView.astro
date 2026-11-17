@@ -21,7 +21,7 @@ const statusLabel = t.projects.statusLabels[project.status];
 
     <header class="case-header surface-block">
       <div class="case-header__badges">
-        <span class={`status-label ${project.status === 'used-in-production' ? 'status-label--cyan' : ''}`}>
+        <span class={`status-label ${project.status === 'concluded-operation' || project.status === 'collaborative-in-use' ? 'status-label--cyan' : ''}`}>
           {statusLabel}
         </span>
         {project.priority === 1 && (
@@ -37,8 +37,18 @@ const statusLabel = t.projects.statusLabels[project.status];
       <p class="case-header__timeline">{project.timelineContext[locale]}</p>
 
       <div class="case-header__actions">
+        {project.liveUrl && (
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
+            {project.liveLabel ? project.liveLabel[locale] : 'Live'} ↗
+          </a>
+        )}
         {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
+          <a
+            href={project.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`p3-btn ${project.liveUrl ? 'p3-btn--secondary' : 'p3-btn--primary'}`}
+          >
             {t.projects.publicRepoLabel} ↗
           </a>
         )}
@@ -121,9 +131,9 @@ const statusLabel = t.projects.statusLabels[project.status];
     {project.screenshots && project.screenshots.length > 0 && (
       <section class="case-gallery">
         <h2 class="display-title section-title">{t.projects.screenshotsLabel}</h2>
-        <div class="case-gallery__grid">
+        <div class={`case-gallery__grid ${project.screenshots.length === 1 ? 'case-gallery__grid--single' : ''}`}>
           {project.screenshots.map((shot) => (
-            <figure class="case-shot surface-block">
+            <figure class={`case-shot surface-block ${shot.compact ? 'case-shot--compact' : ''}`}>
               <img src={shot.src} alt={shot.alt[locale]} loading="lazy" width="960" height="540" />
               <figcaption>{shot.caption[locale]}</figcaption>
             </figure>
@@ -266,9 +276,17 @@ const statusLabel = t.projects.statusLabels[project.status];
     gap: var(--space-5);
   }
 
+  .case-gallery__grid--single {
+    grid-template-columns: 1fr;
+  }
+
   .case-shot {
     margin: 0;
     padding: var(--space-3);
+  }
+
+  .case-shot--compact {
+    max-width: 540px;
   }
 
   .case-shot img {

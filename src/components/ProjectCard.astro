@@ -19,14 +19,11 @@ const detailHref = localizePath(locale, `projects/${project.slug}`);
 
   <div class="proj-row__body">
     <div class="proj-row__meta">
-      <span class={`status-label ${project.status === 'concluded-operation' || project.status === 'collaborative-in-use' ? 'status-label--cyan' : ''}`}>
+      <span class={`status-label ${project.status === 'concluded-operation' || project.status === 'collaborative' ? 'status-label--cyan' : ''}`}>
         {statusLabel}
       </span>
       {project.priority === 1 && (
         <span class="status-label status-label--accent">{t.projects.flagshipBadge}</span>
-      )}
-      {project.secondary && (
-        <span class="proj-row__secondary">{t.projects.secondaryBadge}</span>
       )}
     </div>
 
@@ -50,7 +47,7 @@ const detailHref = localizePath(locale, `projects/${project.slug}`);
     )}
     {project.repoUrl && (
       <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
-        GitHub ↗
+        {project.repoLabel ? project.repoLabel[locale] : 'GitHub'} ↗
       </a>
     )}
   </div>

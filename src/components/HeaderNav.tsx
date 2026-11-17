@@ -159,7 +159,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             <p className="ocean-preview__text">
               {isPt
                 ? 'Base técnica em Informática (SENAI), Administração (MCT Cursos, 2021), Logística e graduação em ADS na UTFPR. Português nativo e inglês intermediário.'
-                : 'Technical background in IT (SENAI), Business Administration (MCT Cursos, 2021), Logistics, and B.Tech in ADS at UTFPR. Native Portuguese, intermediate English.'}
+                : 'Technical background in IT (SENAI), Business Administration (MCT Cursos, 2021), Logistics, and Technology Degree in ADS at UTFPR. Native Portuguese, intermediate English.'}
             </p>
           </div>
         );

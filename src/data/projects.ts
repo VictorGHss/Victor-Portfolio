@@ -2,8 +2,8 @@ import type { Locale } from '../i18n/config';
 
 export type ProjectStatus =
   | 'concluded-operation'
-  | 'collaborative-in-use'
-  | 'authorial-completed'
+  | 'collaborative'
+  | 'completed'
   | 'in-development';
 
 export interface LocalizedText {
@@ -28,6 +28,12 @@ export interface ProjectScreenshot {
   compact?: boolean;
 }
 
+export interface ProjectRoadmap {
+  implemented: LocalizedList;
+  inProgress: LocalizedList;
+  planned: LocalizedList;
+}
+
 export interface Project {
   slug: string;
   name: LocalizedText;
@@ -39,6 +45,7 @@ export interface Project {
   secondary?: boolean;
   isPrivateCore?: boolean;
   repoUrl?: string;
+  repoLabel?: LocalizedText;
   liveUrl?: string;
   liveLabel?: LocalizedText;
   stack: string[];
@@ -48,6 +55,7 @@ export interface Project {
   features: LocalizedList;
   architecture?: LocalizedList;
   challenges?: LocalizedList;
+  roadmap?: ProjectRoadmap;
   metrics?: ProjectMetric[];
   screenshots?: ProjectScreenshot[];
 }
@@ -61,18 +69,22 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Projeto autoral de operações integradas, automações via WhatsApp, controle de acesso físico e gestão ITSM.',
-      en: 'Authorial platform for integrated operations, WhatsApp automation, physical access control, financial sync, and ITSM governance.',
+        'Plataforma de operações, automação via WhatsApp, controle de acesso físico e gestão ITSM.',
+      en: 'Operations platform connecting WhatsApp automation, physical access control, financial sync, and ITSM ticketing.',
     },
     status: 'concluded-operation',
     timelineContext: {
-      'pt-br': 'Projeto autoral • Utilizado em ambiente operacional real por aproximadamente 3 meses • Ciclo encerrado',
-      en: 'Authorial project • Used in real operations for ~3 months • Cycle concluded',
+      'pt-br': 'Projeto independente • Usado por ~3 meses em ambiente real • Ciclo encerrado',
+      en: 'Independent project • Used in real operations for ~3 months • Cycle concluded',
     },
     priority: 1,
     featured: true,
     isPrivateCore: true,
     repoUrl: 'https://github.com/VictorGHss/CTRLS-ITSM-SHOWCASE',
+    repoLabel: {
+      'pt-br': 'Ver showcase no GitHub',
+      en: 'View public showcase on GitHub',
+    },
     stack: [
       'Java 21',
       'Spring Boot 3',
@@ -83,7 +95,7 @@ export const PROJECTS: Project[] = [
       'Docker',
       'Prometheus',
       'Grafana',
-      'REST APIs & Webhooks',
+      'REST APIs',
       'Take Blip',
       'Feegow',
       'Conta Azul V2',
@@ -92,59 +104,59 @@ export const PROJECTS: Project[] = [
     ],
     problem: {
       'pt-br':
-        'Operações com alto fluxo de atendimentos enfrentavam confirmações manuais no WhatsApp, filas na recepção por falta de autoatendimento na portaria, conciliação financeira manual e chamados internos de TI sem rastreabilidade.',
-      en: 'High-volume operations faced manual WhatsApp confirmations, reception bottlenecks without self-service turnstile access, manual financial reconciliation, and untracked internal IT support requests.',
+        'A operação dependia de confirmações manuais no WhatsApp, gerava filas na recepção sem autoatendimento e não tinha rastreabilidade para chamados internos de TI nem conciliação financeira integrada.',
+      en: 'Operations relied on manual WhatsApp confirmations, faced reception bottlenecks without self-service check-in, and lacked tracking for internal IT requests and financial reconciliation.',
     },
     solution: {
       'pt-br':
-        'Iniciativa própria concebida e desenvolvida pelo autor a partir do período de estágio em TI (2024), com backend em Java 21 / Spring Boot 3 e Arquitetura Hexagonal. Durante a passagem pela operação, o sistema foi utilizado em ambiente real por aproximadamente três meses. Atualmente não está em uso nem em produção: foi desativado pelo autor, com encerramento do ciclo operacional e remoção completa do ambiente e dos dados.',
-      en: 'Authorial initiative conceived and built by the author starting during the 2024 IT internship period, using Java 21 / Spring Boot 3 and Hexagonal Architecture. It was used in real operations for approximately three months; it is no longer active or in production, having been deactivated by the author with its environment and operational data removed.',
+        'Criei o sistema por iniciativa própria a partir do período de estágio em TI (2024), com backend em Java 21 / Spring Boot 3 e Arquitetura Hexagonal. Ele rodou em ambiente real por cerca de três meses e hoje está desativado — o ciclo operacional foi encerrado e os dados e o ambiente foram removidos.',
+      en: 'I built this system independently starting during my 2024 IT internship, using Java 21, Spring Boot 3, and Hexagonal Architecture. It ran in real operations for around three months and is no longer active — it was deactivated at the end of its operational cycle, and both the environment and data were removed.',
     },
     role: {
       'pt-br':
-        'Autor e desenvolvedor principal por iniciativa própria: arquitetura em Java 21 / Spring Boot 3, integrações REST e webhooks assíncronos (Feegow, Blip, Conta Azul V2, gerAcesso e Discord), controle de taxa com Redis, segurança (JWT, MFA/TOTP, auditoria) e painéis em React.',
-      en: 'Author and lead developer by own initiative: backend architecture in Java 21 / Spring Boot 3, REST and asynchronous webhook integrations (Feegow, Blip, Conta Azul V2, gerAcesso, Discord), Redis rate limiting, security (JWT, MFA/TOTP, audit trail), and React dashboards.',
+        'Concepção e desenvolvimento completo: arquitetura hexagonal em Java 21 / Spring Boot 3, integrações REST e webhooks assíncronos (Feegow, Blip, Conta Azul V2, gerAcesso e Discord), controle de taxa no Redis, segurança (JWT, MFA/TOTP, auditoria) e painéis em React.',
+      en: 'End-to-end architecture and development: Hexagonal Architecture in Java 21 / Spring Boot 3, REST and asynchronous webhook integrations (Feegow, Blip, Conta Azul V2, gerAcesso, Discord), Redis rate limiting, security (JWT, MFA/TOTP, audit logs), and React dashboards.',
     },
     features: {
       'pt-br': [
-        'Confirmações e lembretes preventivos via WhatsApp integrados ao ERP Feegow e Take Blip',
-        'Autoatendimento para portaria integrado ao gerAcesso com QR Codes temporários',
+        'Confirmações e lembretes no WhatsApp integrados ao ERP Feegow e Take Blip',
+        'Autoatendimento na portaria com QR Codes temporários integrados ao gerAcesso',
         'Rotina automática de captação de avaliações pós-atendimento',
-        'Gestão interna de TI (ITSM), inventário de equipamentos (CMDB), consumíveis FIFO e triagem integrada ao Discord',
-        'Conciliação financeira com Conta Azul V2 protegida por validação 2FA/TOTP',
+        'Gestão de chamados de TI (ITSM), inventário patrimonial (CMDB), estoque FIFO e triagem no Discord',
+        'Conciliação financeira com Conta Azul V2 protegida por 2FA/TOTP',
       ],
       en: [
-        'Automated WhatsApp confirmations and preventive reminders integrated with Feegow ERP and Take Blip',
-        'Self-service reception access integrated with gerAcesso via temporary QR Codes',
+        'WhatsApp confirmations and reminders integrated with Feegow ERP and Take Blip',
+        'Self-service reception check-in using temporary QR Codes integrated with gerAcesso',
         'Automated post-visit review follow-up workflow',
-        'Internal ITSM ticketing, CMDB asset tracking, FIFO consumables control, and Discord webhook triage',
-        'Financial reconciliation with Conta Azul V2 protected by 2FA/TOTP validation',
+        'ITSM ticketing, asset CMDB, FIFO consumables inventory, and Discord triage',
+        'Financial reconciliation with Conta Azul V2 gated by 2FA/TOTP validation',
       ],
     },
     architecture: {
       'pt-br': [
         'Backend Java 21 + Spring Boot 3 estruturado em Arquitetura Hexagonal (Ports & Adapters)',
         'PostgreSQL para persistência transacional e Redis para rate limiting e cache',
-        'Observabilidade com Prometheus e Grafana em ambiente conteinerizado Docker',
-        'Orquestração assíncrona entre ERP, mensageria WhatsApp, catracas físicas e Discord',
+        'Observabilidade com Prometheus e Grafana em containers Docker',
+        'Orquestração assíncrona entre ERP, WhatsApp, catracas físicas e Discord',
       ],
       en: [
         'Java 21 + Spring Boot 3 backend structured with Hexagonal Architecture (Ports & Adapters)',
-        'PostgreSQL for transactional persistence and Redis for rate limiting and caching',
+        'PostgreSQL for transactional storage and Redis for rate limiting and caching',
         'Observability via Prometheus and Grafana running in Docker containers',
         'Asynchronous orchestration across ERP, WhatsApp messaging, physical turnstiles, and Discord',
       ],
     },
     challenges: {
       'pt-br': [
-        'Controlar picos de disparo assíncrono no WhatsApp sem violar limites das APIs externas usando Redis Rate Limiting',
-        'Sincronizar liberações temporárias de QR Code nas catracas físicas com janelas de tolerância de horário',
-        'Proteger rotas financeiras e dados sensíveis com MFA/TOTP obrigatório e trilha de auditoria',
+        'Controlar picos de disparo no WhatsApp sem estourar limites das APIs externas usando Redis Rate Limiting',
+        'Sincronizar liberações temporárias de QR Code nas catracas com tolerância de horário',
+        'Proteger rotas financeiras com MFA/TOTP obrigatório e trilha de auditoria',
       ],
       en: [
-        'Managing outbound WhatsApp dispatch bursts without exceeding external API quotas using Redis rate limiting',
+        'Handling outbound WhatsApp dispatch bursts without hitting external API limits via Redis rate limiting',
         'Synchronizing temporary QR Code turnstile releases with scheduling time-window tolerances',
-        'Securing financial workflows and sensitive records with mandatory MFA/TOTP and audit trails',
+        'Securing financial endpoints with mandatory MFA/TOTP and audit trails',
       ],
     },
     metrics: [
@@ -165,15 +177,15 @@ export const PROJECTS: Project[] = [
       {
         value: '3.3 → 3.8',
         label: {
-          'pt-br': 'Evolução da pontuação pública no Google (30 dias)',
-          en: 'Public Google rating increase over 30 days',
+          'pt-br': 'Nota pública no Google em 30 dias',
+          en: 'Public Google rating over 30 days',
         },
       },
       {
         value: '96,3%',
         label: {
-          'pt-br': 'Taxa de resolução no dashboard do showcase (235 / 244 tickets)',
-          en: 'Resolution rate on showcase dashboard (235 / 244 tickets)',
+          'pt-br': 'Tickets resolvidos no dashboard do showcase (235 / 244)',
+          en: 'Tickets resolved on showcase dashboard (235 / 244)',
         },
       },
     ],
@@ -207,7 +219,7 @@ export const PROJECTS: Project[] = [
           en: 'Supplies inventory module with stock tracking',
         },
         caption: {
-          'pt-br': 'Gestão de suprimentos com controle FIFO e alertas de estoque mínimo.',
+          'pt-br': 'Gestão de suprimentos com dedução FIFO e alertas de estoque mínimo.',
           en: 'Supplies management with FIFO deduction and low-stock alerts.',
         },
       },
@@ -218,8 +230,8 @@ export const PROJECTS: Project[] = [
           en: 'TOTP 2FA validation modal for financial module access',
         },
         caption: {
-          'pt-br': 'Validação obrigatória de 2FA/TOTP para operações sensíveis.',
-          en: 'Mandatory 2FA/TOTP verification for sensitive financial workflows.',
+          'pt-br': 'Validação obrigatória de 2FA/TOTP para operações financeiras.',
+          en: 'Mandatory 2FA/TOTP verification for financial workflows.',
         },
       },
     ],
@@ -232,45 +244,45 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Projeto autoral full stack multi-tenant de formulários clínicos estruturados e anamnese digital com geração de PDF.',
-      en: 'Authorial multi-tenant full-stack application for structured clinical forms and digital intake with PDF reporting.',
+        'Aplicação full stack multi-tenant para formulários clínicos em JSON Schema e relatórios em PDF.',
+      en: 'Multi-tenant full-stack application for JSON Schema clinical forms and automated PDF reporting.',
     },
-    status: 'authorial-completed',
+    status: 'completed',
     timelineContext: {
-      'pt-br': 'Projeto autoral • Desenvolvido por iniciativa própria a partir do estágio em TI (2024)',
-      en: 'Authorial project • Developed by own initiative starting during the 2024 IT internship',
+      'pt-br': 'Projeto independente • Multi-tenant (Java / Spring Boot + React)',
+      en: 'Independent project • Multi-tenant (Java / Spring Boot + React)',
     },
     priority: 2,
     featured: true,
     repoUrl: 'https://github.com/VictorGHss/CTRLS-FormsV1',
-    stack: ['Spring Boot 3', 'Java', 'React', 'TypeScript', 'PostgreSQL', 'Flyway', 'JWT & RBAC', 'Nginx'],
+    stack: ['Spring Boot 3', 'Java', 'React', 'TypeScript', 'PostgreSQL', 'Flyway', 'JWT & RBAC', 'JSON Schema', 'Nginx'],
     problem: {
       'pt-br':
-        'Necessidade de digitalizar formulários de anamnese e triagem em contexto multi-unidade, evitando preenchimento em papel e garantindo separação estrita de dados por unidade.',
-      en: 'Need to digitize clinical intake and triage forms across multiple units without paper workflows while enforcing strict per-tenant data isolation.',
+        'Formulários clínicos em papel dificultam a padronização entre unidades e exigem redigitação manual, além de demandarem isolamento estrito dos dados por clínica.',
+      en: 'Paper clinical forms make standardization across units harder, require manual re-entry, and demand strict per-clinic data isolation.',
     },
     solution: {
       'pt-br':
-        'Iniciativa própria concebida e desenvolvida com backend em Spring Boot 3, PostgreSQL versionado via Flyway, autenticação JWT com controle de acesso RBAC, construtor dinâmico baseado em JSON Schema e geração automática de relatórios em PDF.',
-      en: 'Authorial initiative built with Spring Boot 3, Flyway-versioned PostgreSQL, JWT authentication with RBAC access control, dynamic JSON Schema form builder, and automated PDF report generation.',
+        'Construí uma aplicação full stack multi-tenant com backend em Spring Boot 3 e PostgreSQL versionado via Flyway. Os formulários são modelados dinamicamente com JSON Schema, os acessos seguem JWT + RBAC com contexto por unidade e os envios geram relatórios em PDF.',
+      en: 'I built a multi-tenant full-stack application with Spring Boot 3 and Flyway-versioned PostgreSQL. Forms are modeled dynamically via JSON Schema, access is governed by JWT + RBAC with per-unit context, and submissions generate PDF reports.',
     },
     role: {
       'pt-br':
-        'Concepção e desenvolvimento da API REST multi-tenant, modelagem de banco com Flyway, regras de renderização dinâmica e integração com frontend React/TypeScript.',
-      en: 'Design and development of the multi-tenant REST API, Flyway schema versioning, dynamic form rendering rules, and React/TypeScript frontend integration.',
+        'Modelagem do banco e migrações Flyway, API REST multi-tenant com isolamento de dados, regras de renderização em JSON Schema, geração de PDFs e frontend React/TypeScript servido atrás de proxy Nginx.',
+      en: 'Database modeling and Flyway migrations, multi-tenant REST API with data isolation, JSON Schema rendering rules, PDF generation, and React/TypeScript frontend behind an Nginx reverse proxy.',
     },
     features: {
       'pt-br': [
-        'Isolamento multi-tenant com autenticação JWT e controle de acesso RBAC',
-        'Construtor dinâmico de formulários orientado a JSON Schema',
-        'Geração automática de relatórios em PDF com upload em nuvem',
-        'Versionamento determinístico de schema com Flyway e proxy Nginx',
+        'Isolamento multi-tenant com autenticação JWT, contexto por unidade e controle RBAC',
+        'Modelagem e renderização dinâmica de formulários baseada em JSON Schema',
+        'Geração automática de relatórios em PDF a partir das respostas preenchidas',
+        'Migrações versionadas com Flyway e empacotamento com Nginx',
       ],
       en: [
-        'Multi-tenant isolation with JWT authentication and RBAC access control',
-        'Dynamic form builder driven by JSON Schema',
-        'Automated PDF report generation with cloud upload',
-        'Deterministic database migrations with Flyway and Nginx reverse proxy',
+        'Multi-tenant data isolation with JWT authentication, unit context, and RBAC',
+        'Dynamic form modeling and rendering driven by JSON Schema',
+        'Automated PDF report generation from submitted forms',
+        'Versioned database migrations with Flyway and Nginx reverse proxy',
       ],
     },
   },
@@ -282,16 +294,16 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Projeto autoral para vitrine de especialistas e cartões profissionais com QR Code e páginas individuais.',
-      en: 'Authorial web portal for specialist showcases and QR Code professional cards with individual profile pages.',
+        'Vitrine web de especialistas integrada a cartões físicos com QR Code e avaliações públicas.',
+      en: 'Specialist showcase web app connected to printed QR Code cards and live public reviews.',
     },
-    status: 'authorial-completed',
+    status: 'completed',
     timelineContext: {
-      'pt-br': 'Projeto autoral • Páginas individuais e cartões profissionais com QR Code',
-      en: 'Authorial project • Individual specialist pages and QR Code cards',
+      'pt-br': 'Projeto independente • Next.js + QR Codes + Cloudflare Pages',
+      en: 'Independent project • Next.js + QR Codes + Cloudflare Pages',
     },
     priority: 3,
-    featured: false,
+    featured: true,
     secondary: true,
     liveUrl: 'https://inovare.doctors.ctrls.dev.br/m/alisson-fucio',
     liveLabel: {
@@ -301,29 +313,29 @@ export const PROJECTS: Project[] = [
     stack: ['Next.js (App Router)', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages', 'Google API'],
     problem: {
       'pt-br':
-        'Centralizar a apresentação de especialistas, especialidades, contatos e avaliações públicas em páginas rápidas e acessíveis por QR Code em cartões físicos.',
-      en: 'Centralize specialist bios, specialties, contact links, and public reviews in fast mobile-first pages linked from physical QR Code cards.',
+        'Pacientes que recebiam o cartão físico precisavam de um caminho direto no celular para ver especialidades, contatos, localização e avaliações reais do especialista.',
+      en: 'Patients receiving a printed card needed a quick mobile path to check the specialist’s bio, specialties, contact links, and real public reviews.',
     },
     solution: {
       'pt-br':
-        'Iniciativa própria desenvolvida com Next.js (App Router), TypeScript e Tailwind CSS, hospedada na Cloudflare Pages em arquitetura Edge, com geração automática de QR Codes para cartões profissionais e consumo da Google API para exibição de avaliações.',
-      en: 'Authorial initiative built with Next.js (App Router), TypeScript, and Tailwind CSS, deployed on Cloudflare Pages Edge with automated QR Code generation for professional cards and Google API review integration.',
+        'Desenvolvi uma aplicação em Next.js (App Router), TypeScript e Tailwind CSS hospedada na Cloudflare Pages. Cada especialista ganha uma página individual rápida e um QR Code gerado automaticamente para ir direto no cartão profissional impresso, com exibição de avaliações via Google API.',
+      en: 'I built a Next.js (App Router), TypeScript, and Tailwind CSS web app hosted on Cloudflare Pages. Each specialist gets a fast individual profile page and an automatically generated QR Code for their printed card, along with Google API review integration.',
     },
     role: {
       'pt-br':
-        'Desenvolvimento completo da aplicação, geração de QR Codes, layout dos cartões de referência e publicação na Cloudflare Pages.',
-      en: 'Full application development, QR Code generation, card layout integration, and Cloudflare Pages deployment.',
+        'Desenvolvimento completo da aplicação web, geração automática dos QR Codes, integração com Google API e publicação na Cloudflare Pages.',
+      en: 'Full web application development, automated QR Code generation, Google API integration, and Cloudflare Pages deployment.',
     },
     features: {
       'pt-br': [
-        'Páginas individuais responsivas para apresentação profissional e especialidades',
-        'Geração automática de QR Codes ligando o cartão impresso ao perfil digital',
-        'Consumo da API do Google para exibição de avaliações',
+        'Páginas individuais responsivas com foco em leitura rápida no celular',
+        'QR Codes gerados automaticamente conectando o cartão impresso ao perfil digital',
+        'Exibição de avaliações públicas integradas via Google API',
       ],
       en: [
-        'Responsive individual pages for professional bios and specialties',
-        'Automated QR Code generation connecting printed cards to digital profiles',
-        'Google API integration for displaying public reviews',
+        'Mobile-first individual specialist pages designed for quick scanning',
+        'Automatically generated QR Codes linking printed cards to digital profiles',
+        'Public reviews displayed via Google API integration',
       ],
     },
     screenshots: [
@@ -349,13 +361,13 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Iniciativa desenvolvida em colaboração com João Gabriel Anjos, supervisor durante o estágio na Chesiquimica.',
-      en: 'Initiative developed in collaboration with João Gabriel Anjos, supervisor during the internship at Chesiquímica.',
+        'Formulário web simples para organizar solicitações internas de suporte e suprimentos durante o estágio.',
+      en: 'Lightweight web form built to organize internal IT support and supply requests during my internship.',
     },
-    status: 'collaborative-in-use',
+    status: 'collaborative',
     timelineContext: {
-      'pt-br': 'Iniciativa desenvolvida em colaboração com João Gabriel Anjos, supervisor durante o estágio na Chesiquimica.',
-      en: 'Initiative developed in collaboration with João Gabriel Anjos, supervisor during the internship at Chesiquímica.',
+      'pt-br': 'Iniciativa desenvolvida em colaboração com João Gabriel Anjos, supervisor durante o estágio na Chesiquímica.',
+      en: 'Developed in collaboration with João Gabriel Anjos, my supervisor during the IT internship.',
     },
     priority: 4,
     featured: true,
@@ -363,29 +375,29 @@ export const PROJECTS: Project[] = [
     stack: ['HTML', 'CSS', 'JavaScript', 'SheetMonkey', 'Google Sheets', 'GitHub Pages'],
     problem: {
       'pt-br':
-        'Solicitações internas de suporte e suprimentos (como toners) eram feitas informalmente, sem histórico centralizado.',
-      en: 'Internal IT support and supply requests (such as printer toners) were handled informally without centralized tracking.',
+        'Durante o estágio na Chesiquímica, pedidos internos de suporte e reposição de toners chegavam de forma informal, sem registro padronizado.',
+      en: 'During my internship at Chesiquímica, internal support and toner replacement requests arrived informally without standardized logging.',
     },
     solution: {
       'pt-br':
-        'Formulário web objetivo hospedado no GitHub Pages e integrado ao Google Sheets via SheetMonkey para registro automático de solicitações, construído em colaboração com o supervisor João Gabriel Anjos.',
-      en: 'Focused web request form hosted on GitHub Pages and connected to Google Sheets via SheetMonkey for automatic ticket logging, built in collaboration with supervisor João Gabriel Anjos.',
+        'Em parceria com o supervisor João Gabriel Anjos, montamos uma página objetiva no GitHub Pages que envia os dados do formulário diretamente para uma planilha no Google Sheets via SheetMonkey.',
+      en: 'Working alongside my supervisor João Gabriel Anjos, we put together a straightforward GitHub Pages form that routes submissions directly into Google Sheets via SheetMonkey.',
     },
     role: {
       'pt-br':
-        'Desenvolvimento colaborativo durante o estágio de TI na Chesiquímica em conjunto com o supervisor João Gabriel Anjos.',
-      en: 'Collaborative development during the IT internship at Chesiquímica alongside supervisor João Gabriel Anjos.',
+        'Implementação da interface HTML/CSS/JavaScript, integração com SheetMonkey e publicação estática no GitHub Pages.',
+      en: 'Implemented the HTML/CSS/JavaScript form, SheetMonkey integration, and static deployment on GitHub Pages.',
     },
     features: {
       'pt-br': [
-        'Abertura padronizada de chamados com nome, e-mail, assunto e descrição',
-        'Envio automático para planilha Google Sheets via SheetMonkey',
-        'Hospedagem estática gratuita e estável no GitHub Pages',
+        'Formulário objetivo com nome, e-mail, assunto e descrição',
+        'Registro automático em planilha Google Sheets via SheetMonkey',
+        'Hospedagem estática simples no GitHub Pages sem custo de servidor',
       ],
       en: [
-        'Standardized ticket submission with name, email, subject, and description',
-        'Automatic sync to Google Sheets via SheetMonkey',
-        'Zero-maintenance static hosting on GitHub Pages',
+        'Focused form capturing name, email, subject, and description',
+        'Automatic row logging into Google Sheets via SheetMonkey',
+        'Simple static hosting on GitHub Pages with zero server maintenance',
       ],
     },
   },
@@ -397,16 +409,16 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Projeto autoral em desenvolvimento: rede social geográfica de avaliações com check-in físico verificado e feeds contextuais.',
-      en: 'Authorial project in development: geo-social review network with verified physical check-ins and contextual feeds.',
+        'Rede social geográfica de avaliações com check-in físico verificado e feeds contextuais.',
+      en: 'Geo-social review network with verified physical check-ins and contextual feeds.',
     },
     status: 'in-development',
     timelineContext: {
-      'pt-br': 'Projeto autoral • Em desenvolvimento ativo',
-      en: 'Authorial project • Under active development',
+      'pt-br': 'Em desenvolvimento • Produto independente',
+      en: 'In development • Independent product',
     },
     priority: 5,
-    featured: true,
+    featured: false,
     repoUrl: 'https://github.com/VictorGHss/Rewit',
     stack: [
       'Java',
@@ -422,30 +434,60 @@ export const PROJECTS: Project[] = [
     ],
     problem: {
       'pt-br':
-        'Avaliações tradicionais carecem de contexto geográfico e verificação real de presença no local.',
-      en: 'Conventional reviews lack geographic context and reliable proof of physical presence.',
+        'Avaliações comuns de locais e serviços raramente comprovam que a pessoa realmente esteve no local ou usou o serviço.',
+      en: 'Conventional reviews rarely verify whether the reviewer actually visited the place or used the service.',
     },
     solution: {
       'pt-br':
-        'Produto autoral em construção com backend geoespacial (Spring Boot + PostGIS), cache em Redis, armazenamento de mídia em SeaweedFS, app mobile em Flutter e painel administrativo em React/TypeScript.',
-      en: 'In-development authorial product combining a geospatial backend (Spring Boot + PostGIS), Redis caching, SeaweedFS object storage, a Flutter mobile client, and a React/TypeScript admin panel.',
+        'Produto que venho construindo do zero unindo backend geoespacial em Spring Boot + PostGIS, cache com Redis, armazenamento de mídia em SeaweedFS, app mobile em Flutter e painel administrativo em React/TypeScript.',
+      en: 'A product I am building from scratch combining a Spring Boot + PostGIS geospatial backend, Redis caching, SeaweedFS object storage, a Flutter mobile client, and a React/TypeScript admin panel.',
     },
     role: {
       'pt-br':
-        'Concepção do produto, modelagem geoespacial PostGIS, API backend e clientes web/mobile.',
-      en: 'Product design, PostGIS geospatial modeling, backend API, and web/mobile clients.',
+        'Concepção do produto, modelagem geoespacial em PostGIS, API backend e desenvolvimento dos clientes mobile e web.',
+      en: 'Product design, PostGIS geospatial modeling, backend API, and mobile/web client development.',
     },
     features: {
       'pt-br': [
         'Check-in físico verificado com consultas geoespaciais PostGIS',
         'Scanner de códigos de barras e QR Codes no aplicativo Flutter',
-        'Feed contextual e privacidade por design',
+        'Feed contextual e modelagem orientada à privacidade',
       ],
       en: [
-        'Verified physical check-ins powered by PostGIS geospatial queries',
+        'Verified physical check-ins backed by PostGIS geospatial queries',
         'Barcode and QR Code scanner in the Flutter app',
-        'Contextual feed with privacy-by-design modeling',
+        'Contextual feed and privacy-oriented data modeling',
       ],
+    },
+    roadmap: {
+      implemented: {
+        'pt-br': [
+          'Estrutura modular do monorepo, modelagem relacional e extensão geoespacial PostGIS',
+          'Base da API Spring Boot, cache Redis e armazenamento SeaweedFS configurados',
+        ],
+        en: [
+          'Modular monorepo structure, relational schema, and PostGIS geospatial setup',
+          'Core Spring Boot API, Redis cache, and SeaweedFS storage configuration',
+        ],
+      },
+      inProgress: {
+        'pt-br': [
+          'Fluxo de check-in verificado e scanner de códigos no cliente Flutter',
+          'Painel administrativo de moderação em React + TypeScript',
+        ],
+        en: [
+          'Verified check-in flow and barcode/QR scanner in the Flutter app',
+          'Moderation admin panel in React + TypeScript',
+        ],
+      },
+      planned: {
+        'pt-br': [
+          'Serviço futuro de recomendações e embeddings visuais em Python/FastAPI',
+        ],
+        en: [
+          'Future visual embedding and recommendation service in Python/FastAPI',
+        ],
+      },
     },
   },
   {
@@ -456,16 +498,16 @@ export const PROJECTS: Project[] = [
     },
     tagline: {
       'pt-br':
-        'Projeto autoral em desenvolvimento: plataforma de descoberta, análise de compatibilidade e gestão de candidaturas.',
-      en: 'Authorial project in development: job discovery, compatibility analysis, and supervised application pipeline.',
+        'Plataforma para organizar candidaturas, analisar compatibilidade e preparar currículos com validação humana.',
+      en: 'Platform for tracking job applications, analyzing fit, and tailoring resumes with mandatory human approval.',
     },
     status: 'in-development',
     timelineContext: {
-      'pt-br': 'Projeto autoral • Em desenvolvimento ativo',
-      en: 'Authorial project • Under active development',
+      'pt-br': 'Em desenvolvimento • Produto independente',
+      en: 'In development • Independent product',
     },
     priority: 6,
-    featured: true,
+    featured: false,
     repoUrl: 'https://github.com/VictorGHss/Job-HunterV1.0',
     stack: [
       'Python',
@@ -480,30 +522,58 @@ export const PROJECTS: Project[] = [
     ],
     problem: {
       'pt-br':
-        'Organizar vagas de múltiplas fontes e preparar candidaturas sem distorção factual exige pipeline estruturado e validação humana.',
-      en: 'Managing openings across multiple sources and tailoring applications without factual drift requires structured pipelines and human approval.',
+        'Acompanhar vagas em várias fontes e adaptar currículos sem inventar fatos ou perder o controle das etapas exige um fluxo estruturado.',
+      en: 'Tracking openings across multiple sources and tailoring resumes without factual drift requires a structured pipeline and strict human review.',
     },
     solution: {
       'pt-br':
-        'Monólito modular multiusuário em desenvolvimento com FastAPI, SQLAlchemy 2.0, Alembic e PostgreSQL no backend e React + TypeScript no frontend.',
-      en: 'Multi-user modular monolith under active development with FastAPI, SQLAlchemy 2.0, Alembic, and PostgreSQL on the backend and React + TypeScript on the frontend.',
+        'Monólito modular multiusuário em desenvolvimento com Python/FastAPI, SQLAlchemy 2.0, Alembic e PostgreSQL no backend e React + TypeScript no frontend, exigindo confirmação humana antes de qualquer uso de dados do perfil.',
+      en: 'Multi-user modular monolith under active development with Python/FastAPI, SQLAlchemy 2.0, Alembic, and PostgreSQL on the backend and React + TypeScript on the frontend, enforcing human confirmation before any profile fact is used.',
     },
     role: {
       'pt-br':
-        'Arquitetura de dados multiusuário, conectores de fontes públicas, pipeline de candidaturas e interface web.',
-      en: 'Multi-user data architecture, public source connectors, application pipeline, and web UI.',
+        'Arquitetura de dados multiusuário, migrações Alembic, API FastAPI, pipeline de candidaturas e interface web.',
+      en: 'Multi-user data architecture, Alembic migrations, FastAPI endpoints, application pipeline, and web UI.',
     },
     features: {
       'pt-br': [
-        'Descoberta e classificação de oportunidades em fontes públicas',
-        'Análise de compatibilidade e pipeline de acompanhamento',
-        'Preparação de currículos e propostas com validação humana obrigatória',
+        'Fonte única de verdade do perfil profissional com estados de validação humana',
+        'Pipeline de acompanhamento de candidaturas e organização por etapas',
+        'Ambiente Docker Compose com PostgreSQL, API FastAPI e frontend Nginx',
       ],
       en: [
-        'Opportunity discovery and classification from public sources',
-        'Compatibility analysis and application tracking pipeline',
-        'Resume and proposal drafting with mandatory human review',
+        'Single source of truth for profile facts with human validation states',
+        'Stage-based job application tracking pipeline',
+        'Docker Compose stack with PostgreSQL, FastAPI API, and Nginx frontend',
       ],
+    },
+    roadmap: {
+      implemented: {
+        'pt-br': [
+          'Backend multiusuário em FastAPI + SQLAlchemy 2.0 + Alembic + PostgreSQL',
+          'Pipeline de gestão de candidaturas e interface React + TypeScript',
+        ],
+        en: [
+          'Multi-user backend in FastAPI + SQLAlchemy 2.0 + Alembic + PostgreSQL',
+          'Application tracking pipeline and React + TypeScript frontend',
+        ],
+      },
+      inProgress: {
+        'pt-br': [
+          'Conectores de fontes públicas de vagas e classificação de oportunidades',
+        ],
+        en: [
+          'Public job-source connectors and opportunity classification',
+        ],
+      },
+      planned: {
+        'pt-br': [
+          'Análise assistida de compatibilidade e preparação supervisionada de propostas',
+        ],
+        en: [
+          'Assisted fit scoring and human-supervised proposal drafting',
+        ],
+      },
     },
   },
 ];

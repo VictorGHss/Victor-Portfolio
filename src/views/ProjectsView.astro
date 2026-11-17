@@ -23,6 +23,8 @@ const sorted = [...PROJECTS].sort((a, b) => a.priority - b.priority);
       </div>
     </div>
 
+    <p class="projects-intro">{t.projects.introNote}</p>
+
     <div class="projects-stack">
       {sorted.map((project) => (
         <ProjectCard project={project} locale={locale} />
@@ -32,6 +34,15 @@ const sorted = [...PROJECTS].sort((a, b) => a.priority - b.priority);
 </section>
 
 <style>
+  .projects-intro {
+    margin: 0 0 var(--space-5);
+    color: var(--text-secondary);
+    max-width: 70ch;
+    font-size: 1.02rem;
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--color-cyan);
+  }
+
   .projects-stack {
     display: grid;
     gap: var(--space-4);

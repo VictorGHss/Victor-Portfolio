@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Globe } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { Globe, Menu, X } from 'lucide-react';
 import type { Locale } from '../i18n/config';
 import { getAlternateLocale, localizePath, switchLocalePath } from '../i18n/config';
 import type { NavItem, UiDictionary } from '../i18n/ui';
+import { PROFILE } from '../data/profile';
 import './HeaderNav.css';
 
 interface HeaderNavProps {
@@ -15,7 +16,8 @@ interface HeaderNavProps {
 
 export default function HeaderNav({ locale, currentPath, navItems, controls }: HeaderNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const [focusedKey, setFocusedKey] = useState<NavItem['key'] | null>(null);
+  const [cursorOffset, setCursorOffset] = useState({ x: 0, y: 0 });
   const menuBtnRef = useRef<HTMLButtonElement | null>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
@@ -30,8 +32,12 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
     return currentPath.startsWith(target);
   };
 
+  const activeItem = navItems.find((item) => isActive(item)) ?? navItems[0];
+  const previewKey = focusedKey ?? activeItem.key;
+
   useEffect(() => {
     setMenuOpen(false);
+    setFocusedKey(null);
   }, [currentPath]);
 
   useEffect(() => {
@@ -41,7 +47,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
 
     const activeIdx = navItems.findIndex((item) => isActive(item));
     const focusTarget = itemRefs.current[activeIdx >= 0 ? activeIdx : 0];
-    setTimeout(() => focusTarget?.focus(), 60);
+    const focusTimer = setTimeout(() => focusTarget?.focus(), 140);
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -55,53 +61,155 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
         const delta = e.key === 'ArrowDown' ? 1 : -1;
         const nextIdx = (currentIdx + delta + navItems.length) % navItems.length;
         itemRefs.current[nextIdx]?.focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        itemRefs.current[0]?.focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        itemRefs.current[navItems.length - 1]?.focus();
       }
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => {
+      clearTimeout(focusTimer);
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [menuOpen, navItems]);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const nx = (e.clientX / window.innerWidth - 0.5) * 18;
+    const ny = (e.clientY / window.innerHeight - 0.5) * 14;
+    setCursorOffset({ x: nx, y: ny });
+  };
+
+  const renderPreview = () => {
+    const isPt = locale === 'pt-br';
+    switch (previewKey) {
+      case 'home':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">01 // {isPt ? 'APRESENTAÇÃO' : 'OVERVIEW'}</span>
+            <h3 className="ocean-preview__title">Victor Gabriel</h3>
+            <p className="ocean-preview__text">
+              {isPt
+                ? 'Estudante de ADS na UTFPR. Trabalho com Java, Spring Boot, React, TypeScript e automações que tiram trabalho manual da frente.'
+                : 'Systems Analysis & Development student at UTFPR. I build backends in Java/Spring Boot, web apps in React/TypeScript, and workflow automations.'}
+            </p>
+            <div className="ocean-preview__meta">
+              <span>Ponta Grossa, PR</span>
+              <span>GitHub · LinkedIn · E-mail</span>
+            </div>
+          </div>
+        );
+      case 'projects':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">02 // {isPt ? 'PROJETOS AUTORAIS' : 'PROJECTS'}</span>
+            <h3 className="ocean-preview__title">CTRLS ITSM &amp; +5</h3>
+            <img
+              src="/images/projects/ctrls-itsm/dashboard_chamados.png"
+              alt="CTRLS ITSM dashboard preview"
+              className="ocean-preview__thumb"
+              width="480"
+              height="270"
+            />
+            <p className="ocean-preview__text">
+              {isPt
+                ? 'CTRLS ITSM (~3 meses em uso real, ciclo encerrado), CTRLS Forms, Portal Clínico, Chamados Chesiquímica, Rewit e Job Hunter.'
+                : 'CTRLS ITSM (~3 months real use, cycle concluded), CTRLS Forms, Clinical Portal, Chesiquímica Ticketing, Rewit, and Job Hunter.'}
+            </p>
+          </div>
+        );
+      case 'experience':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">03 // {isPt ? 'TRAJETÓRIA' : 'EXPERIENCE'}</span>
+            <h3 className="ocean-preview__title">{isPt ? 'Linha do Tempo' : 'Career Timeline'}</h3>
+            <ul className="ocean-preview__list">
+              <li>
+                <strong>Inovare Serviços de Saúde</strong>
+                <span>{isPt ? 'Jan 2025 – Out 2026 (Estagiário → Técnico de TI)' : 'Jan 2025 – Oct 2026 (IT Intern → IT Technician)'}</span>
+              </li>
+              <li>
+                <strong>Chesiquímica Ltda.</strong>
+                <span>{isPt ? 'Ago 2024 – Dez 2024 (Estagiário de TI)' : 'Aug 2024 – Dec 2024 (IT Intern)'}</span>
+              </li>
+            </ul>
+          </div>
+        );
+      case 'skills':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">04 // {isPt ? 'STACK PRINCIPAL' : 'TECH STACK'}</span>
+            <h3 className="ocean-preview__title">Java · Spring · React · SQL</h3>
+            <p className="ocean-preview__stack">
+              Java 17/21 · Spring Boot 3 · Spring Security · React · TypeScript · PostgreSQL · Redis · Docker · Git · Linux · APIs REST · Webhooks
+            </p>
+          </div>
+        );
+      case 'about':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">05 // {isPt ? 'PERFIL & FORMAÇÃO' : 'ABOUT'}</span>
+            <h3 className="ocean-preview__title">UTFPR · SENAI · MCT Cursos</h3>
+            <p className="ocean-preview__text">
+              {isPt
+                ? 'Base técnica em Informática (SENAI), Administração (MCT Cursos, 2021), Logística e graduação em ADS na UTFPR. Português nativo e inglês intermediário.'
+                : 'Technical background in IT (SENAI), Business Administration (MCT Cursos, 2021), Logistics, and B.Tech in ADS at UTFPR. Native Portuguese, intermediate English.'}
+            </p>
+          </div>
+        );
+      case 'services':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">06 // {isPt ? 'SERVIÇOS' : 'SERVICES'}</span>
+            <h3 className="ocean-preview__title">{isPt ? 'Escopo Técnico' : 'Technical Scope'}</h3>
+            <ul className="ocean-preview__list">
+              <li>{isPt ? 'Desenvolvimento Backend (Java / Spring Boot)' : 'Backend Development (Java / Spring Boot)'}</li>
+              <li>{isPt ? 'APIs REST, Webhooks & Integrações' : 'REST APIs, Webhooks & Integrations'}</li>
+              <li>{isPt ? 'Automação WhatsApp (Blip & Digisac)' : 'WhatsApp Automation (Blip & Digisac)'}</li>
+              <li>{isPt ? 'Aplicações Web (React & TypeScript)' : 'Web Applications (React & TypeScript)'}</li>
+            </ul>
+          </div>
+        );
+      case 'contact':
+        return (
+          <div className="ocean-preview__card">
+            <span className="ocean-preview__tag">07 // {isPt ? 'CONTATO & CV' : 'CONTACT & RESUME'}</span>
+            <h3 className="ocean-preview__title">{PROFILE.email}</h3>
+            <p className="ocean-preview__text">
+              {isPt
+                ? 'Canais diretos por e-mail, GitHub e LinkedIn, além do currículo em PDF de 1 página em português e inglês.'
+                : 'Direct channels via email, GitHub, and LinkedIn, plus 1-page PDF resumes in Portuguese and English.'}
+            </p>
+            <div className="ocean-preview__meta">
+              <span>GitHub: @{PROFILE.githubUsername}</span>
+              <span>PDF (PT-BR / EN)</span>
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
     <>
       <header className="site-header">
         <div className="container site-header__inner">
-          <a href={localizePath(locale)} className="brand-mark" aria-label="Vito.dev Home">
-            <span className="brand-mark__slash" aria-hidden="true" />
-            <span className="brand-mark__text">
-              VITO<span className="brand-mark__dot">.DEV</span>
+          <div className="header-left">
+            <a href={localizePath(locale)} className="brand-mark" aria-label="Vito.dev Home">
+              <span className="brand-mark__slash" aria-hidden="true" />
+              <span className="brand-mark__text">
+                VITO<span className="brand-mark__dot">.DEV</span>
+              </span>
+            </a>
+            <span className="header-route-indicator" aria-hidden="true">
+              {activeItem.code} / {activeItem.label}
             </span>
-          </a>
-
-          <nav className="desktop-nav" aria-label="Primary">
-            <ul className="desktop-nav__list">
-              {navItems.map((item) => {
-                const active = isActive(item);
-                return (
-                  <li key={item.key}>
-                    <a
-                      href={localizePath(locale, item.slug)}
-                      className={`desktop-nav__link ${active ? 'is-active' : ''}`}
-                      aria-current={active ? 'page' : undefined}
-                    >
-                      {active && (
-                        <motion.span
-                          layoutId="p3-active-pill"
-                          className="desktop-nav__pill"
-                          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        />
-                      )}
-                      <span className="desktop-nav__code">{item.code}</span>
-                      <span className="desktop-nav__label">{item.label}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+          </div>
 
           <div className="header-actions">
             <a
@@ -118,7 +226,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             <button
               ref={menuBtnRef}
               type="button"
-              className="aquatic-menu-trigger"
+              className="ocean-menu-trigger"
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-controls="aquatic-nav-overlay"
@@ -135,54 +243,76 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
         {menuOpen && (
           <motion.div
             id="aquatic-nav-overlay"
-            className="aquatic-overlay"
+            className="ocean-overlay"
             role="dialog"
             aria-modal="true"
             aria-label={controls.menuOpen}
+            onMouseMove={handleMouseMove}
             initial={{ opacity: 0, clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' }}
-            animate={{ opacity: 1, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }}
-            exit={{ opacity: 0, clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)' }}
-            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+            animate={{
+              opacity: 1,
+              clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+              transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+            }}
+            exit={{
+              opacity: 0,
+              clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)',
+              transition: { duration: 0.95, ease: [0.22, 1, 0.36, 1] },
+            }}
           >
-            <div className="aquatic-overlay__rays" aria-hidden="true" />
-            <div className="aquatic-overlay__bubbles" aria-hidden="true">
-              <span /><span /><span /><span /><span />
+            <div
+              className="ocean-overlay__refraction"
+              aria-hidden="true"
+              style={{
+                transform: `translate3d(${cursorOffset.x}px, ${cursorOffset.y}px, 0)`,
+              }}
+            />
+            <div className="ocean-overlay__bubbles" aria-hidden="true">
+              <span /><span /><span /><span /><span /><span />
             </div>
 
-            <div className="container aquatic-overlay__inner">
-              <div className="aquatic-overlay__top">
-                <span className="aquatic-overlay__brand">
+            <div className="container ocean-overlay__inner">
+              <div className="ocean-overlay__top">
+                <span className="ocean-overlay__brand">
                   <span className="brand-mark__slash" aria-hidden="true" />
                   VITO<span className="brand-mark__dot">.DEV</span>
                 </span>
-                <button
-                  type="button"
-                  className="aquatic-close-btn"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    menuBtnRef.current?.focus();
-                  }}
-                  aria-label={controls.menuClose}
-                >
-                  <X size={20} aria-hidden="true" />
-                  <span>ESC</span>
-                </button>
+                <div className="ocean-overlay__top-actions">
+                  <a href={altPath} className="lang-switch">
+                    <Globe size={14} aria-hidden="true" />
+                    <span>{locale === 'pt-br' ? 'EN' : 'PT-BR'}</span>
+                  </a>
+                  <button
+                    type="button"
+                    className="ocean-close-btn"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      menuBtnRef.current?.focus();
+                    }}
+                    aria-label={controls.menuClose}
+                  >
+                    <X size={18} aria-hidden="true" />
+                    <span>ESC</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="aquatic-overlay__grid">
-                <nav className="aquatic-nav" aria-label="Full Screen Navigation">
-                  <ul className="aquatic-nav__list">
+              <div className="ocean-overlay__grid">
+                <nav className="ocean-nav" aria-label="Main Navigation">
+                  <ul className="ocean-nav__list">
                     {navItems.map((item, idx) => {
                       const active = isActive(item);
-                      const highlighted = hoveredKey ? hoveredKey === item.key : active;
+                      const highlighted = previewKey === item.key;
                       return (
                         <motion.li
                           key={item.key}
-                          initial={{ opacity: 0, x: -32 }}
+                          style={{ '--stagger-x': `${idx * 8}px` } as React.CSSProperties}
+                          className="ocean-nav__item"
+                          initial={{ opacity: 0, x: -36 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{
-                            duration: 0.45,
-                            delay: 0.16 + idx * 0.09,
+                            duration: 0.62,
+                            delay: 0.28 + idx * 0.135,
                             ease: [0.22, 1, 0.36, 1],
                           }}
                         >
@@ -191,23 +321,22 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
                               itemRefs.current[idx] = el;
                             }}
                             href={localizePath(locale, item.slug)}
-                            className={`aquatic-nav__link ${active ? 'is-active' : ''}`}
+                            className={`ocean-nav__link ${active ? 'is-active' : ''}`}
                             aria-current={active ? 'page' : undefined}
-                            onMouseEnter={() => setHoveredKey(item.key)}
-                            onMouseLeave={() => setHoveredKey(null)}
-                            onFocus={() => setHoveredKey(item.key)}
-                            onBlur={() => setHoveredKey(null)}
+                            onMouseEnter={() => setFocusedKey(item.key)}
+                            onFocus={() => setFocusedKey(item.key)}
                             onClick={() => setMenuOpen(false)}
                           >
                             {highlighted && (
                               <motion.span
                                 layoutId="p3-aquatic-select"
-                                className="aquatic-nav__highlight"
-                                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                                className="ocean-nav__highlight"
+                                transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
                               />
                             )}
-                            <span className="aquatic-nav__code">{item.code}</span>
-                            <span className="aquatic-nav__label">{item.label}</span>
+                            <span className="ocean-nav__code">{item.code}</span>
+                            <span className="ocean-nav__slash" aria-hidden="true">/</span>
+                            <span className="ocean-nav__label">{item.label}</span>
                           </a>
                         </motion.li>
                       );
@@ -215,18 +344,15 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
                   </ul>
                 </nav>
 
-                <aside className="aquatic-overlay__aside">
-                  <p className="aquatic-overlay__kicker">VICTOR GABRIEL // VITO.DEV</p>
-                  <p className="aquatic-overlay__desc">
-                    {locale === 'pt-br'
-                      ? 'Engenharia de Software, Backend Java / Spring Boot, React & TypeScript, APIs REST e Automações.'
-                      : 'Software Engineering, Java / Spring Boot Backends, React & TypeScript, REST APIs, and Automation.'}
-                  </p>
-                  <a href={altPath} className="lang-switch aquatic-overlay__lang">
-                    <Globe size={14} aria-hidden="true" />
-                    <span>{locale === 'pt-br' ? 'Switch to English (EN)' : 'Mudar para Português (PT-BR)'}</span>
-                  </a>
-                </aside>
+                <motion.aside
+                  key={previewKey}
+                  className="ocean-preview"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {renderPreview()}
+                </motion.aside>
               </div>
             </div>
           </motion.div>

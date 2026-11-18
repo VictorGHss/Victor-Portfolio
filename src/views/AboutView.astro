@@ -12,6 +12,7 @@ const t = UI[locale];
 ---
 
 <section class="section">
+  <div class="section-watermark" aria-hidden="true">PROFILE</div>
   <div class="container">
     <div class="section-header">
       <div>
@@ -23,24 +24,28 @@ const t = UI[locale];
 
     <div class="about-layout">
       <div class="about-essay">
-        <h2 class="display-title about-heading">{t.about.bioTitle}</h2>
-        <p class="about-lead">{t.about.bioText}</p>
+        <div class="about-story paper-slab" data-reveal>
+          <h2 class="display-title about-story__title">{t.about.bioTitle}</h2>
+          <p class="about-lead">{t.about.bioText}</p>
+        </div>
 
-        <h2 class="display-title about-heading">{t.about.educationTitle}</h2>
-        <div class="about-list">
-          {EDUCATION.map((edu) => (
-            <div class="about-row">
-              <span class="about-row__meta">{edu.period[locale]}</span>
-              <div>
-                <strong>{edu.degree[locale]}</strong>
-                <span class="about-row__sub">{edu.institution[locale]}</span>
+        <div data-reveal>
+          <h2 class="display-title about-heading">{t.about.educationTitle}</h2>
+          <div class="about-list">
+            {EDUCATION.map((edu) => (
+              <div class="about-row">
+                <span class="about-row__meta">{edu.period[locale]}</span>
+                <div>
+                  <strong class="about-row__deg">{edu.degree[locale]}</strong>
+                  <span class="about-row__sub">{edu.institution[locale]}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      <aside class="about-aside surface-block">
+      <aside class="about-aside surface-block" data-reveal>
         <div>
           <h2 class="display-title about-aside__title">{t.about.coursesTitle}</h2>
           <ul class="about-courses">
@@ -65,7 +70,7 @@ const t = UI[locale];
         </div>
 
         <a href={localizePath(locale, 'projects')} class="p3-btn p3-btn--primary">
-          {t.home.allProjectsCta}
+          <span>{t.home.allProjectsCta}</span>
         </a>
       </aside>
     </div>
@@ -80,39 +85,59 @@ const t = UI[locale];
     align-items: start;
   }
 
+  .about-story {
+    padding: var(--space-5);
+    margin-bottom: var(--space-6);
+    border-left: 6px solid var(--color-accent);
+  }
+
+  .about-story__title {
+    font-size: 1.85rem;
+    color: var(--text-inverse);
+    margin-bottom: var(--space-3);
+  }
+
+  .about-lead {
+    margin: 0;
+    color: #1c2f4a;
+    font-size: 1.06rem;
+    font-weight: 500;
+  }
+
   .about-heading {
-    font-size: 1.55rem;
+    font-size: 1.9rem;
     color: var(--color-cyan);
     margin: 0 0 var(--space-3);
   }
 
-  .about-lead {
-    margin: 0 0 var(--space-6);
-    color: var(--text-secondary);
-    font-size: 1.04rem;
-  }
-
   .about-list {
-    border-top: 1px solid rgba(232, 242, 255, 0.09);
+    border-top: 2px solid rgba(60, 226, 255, 0.22);
   }
 
   .about-row {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 205px 1fr;
     gap: var(--space-4);
-    padding-block: var(--space-3);
-    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
+    padding-block: var(--space-4);
+    border-bottom: 1px solid rgba(60, 226, 255, 0.14);
   }
 
   .about-row__meta {
     font-family: var(--font-mono);
     font-size: 0.78rem;
+    font-weight: 700;
     color: var(--color-cyan);
+  }
+
+  .about-row__deg {
+    font-family: var(--font-heading);
+    font-size: 1.04rem;
+    color: var(--color-pure-white);
   }
 
   .about-row__sub {
     display: block;
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
   }
 
@@ -120,11 +145,11 @@ const t = UI[locale];
     padding: var(--space-5);
     display: grid;
     gap: var(--space-5);
-    border-left: 3px solid var(--color-electric-blue);
+    border-left: 5px solid var(--color-electric-blue);
   }
 
   .about-aside__title {
-    font-size: 1.25rem;
+    font-size: 1.6rem;
     color: var(--color-cyan);
     margin-bottom: var(--space-3);
   }
@@ -134,16 +159,21 @@ const t = UI[locale];
     margin: 0;
     padding-left: 1.1rem;
     display: grid;
-    gap: 0.65rem;
+    gap: 0.7rem;
     color: var(--text-secondary);
-    font-size: 0.92rem;
+    font-size: 0.94rem;
+  }
+
+  .about-courses strong,
+  .about-langs strong {
+    color: var(--color-pure-white);
   }
 
   .about-courses span {
     display: block;
     font-family: var(--font-mono);
     font-size: 0.76rem;
-    color: var(--text-muted);
+    color: var(--color-cyan);
   }
 
   @media (max-width: 860px) {

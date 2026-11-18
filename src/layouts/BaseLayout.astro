@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import AmbientBackdrop from '../components/AmbientBackdrop.astro';
 import HeaderNav from '../components/HeaderNav';
 import PageTransitionOverlay from '../components/PageTransitionOverlay';
 import { PROFILE } from '../data/profile';
@@ -56,19 +57,21 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@600;700&display=swap"
       rel="stylesheet"
     />
     <ClientRouter />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">{t.skipToContent}</a>
+    <a href="#main-content" class="skip-link"><span>{t.skipToContent}</span></a>
+
+    <AmbientBackdrop />
 
     <PageTransitionOverlay client:load transition:persist="p3-overlay" />
 
     <HeaderNav
       client:load
-      transition:persist="p3-header"
+      transition:persist={`p3-header-${locale}`}
       locale={locale}
       currentPath={currentPath}
       navItems={t.nav}
@@ -80,59 +83,118 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
     </main>
 
     <footer class="site-footer">
+      <div class="site-footer__slash" aria-hidden="true"></div>
       <div class="container site-footer__inner">
-        <div>
+        <div class="site-footer__identity">
           <p class="site-footer__brand">
-            <span class="brand-mark__slash" aria-hidden="true"></span>
-            <strong>{PROFILE.brand}</strong> — {t.brandTagline}
+            <span class="site-footer__badge">VITO.DEV</span>
+            <span class="site-footer__tagline">{t.brandTagline}</span>
           </p>
+          <p class="site-footer__rights">{t.footer.note} · {t.footer.rights}</p>
         </div>
         <div class="site-footer__links">
-          <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-          <a href={PROFILE.resumeFiles[locale]} download>{t.home.resumeCta}</a>
+          <a href={PROFILE.resumeFiles[locale]} download>{t.home.resumeCta} ↓</a>
           <a href={localizePath(locale, 'contact')}>{t.nav.find((n) => n.key === 'contact')?.label}</a>
         </div>
       </div>
-      <div class="container site-footer__bottom">
-        <span>{t.footer.note}</span>
-        <span>{t.footer.rights}</span>
-      </div>
     </footer>
+
+    <script>
+      function initScrollReveals() {
+        const items = document.querySelectorAll('[data-reveal]');
+        if (!items.length) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          items.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+        document.documentElement.classList.add('js-reveal');
+        const vh = window.innerHeight || 900;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
+        );
+        items.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < vh * 0.96) {
+            el.classList.add('is-visible');
+          } else {
+            observer.observe(el);
+          }
+        });
+      }
+      initScrollReveals();
+      document.addEventListener('astro:page-load', initScrollReveals);
+    </script>
   </body>
 </html>
 
 <style>
   .site-footer {
     margin-top: var(--space-8);
-    border-top: 1px solid rgba(232, 242, 255, 0.08);
-    background: rgba(5, 14, 27, 0.94);
-    padding-block: var(--space-7) var(--space-5);
+    background: #02060d;
+    border-top: 3px solid var(--color-electric-blue);
+    padding-block: var(--space-6);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site-footer__slash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 4px;
+    background: var(--color-accent);
   }
 
   .site-footer__inner {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     gap: var(--space-5);
-    padding-bottom: var(--space-5);
-    border-bottom: 1px solid rgba(232, 242, 255, 0.06);
   }
 
   .site-footer__brand {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.6rem;
-    margin: 0 0 0.5rem;
-    font-size: 1rem;
+    gap: 0.85rem;
+    margin: 0 0 0.45rem;
   }
 
-  .site-footer__note {
+  .site-footer__badge {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.04em;
+    background: var(--color-pure-white);
+    color: var(--text-inverse);
+    padding: 0.1rem 0.65rem;
+    transform: skewX(-8deg);
+    box-shadow: 3px 3px 0 var(--color-accent);
+  }
+
+  .site-footer__tagline {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-ice-white);
+  }
+
+  .site-footer__rights {
     margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     color: var(--text-muted);
-    font-size: 0.85rem;
-    max-width: 58ch;
   }
 
   .site-footer__links {
@@ -142,24 +204,16 @@ const htmlLang = locale === 'pt-br' ? 'pt-BR' : 'en';
     gap: 1.25rem;
     font-family: var(--font-mono);
     font-size: 0.82rem;
+    font-weight: 700;
   }
 
   .site-footer__links a {
     color: var(--color-cyan);
-    transition: color var(--duration-fast);
+    transition: color var(--duration-fast), transform var(--duration-fast);
   }
 
   .site-footer__links a:hover {
-    color: var(--color-ice-white);
-  }
-
-  .site-footer__bottom {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding-top: var(--space-4);
-    color: var(--text-muted);
-    font-size: 0.8rem;
+    color: var(--color-pure-white);
+    transform: translateY(-2px);
   }
 </style>

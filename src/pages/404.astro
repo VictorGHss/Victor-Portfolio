@@ -14,6 +14,7 @@ const t = UI[locale];
   noindex={true}
 >
   <section class="section">
+    <div class="section-watermark" aria-hidden="true">404 // VOID</div>
     <div class="container">
       <div class="not-found surface-block">
         <span class="display-kicker display-kicker--accent">ERROR // {t.notFound.code}</span>
@@ -22,10 +23,10 @@ const t = UI[locale];
         <p class="not-found__desc">{t.notFound.description}</p>
         <div class="not-found__actions">
           <a href={localizePath('pt-br')} class="p3-btn p3-btn--primary">
-            {UI['pt-br'].notFound.backHome} (PT-BR)
+            <span>{UI['pt-br'].notFound.backHome} (PT-BR)</span>
           </a>
           <a href={localizePath('en')} class="p3-btn p3-btn--secondary">
-            {UI.en.notFound.backHome} (EN)
+            <span>{UI.en.notFound.backHome} (EN)</span>
           </a>
         </div>
       </div>
@@ -38,16 +39,18 @@ const t = UI[locale];
     padding: var(--space-7);
     max-width: 720px;
     margin-inline: auto;
-    border-left: 4px solid var(--color-accent);
+    border-left: 6px solid var(--color-accent);
+    box-shadow: 9px 9px 0px var(--color-electric-blue);
   }
 
   .not-found__code {
-    font-size: clamp(4rem, 12vw, 6.5rem);
-    color: var(--color-accent);
+    font-size: clamp(4.5rem, 12vw, 7.5rem);
+    color: var(--color-pure-white);
+    text-shadow: 5px 5px 0 var(--color-accent);
   }
 
   .not-found__title {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
     margin-top: 0.25rem;
   }
 
@@ -59,6 +62,6 @@ const t = UI[locale];
   .not-found__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 </style>

@@ -14,6 +14,7 @@ const sorted = [...PROJECTS].sort((a, b) => a.priority - b.priority);
 ---
 
 <section class="section">
+  <div class="section-watermark" aria-hidden="true">PROJECTS</div>
   <div class="container">
     <div class="section-header">
       <div>
@@ -23,7 +24,10 @@ const sorted = [...PROJECTS].sort((a, b) => a.priority - b.priority);
       </div>
     </div>
 
-    <p class="projects-intro">{t.projects.introNote}</p>
+    <div class="projects-intro paper-slab">
+      <span class="projects-intro__tag">DEV // NOTE</span>
+      <p>{t.projects.introNote}</p>
+    </div>
 
     <div class="projects-stack">
       {sorted.map((project) => (
@@ -35,16 +39,35 @@ const sorted = [...PROJECTS].sort((a, b) => a.priority - b.priority);
 
 <style>
   .projects-intro {
-    margin: 0 0 var(--space-5);
-    color: var(--text-secondary);
-    max-width: 70ch;
-    font-size: 1.02rem;
-    padding-left: var(--space-4);
-    border-left: 2px solid var(--color-cyan);
+    margin: 0 0 var(--space-6);
+    padding: 1.15rem 1.45rem;
+    max-width: 78ch;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1rem;
+  }
+
+  .projects-intro__tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: var(--color-accent);
+    color: var(--color-pure-white);
+    padding: 0.16rem 0.55rem;
+    transform: skewX(-8deg);
+  }
+
+  .projects-intro p {
+    margin: 0;
+    color: var(--text-inverse);
+    font-weight: 500;
+    font-size: 1rem;
+    flex: 1 1 420px;
   }
 
   .projects-stack {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 </style>

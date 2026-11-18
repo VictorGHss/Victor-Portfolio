@@ -1,4 +1,5 @@
 ---
+import HeroCommandDeck, { type CommandBlade } from '../components/HeroCommandDeck';
 import { EXPERIENCE, SKILL_GROUPS } from '../data/portfolio';
 import { PROFILE } from '../data/profile';
 import { PROJECTS } from '../data/projects';
@@ -11,6 +12,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = UI[locale];
+const isPt = locale === 'pt-br';
 const flagship = PROJECTS[0];
 const selectedProjects = PROJECTS.filter(
   (p) => p.slug !== flagship.slug && p.status !== 'in-development'
@@ -19,59 +21,109 @@ const inDevProjects = PROJECTS.filter((p) => p.status === 'in-development');
 const primarySkills = SKILL_GROUPS.filter((g) => g.tier === 'primary');
 const resumeUrl = PROFILE.resumeFiles[locale];
 const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.projects.publicShowcaseLabel;
+
+const heroBlades: CommandBlade[] = [
+  {
+    code: '01',
+    label: 'CTRLS ITSM',
+    meta: isPt ? 'PROJETO PRINCIPAL' : 'MAIN PROJECT',
+    href: localizePath(locale, `projects/${flagship.slug}`),
+  },
+  {
+    code: '02',
+    label: isPt ? 'PROJETOS' : 'PROJECTS',
+    meta: isPt ? '6 NO GITHUB' : '6 ON GITHUB',
+    href: localizePath(locale, 'projects'),
+  },
+  {
+    code: '03',
+    label: isPt ? 'EXPERIÊNCIA' : 'EXPERIENCE',
+    meta: '2024 — 2026',
+    href: localizePath(locale, 'experience'),
+  },
+  {
+    code: '04',
+    label: isPt ? 'CURRÍCULO' : 'RESUME',
+    meta: isPt ? 'PDF · 1 PÁGINA' : '1-PAGE PDF',
+    href: resumeUrl,
+    download: true,
+  },
+  {
+    code: '05',
+    label: isPt ? 'CONTATO' : 'CONTACT',
+    meta: isPt ? 'BORA CONVERSAR' : "LET'S CHAT",
+    href: localizePath(locale, 'contact'),
+  },
+];
+
+const tickerItems = [
+  'JAVA 21',
+  'SPRING BOOT 3',
+  'SPRING SECURITY',
+  'REACT & TYPESCRIPT',
+  'POSTGRESQL',
+  'REST APIS & WEBHOOKS',
+  'REDIS',
+  'DOCKER & LINUX',
+];
 ---
 
 <section class="hero section">
-  <div class="hero__slash" aria-hidden="true"></div>
+  <div class="hero__slash-bg" aria-hidden="true"></div>
+  <div class="hero__watermark" aria-hidden="true">VITO // 01</div>
+
   <div class="container hero__grid">
     <div class="hero__content">
       <span class="display-kicker display-kicker--accent">{t.home.kicker}</span>
+
       <h1 class="display-title hero__title">
-        <span>{t.home.headlineLine1}</span>
-        <span>{t.home.headlineLine2}</span>
-        <span class="hero__title-accent">{t.home.headlineAccent}</span>
+        <span class="hero__line">{t.home.headlineLine1}</span>
+        <span class="hero__line">{t.home.headlineLine2}</span>
+        <span class="hero__line-shard">
+          <span>{t.home.headlineAccent}</span>
+        </span>
       </h1>
+
       <p class="hero__summary">{t.home.summary}</p>
 
       <div class="hero__actions">
         <a href={localizePath(locale, `projects/${flagship.slug}`)} class="p3-btn p3-btn--primary">
-          {t.home.primaryCta}
+          <span>{t.home.primaryCta}</span>
         </a>
         <a href={resumeUrl} download class="p3-btn p3-btn--secondary">
-          {t.home.resumeCta}
+          <span>{t.home.resumeCta}</span>
         </a>
       </div>
     </div>
 
-    <aside class="hero__dossier" aria-label={t.home.specializationLabel}>
-      <div class="hero__dossier-top">
-        <span class="hero__dossier-brand">{PROFILE.brand}</span>
-        <span class="hero__dossier-loc">{PROFILE.location[locale]}</span>
-      </div>
-      <h2 class="hero__dossier-name display-title">{PROFILE.fullName}</h2>
-      <p class="hero__dossier-edu">{PROFILE.education[locale]}</p>
-
-      <div class="hero__spec">
-        <span class="hero__spec-label">{t.home.specializationLabel}</span>
-        <p class="hero__spec-text">{t.home.specializationText}</p>
-      </div>
-
-      <div class="hero__links">
-        <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
-          GitHub ↗
-        </a>
-        <a href={PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer" class="p3-link">
-          LinkedIn ↗
-        </a>
-        <a href={`mailto:${PROFILE.email}`} class="p3-link">
-          {PROFILE.email}
-        </a>
-      </div>
+    <aside aria-label={t.home.specializationLabel}>
+      <HeroCommandDeck
+        client:load
+        fullName={PROFILE.fullName}
+        location={PROFILE.location[locale]}
+        education={PROFILE.education[locale]}
+        blades={heroBlades}
+        githubUrl={PROFILE.githubUrl}
+        linkedinUrl={PROFILE.linkedinUrl}
+        email={PROFILE.email}
+      />
     </aside>
   </div>
 </section>
 
-<section class="section">
+<!-- Kinetic Tilted Ticker Band -->
+<div class="p3-ticker" aria-hidden="true">
+  <div class="p3-ticker__track">
+    {[...tickerItems, ...tickerItems].map((item) => (
+      <span class="p3-ticker__item">
+        {item} <em>✦</em>
+      </span>
+    ))}
+  </div>
+</div>
+
+<section class="section" data-reveal>
+  <div class="section-watermark" aria-hidden="true">FEATURED</div>
   <div class="container">
     <div class="section-header">
       <div>
@@ -93,8 +145,9 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
 
         <p class="flagship__desc">{flagship.solution[locale]}</p>
 
+        <!-- High-Contrast Inverted Paper Slab Metrics -->
         {flagship.metrics && (
-          <div class="flagship__metrics">
+          <div class="flagship__metrics paper-slab">
             {flagship.metrics.slice(0, 3).map((metric) => (
               <div class="metric-item">
                 <strong class="metric-item__value">{metric.value}</strong>
@@ -108,11 +161,11 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
 
         <div class="flagship__actions">
           <a href={localizePath(locale, `projects/${flagship.slug}`)} class="p3-btn p3-btn--primary">
-            {t.home.viewCaseStudy}
+            <span>{t.home.viewCaseStudy}</span>
           </a>
           {flagship.repoUrl && (
             <a href={flagship.repoUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--secondary">
-              {flagshipRepoLabel} ↗
+              <span>{flagshipRepoLabel} ↗</span>
             </a>
           )}
         </div>
@@ -120,6 +173,7 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
 
       {flagship.screenshots && flagship.screenshots[0] && (
         <figure class="flagship__visual">
+          <div class="flagship__visual-tag">CASE // 01</div>
           <img
             src={flagship.screenshots[0].src}
             alt={flagship.screenshots[0].alt[locale]}
@@ -132,27 +186,30 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
       )}
     </div>
 
-    <div class="other-projects">
-      <h3 class="other-projects__heading">{t.home.otherProjectsTitle}</h3>
+    <div class="other-projects" data-reveal>
+      <h3 class="sub-kicker">{t.home.otherProjectsTitle}</h3>
       <div class="other-projects__list">
         {selectedProjects.map((project) => (
-          <a href={localizePath(locale, `projects/${project.slug}`)} class="project-line">
-            <span class="project-line__num">0{project.priority}</span>
-            <span class="project-line__title">{project.name[locale]}</span>
-            <span class="project-line__desc">{project.tagline[locale]}</span>
-            <span class="project-line__stack">{project.stack.slice(0, 4).join(' · ')}</span>
+          <a href={localizePath(locale, `projects/${project.slug}`)} class="project-blade">
+            <span class="project-blade__num">0{project.priority}</span>
+            <div class="project-blade__main">
+              <strong class="project-blade__title">{project.name[locale]}</strong>
+              <span class="project-blade__desc">{project.tagline[locale]}</span>
+            </div>
+            <span class="project-blade__stack">{project.stack.slice(0, 4).join(' · ')}</span>
+            <span class="project-blade__arrow" aria-hidden="true">→</span>
           </a>
         ))}
       </div>
     </div>
 
-    <div class="indev-strip">
-      <h3 class="other-projects__heading">{t.home.inDevTitle}</h3>
+    <div class="indev-strip" data-reveal>
+      <h3 class="sub-kicker sub-kicker--accent">{t.home.inDevTitle}</h3>
       <div class="indev-grid">
         {inDevProjects.map((project) => (
           <a href={localizePath(locale, `projects/${project.slug}`)} class="indev-card">
             <div class="indev-card__top">
-              <span class="status-label">{t.projects.statusLabels[project.status]}</span>
+              <span class="status-label status-label--cyan">{t.projects.statusLabels[project.status]}</span>
               <span class="indev-card__num">0{project.priority}</span>
             </div>
             <strong class="indev-card__title">{project.name[locale]}</strong>
@@ -165,7 +222,8 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
   </div>
 </section>
 
-<section class="section section--compact">
+<section class="section section--compact" data-reveal>
+  <div class="section-watermark" aria-hidden="true">TIMELINE</div>
   <div class="container">
     <div class="section-header">
       <div>
@@ -185,10 +243,11 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
 
     <div class="exp-stack-split">
       <div class="trajectory-list">
-        {EXPERIENCE.map((item) => (
+        {EXPERIENCE.map((item, idx) => (
           <article class="trajectory-item">
+            <span class={`trajectory-node ${idx === 0 ? 'trajectory-node--accent' : ''}`} aria-hidden="true"></span>
             <div class="trajectory-item__period">{item.period[locale]}</div>
-            <h3 class="trajectory-item__role">
+            <h3 class="trajectory-item__role heading-title">
               {item.role[locale]} <span class="trajectory-item__company">— {item.company[locale]}</span>
             </h3>
             <p class="trajectory-item__summary">{item.summary[locale]}</p>
@@ -196,7 +255,8 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
         ))}
       </div>
 
-      <div class="spec-list">
+      <div class="spec-list surface-block">
+        <div class="spec-list__header">ARSENAL // STACK</div>
         {primarySkills.map((group) => (
           <div class="spec-row">
             <h3 class="spec-row__cat">{group.category[locale]}</h3>
@@ -208,20 +268,20 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
   </div>
 </section>
 
-<section class="section section--compact">
+<section class="section section--compact" data-reveal>
   <div class="container">
-    <div class="cta-strip surface-block">
-      <div>
+    <div class="cta-poster">
+      <div class="cta-poster__content">
         <span class="display-kicker display-kicker--accent">03 // {t.nav[6].label}</span>
-        <h2 class="display-title cta-strip__title">{t.home.contactTitle}</h2>
-        <p class="cta-strip__subtitle">{t.home.contactSubtitle}</p>
+        <h2 class="display-title cta-poster__title">{t.home.contactTitle}</h2>
+        <p class="cta-poster__subtitle">{t.home.contactSubtitle}</p>
       </div>
-      <div class="cta-strip__actions">
+      <div class="cta-poster__actions">
         <a href={localizePath(locale, 'contact')} class="p3-btn p3-btn--primary">
-          {t.home.contactCta}
+          <span>{t.home.contactCta}</span>
         </a>
         <a href={resumeUrl} download class="p3-btn p3-btn--secondary">
-          {t.home.resumeCta}
+          <span>{t.home.resumeCta}</span>
         </a>
       </div>
     </div>
@@ -232,179 +292,219 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
   .hero {
     overflow: hidden;
     padding-top: var(--space-7);
-    padding-bottom: var(--space-7);
+    padding-bottom: var(--space-8);
   }
 
-  .hero__slash {
+  .hero__slash-bg {
     position: absolute;
-    top: -10%;
-    right: -6%;
-    width: 46vw;
-    height: 118%;
-    background: linear-gradient(160deg, rgba(18, 59, 112, 0.35), rgba(7, 20, 38, 0.05));
-    clip-path: polygon(32% 0, 100% 0, 68% 100%, 0 100%);
+    top: -15%;
+    right: -10%;
+    width: 52vw;
+    height: 130%;
+    background: linear-gradient(155deg, rgba(14, 124, 255, 0.22) 0%, rgba(16, 43, 87, 0.36) 60%, transparent 100%);
+    clip-path: polygon(26% 0, 100% 0, 74% 100%, 0 100%);
     pointer-events: none;
+  }
+
+  .hero__watermark {
+    position: absolute;
+    bottom: 0.5rem;
+    left: -1vw;
+    font-family: var(--font-display);
+    font-size: clamp(5.5rem, 15vw, 13rem);
+    line-height: 0.82;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(60, 226, 255, 0.07);
+    transform: skewX(-8deg);
+    pointer-events: none;
+    user-select: none;
   }
 
   .hero__grid {
     display: grid;
-    grid-template-columns: 1.3fr 0.9fr;
-    gap: var(--space-6);
+    grid-template-columns: 1.2fr 0.95fr;
+    gap: var(--space-7);
     align-items: center;
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   .hero__title {
-    font-size: clamp(2.35rem, 4.6vw, 3.85rem);
+    font-size: clamp(2.85rem, 6.2vw, 5.1rem);
     display: flex;
     flex-direction: column;
-    gap: 0.04em;
+    align-items: flex-start;
+    gap: 0.06em;
   }
 
-  .hero__title-accent {
-    color: var(--color-cyan);
+  .hero__line {
+    transform: skewX(-4deg);
+  }
+
+  .hero__line-shard {
+    display: inline-block;
+    margin-top: 0.12em;
+    padding: 0.06em 0.36em 0.08em 0.28em;
+    background: var(--color-pure-white);
+    color: var(--text-inverse);
+    transform: skewX(-7deg);
+    box-shadow: 7px 7px 0px var(--color-accent);
+  }
+
+  .hero__line-shard > span {
+    display: inline-block;
+    transform: skewX(3deg);
   }
 
   .hero__summary {
-    margin: var(--space-4) 0 var(--space-5);
+    margin: var(--space-5) 0 var(--space-5);
     color: var(--text-secondary);
-    font-size: 1.06rem;
-    max-width: 56ch;
+    font-size: 1.08rem;
+    max-width: 55ch;
+    border-left: 3px solid var(--color-electric-blue);
+    padding-left: 1rem;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.85rem;
-  }
-
-  .hero__dossier {
-    padding: var(--space-4) 0 var(--space-4) var(--space-5);
-    border-left: 2px solid rgba(85, 200, 255, 0.35);
-    position: relative;
-  }
-
-  .hero__dossier-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-  }
-
-  .hero__dossier-brand {
-    color: var(--color-cyan);
-    font-weight: 600;
-  }
-
-  .hero__dossier-loc {
-    color: var(--text-muted);
-  }
-
-  .hero__dossier-name {
-    font-size: 1.5rem;
-  }
-
-  .hero__dossier-edu {
-    margin: 0.35rem 0 var(--space-4);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-  }
-
-  .hero__spec {
-    padding-left: var(--space-3);
-    border-left: 2px solid var(--color-electric-blue);
-    margin-bottom: var(--space-4);
-  }
-
-  .hero__spec-label {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    color: var(--color-cyan);
-    margin-bottom: 0.25rem;
-  }
-
-  .hero__spec-text {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-  }
-
-  .hero__links {
-    display: flex;
-    flex-wrap: wrap;
     gap: 1rem;
-    padding-top: var(--space-3);
-    border-top: 1px solid rgba(232, 242, 255, 0.08);
   }
 
+  /* Tilted P3R × P5R Marquee Ribbon */
+  .p3-ticker {
+    position: relative;
+    z-index: 3;
+    background: var(--color-electric-blue);
+    border-top: 2px solid var(--color-pure-white);
+    border-bottom: 3px solid var(--color-accent);
+    padding-block: 0.68rem;
+    transform: rotate(-1.3deg) scale(1.03);
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(2, 6, 13, 0.65);
+  }
+
+  .p3-ticker__track {
+    display: flex;
+    width: max-content;
+    gap: 2rem;
+    animation: tickerSlide 28s linear infinite;
+  }
+
+  .p3-ticker__item {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    color: var(--color-pure-white);
+    white-space: nowrap;
+  }
+
+  .p3-ticker__item em {
+    font-style: normal;
+    color: var(--color-cyan);
+    margin-left: 1.5rem;
+  }
+
+  @keyframes tickerSlide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Flagship Showcase */
   .flagship {
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: 1.12fr 1fr;
     gap: var(--space-6);
     align-items: start;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-7);
   }
 
   .flagship__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.25rem;
-    margin-bottom: var(--space-3);
+    gap: 0.75rem;
+    margin-bottom: var(--space-4);
   }
 
   .flagship__desc {
     margin: 0 0 var(--space-5);
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 1.04rem;
   }
 
   .flagship__metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-4);
-    margin-bottom: var(--space-4);
-    padding-block: var(--space-3);
-    border-top: 1px solid rgba(232, 242, 255, 0.09);
-    border-bottom: 1px solid rgba(232, 242, 255, 0.09);
+    margin-bottom: var(--space-5);
+    padding: 1.25rem 1.35rem;
+  }
+
+  .metric-item {
+    border-left: 3px solid var(--color-electric-blue);
+    padding-left: 0.75rem;
+  }
+
+  .metric-item:first-child {
+    border-left-color: var(--color-accent);
   }
 
   .metric-item__value {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.75rem;
-    color: var(--color-cyan);
-    line-height: 1.1;
+    font-size: 2.15rem;
+    color: var(--text-inverse);
+    line-height: 1;
+    margin-bottom: 0.2rem;
   }
 
   .metric-item__label {
+    display: block;
     font-size: 0.78rem;
-    color: var(--text-muted);
+    font-weight: 700;
+    color: #263b59;
+    line-height: 1.35;
   }
 
   .flagship__stack {
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-5);
     font-family: var(--font-mono);
     font-size: 0.8rem;
-    color: var(--text-muted);
+    color: var(--color-cyan);
   }
 
   .flagship__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .flagship__visual {
+    position: relative;
     margin: 0;
-    padding: 0.9rem;
-    background: #0b1628;
-    border: 1px solid rgba(232, 242, 255, 0.1);
+    padding: 1rem;
+    background: #08152b;
+    border: 2px solid var(--color-cyan);
+    box-shadow: 9px 9px 0px var(--color-electric-blue);
+    transition: transform var(--duration-fast) var(--ease-pop), box-shadow var(--duration-fast) var(--ease-pop);
+  }
+
+  .flagship__visual:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 12px 12px 0px var(--color-accent);
+  }
+
+  .flagship__visual-tag {
+    position: absolute;
+    top: -12px;
+    right: 16px;
+    background: var(--color-accent);
+    color: var(--color-pure-white);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.18rem 0.65rem;
+    transform: skewX(-10deg);
   }
 
   .flagship__visual img {
@@ -413,85 +513,132 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
   }
 
   .flagship__visual figcaption {
-    padding-top: 0.65rem;
-    font-size: 0.84rem;
+    padding-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     color: var(--text-secondary);
   }
 
-  .other-projects {
-    margin-bottom: var(--space-6);
+  .sub-kicker {
+    display: inline-block;
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-pure-white);
+    border-left: 4px solid var(--color-cyan);
+    padding-left: 0.75rem;
   }
 
-  .other-projects__heading {
-    margin: 0 0 var(--space-3);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-cyan);
+  .sub-kicker--accent {
+    border-left-color: var(--color-accent);
+  }
+
+  /* Interactive Project Blades */
+  .other-projects {
+    margin-bottom: var(--space-7);
   }
 
   .other-projects__list {
     display: grid;
-    border-top: 1px solid rgba(232, 242, 255, 0.09);
+    gap: 0.65rem;
   }
 
-  .project-line {
+  .project-blade {
     display: grid;
-    grid-template-columns: 44px 240px 1fr auto;
+    grid-template-columns: 56px 1.2fr 0.8fr 32px;
     gap: var(--space-4);
-    align-items: baseline;
-    padding: 1rem 0.75rem;
-    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
-    transition: background-color var(--duration-fast), padding-left var(--duration-fast);
-  }
-
-  .project-line:hover {
+    align-items: center;
+    padding: 1.15rem 1.35rem;
     background: var(--surface-elevated);
-    padding-left: 1.15rem;
+    border-left: 4px solid var(--color-electric-blue);
+    border-top: 1px solid rgba(60, 226, 255, 0.16);
+    border-right: 1px solid rgba(60, 226, 255, 0.16);
+    border-bottom: 1px solid rgba(60, 226, 255, 0.16);
+    transition:
+      transform var(--duration-fast) var(--ease-pop),
+      background-color var(--duration-fast) var(--ease-snappy),
+      border-color var(--duration-fast) var(--ease-snappy),
+      box-shadow var(--duration-fast) var(--ease-pop);
   }
 
-  .project-line__num {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
+  .project-blade:hover {
+    background: #0d2244;
+    border-left-color: var(--color-accent);
+    transform: translateX(8px);
+    box-shadow: -6px 6px 0px var(--color-cyan);
+  }
+
+  .project-blade__num {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
     color: var(--color-cyan);
+    line-height: 1;
+    transform: skewX(-8deg);
   }
 
-  .project-line__title {
-    font-weight: 700;
-    color: var(--color-ice-white);
+  .project-blade:hover .project-blade__num {
+    color: var(--color-pure-white);
   }
 
-  .project-line__desc {
+  .project-blade__main {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .project-blade__title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-pure-white);
+  }
+
+  .project-blade__desc {
     color: var(--text-secondary);
     font-size: 0.92rem;
   }
 
-  .project-line__stack {
+  .project-blade__stack {
     font-family: var(--font-mono);
     font-size: 0.76rem;
     color: var(--text-muted);
-    white-space: nowrap;
+    text-align: right;
+  }
+
+  .project-blade__arrow {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-cyan);
+    text-align: right;
+    transition: transform var(--duration-fast) var(--ease-pop), color var(--duration-fast);
+  }
+
+  .project-blade:hover .project-blade__arrow {
+    transform: translateX(4px);
+    color: var(--color-accent);
   }
 
   .indev-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 
   .indev-card {
-    padding: var(--space-4);
-    background: rgba(11, 30, 56, 0.55);
-    border-left: 2px dashed rgba(85, 200, 255, 0.35);
+    padding: var(--space-5);
+    background: #08162c;
+    border: 1px solid rgba(60, 226, 255, 0.26);
+    border-left: 4px solid var(--color-cyan);
+    box-shadow: 6px 6px 0px rgba(14, 124, 255, 0.65);
     display: grid;
-    gap: 0.45rem;
-    transition: background-color var(--duration-fast), border-color var(--duration-fast);
+    gap: 0.55rem;
+    transition: transform var(--duration-fast) var(--ease-pop), box-shadow var(--duration-fast) var(--ease-pop);
   }
 
   .indev-card:hover {
-    background: var(--surface-elevated);
-    border-left-color: var(--color-cyan);
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0px var(--color-cyan);
   }
 
   .indev-card__top {
@@ -501,27 +648,30 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
   }
 
   .indev-card__num {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: rgba(60, 226, 255, 0.55);
   }
 
   .indev-card__title {
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    color: var(--color-ice-white);
+    font-size: 1.75rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-pure-white);
   }
 
   .indev-card__desc {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.94rem;
     color: var(--text-secondary);
   }
 
   .indev-card__stack {
     font-family: var(--font-mono);
     font-size: 0.76rem;
-    color: var(--text-muted);
+    color: var(--color-cyan);
+    padding-top: 0.35rem;
   }
 
   .section-header__links {
@@ -532,28 +682,48 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
 
   .exp-stack-split {
     display: grid;
-    grid-template-columns: 1.15fr 0.95fr;
+    grid-template-columns: 1.12fr 0.95fr;
     gap: var(--space-6);
     align-items: start;
   }
 
   .trajectory-list {
     display: grid;
-    gap: var(--space-5);
-    border-left: 2px solid rgba(22, 139, 255, 0.45);
+    gap: var(--space-6);
+    border-left: 3px solid var(--color-electric-blue);
     padding-left: var(--space-5);
+  }
+
+  .trajectory-item {
+    position: relative;
+  }
+
+  .trajectory-node {
+    position: absolute;
+    left: calc(-1 * var(--space-5) - 8px);
+    top: 4px;
+    width: 13px;
+    height: 13px;
+    background: var(--color-cyan);
+    transform: rotate(45deg);
+    border: 2px solid var(--surface-bg);
+  }
+
+  .trajectory-node--accent {
+    background: var(--color-accent);
   }
 
   .trajectory-item__period {
     font-family: var(--font-mono);
     font-size: 0.78rem;
+    font-weight: 700;
     color: var(--color-cyan);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
   }
 
   .trajectory-item__role {
-    margin: 0 0 0.4rem;
-    font-size: 1.08rem;
+    margin: 0 0 0.45rem;
+    font-size: 1.2rem;
   }
 
   .trajectory-item__company {
@@ -564,22 +734,42 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
   .trajectory-item__summary {
     margin: 0;
     color: var(--text-secondary);
-    font-size: 0.94rem;
+    font-size: 0.96rem;
   }
 
   .spec-list {
+    padding: var(--space-5);
     display: grid;
     gap: var(--space-4);
   }
 
+  .spec-list__header {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-inverse);
+    background: var(--color-pure-white);
+    display: inline-block;
+    justify-self: start;
+    padding: 0.2rem 0.65rem;
+    transform: skewX(-8deg);
+  }
+
   .spec-row {
     padding-bottom: var(--space-3);
-    border-bottom: 1px solid rgba(232, 242, 255, 0.08);
+    border-bottom: 1px solid rgba(60, 226, 255, 0.14);
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   .spec-row__cat {
     margin: 0 0 0.3rem;
-    font-size: 0.98rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
     color: var(--color-cyan);
   }
 
@@ -590,29 +780,33 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
     color: var(--text-secondary);
   }
 
-  .cta-strip {
+  /* Asymmetric Poster CTA */
+  .cta-poster {
     padding: var(--space-6);
+    background: linear-gradient(125deg, #0b2248 0%, #07152e 65%, #102b57 100%);
+    border: 2px solid var(--color-cyan);
+    box-shadow: 9px 9px 0px var(--color-accent);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-5);
-    border-left: 4px solid var(--color-electric-blue);
   }
 
-  .cta-strip__title {
-    font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+  .cta-poster__title {
+    font-size: clamp(2rem, 4vw, 3.1rem);
   }
 
-  .cta-strip__subtitle {
-    margin: 0.4rem 0 0;
+  .cta-poster__subtitle {
+    margin: 0.5rem 0 0;
     color: var(--text-secondary);
+    max-width: 56ch;
   }
 
-  .cta-strip__actions {
+  .cta-poster__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   @media (max-width: 1024px) {
@@ -622,13 +816,13 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
       grid-template-columns: 1fr;
     }
 
-    .project-line {
-      grid-template-columns: 38px 1fr;
+    .project-blade {
+      grid-template-columns: 46px 1fr 24px;
     }
 
-    .project-line__desc,
-    .project-line__stack {
+    .project-blade__stack {
       grid-column: 2;
+      text-align: left;
     }
   }
 
@@ -638,12 +832,18 @@ const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.pr
       grid-template-columns: 1fr;
     }
 
-    .trajectory-list {
-      padding-left: var(--space-4);
+    .p3-ticker {
+      transform: rotate(-1deg) scale(1.02);
     }
 
-    .cta-strip {
-      padding: var(--space-4);
+    .cta-poster {
+      padding: var(--space-5);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .p3-ticker__track {
+      animation: none;
     }
   }
 </style>

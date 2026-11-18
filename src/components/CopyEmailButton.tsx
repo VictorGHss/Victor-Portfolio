@@ -27,8 +27,10 @@ export default function CopyEmailButton({ email, copyLabel, copiedLabel }: CopyE
       className="p3-btn p3-btn--secondary"
       aria-live="polite"
     >
-      {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
-      <span>{copied ? copiedLabel : copyLabel}</span>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}>
+        {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
+        <span>{copied ? copiedLabel : copyLabel}</span>
+      </span>
     </button>
   );
 }

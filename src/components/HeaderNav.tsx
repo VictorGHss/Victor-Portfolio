@@ -15,30 +15,45 @@ interface HeaderNavProps {
 }
 
 export default function HeaderNav({ locale, currentPath, navItems, controls }: HeaderNavProps) {
+  const [livePath, setLivePath] = useState(currentPath);
   const [menuOpen, setMenuOpen] = useState(false);
   const [focusedKey, setFocusedKey] = useState<NavItem['key'] | null>(null);
   const [cursorOffset, setCursorOffset] = useState({ x: 0, y: 0 });
   const menuBtnRef = useRef<HTMLButtonElement | null>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
+  useEffect(() => {
+    setLivePath(currentPath);
+  }, [currentPath]);
+
+  useEffect(() => {
+    const syncPath = () => {
+      setLivePath(window.location.pathname);
+      setMenuOpen(false);
+      setFocusedKey(null);
+    };
+    document.addEventListener('astro:after-swap', syncPath);
+    document.addEventListener('astro:page-load', syncPath);
+    return () => {
+      document.removeEventListener('astro:after-swap', syncPath);
+      document.removeEventListener('astro:page-load', syncPath);
+    };
+  }, []);
+
   const altLocale = getAlternateLocale(locale);
-  const altPath = switchLocalePath(currentPath, altLocale);
+  const altPath = switchLocalePath(livePath, altLocale);
 
   const isActive = (item: NavItem) => {
     const target = localizePath(locale, item.slug);
     if (item.key === 'home') {
-      return currentPath === target || currentPath === `/${locale}`;
+      return livePath === target || livePath === `/${locale}`;
     }
-    return currentPath.startsWith(target);
+    return livePath.startsWith(target);
   };
 
   const activeItem = navItems.find((item) => isActive(item)) ?? navItems[0];
   const previewKey = focusedKey ?? activeItem.key;
-
-  useEffect(() => {
-    setMenuOpen(false);
-    setFocusedKey(null);
-  }, [currentPath]);
+  const previewItem = navItems.find((item) => item.key === previewKey) ?? activeItem;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -47,7 +62,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
 
     const activeIdx = navItems.findIndex((item) => isActive(item));
     const focusTarget = itemRefs.current[activeIdx >= 0 ? activeIdx : 0];
-    const focusTimer = setTimeout(() => focusTarget?.focus(), 140);
+    const focusTimer = setTimeout(() => focusTarget?.focus(), 120);
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -81,8 +96,8 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const nx = (e.clientX / window.innerWidth - 0.5) * 18;
-    const ny = (e.clientY / window.innerHeight - 0.5) * 14;
+    const nx = (e.clientX / window.innerWidth - 0.5) * 20;
+    const ny = (e.clientY / window.innerHeight - 0.5) * 16;
     setCursorOffset({ x: nx, y: ny });
   };
 
@@ -92,12 +107,12 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
       case 'home':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">01 // {isPt ? 'APRESENTAÇÃO' : 'OVERVIEW'}</span>
+            <span className="ocean-preview__tag">01 // {isPt ? 'INÍCIO' : 'HOME'}</span>
             <h3 className="ocean-preview__title">Victor Gabriel</h3>
             <p className="ocean-preview__text">
               {isPt
-                ? 'Estudante de ADS na UTFPR. Trabalho com Java, Spring Boot, React, TypeScript e automações que tiram trabalho manual da frente.'
-                : 'Systems Analysis & Development student at UTFPR. I build backends in Java/Spring Boot, web apps in React/TypeScript, and workflow automations.'}
+                ? 'Estudante de ADS na UTFPR. Curto pegar pepino do dia a dia e resolver com código — principalmente Java + Spring Boot no backend e React/TypeScript no front.'
+                : "ADS student at UTFPR. I like taking messy day-to-day bottlenecks and fixing them with code — mostly Java + Spring Boot on the backend and React/TypeScript on the front."}
             </p>
             <div className="ocean-preview__meta">
               <span>Ponta Grossa, PR</span>
@@ -108,7 +123,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
       case 'projects':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">02 // {isPt ? 'PROJETOS AUTORAIS' : 'PROJECTS'}</span>
+            <span className="ocean-preview__tag">02 // {isPt ? 'MEUS PROJETOS' : 'MY PROJECTS'}</span>
             <h3 className="ocean-preview__title">CTRLS ITSM &amp; +5</h3>
             <img
               src="/images/projects/ctrls-itsm/dashboard_chamados.png"
@@ -119,8 +134,8 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             />
             <p className="ocean-preview__text">
               {isPt
-                ? 'CTRLS ITSM (~3 meses em uso real, ciclo encerrado), CTRLS Forms, Portal Clínico, Chamados Chesiquímica, Rewit e Job Hunter.'
-                : 'CTRLS ITSM (~3 months real use, cycle concluded), CTRLS Forms, Clinical Portal, Chesiquímica Ticketing, Rewit, and Job Hunter.'}
+                ? 'Do CTRLS ITSM (18 módulos em Java 21, usado por ~3 meses e já encerrado) até o CTRLS Forms, Portal Clínico, Rewit e Job Hunter.'
+                : 'From CTRLS ITSM (18 Java 21 modules, ~3 months of real use, now concluded) to CTRLS Forms, Clinical Portal, Rewit, and Job Hunter.'}
             </p>
           </div>
         );
@@ -128,7 +143,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
         return (
           <div className="ocean-preview__card">
             <span className="ocean-preview__tag">03 // {isPt ? 'TRAJETÓRIA' : 'EXPERIENCE'}</span>
-            <h3 className="ocean-preview__title">{isPt ? 'Linha do Tempo' : 'Career Timeline'}</h3>
+            <h3 className="ocean-preview__title">{isPt ? 'De onde eu vim' : 'Where I Worked'}</h3>
             <ul className="ocean-preview__list">
               <li>
                 <strong>Inovare Serviços de Saúde</strong>
@@ -144,47 +159,47 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
       case 'skills':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">04 // {isPt ? 'STACK PRINCIPAL' : 'TECH STACK'}</span>
+            <span className="ocean-preview__tag">04 // {isPt ? 'FERRAMENTAS' : 'TECH STACK'}</span>
             <h3 className="ocean-preview__title">Java · Spring · React · SQL</h3>
             <p className="ocean-preview__stack">
-              Java 17/21 · Spring Boot 3 · Spring Security · React · TypeScript · PostgreSQL · Redis · Docker · Git · Linux · APIs REST · Webhooks
+              Java 17/21 · Spring Boot 3 · Spring Security · React · TypeScript · Next.js · PostgreSQL · Redis · Docker · Linux · Cloudflare
             </p>
           </div>
         );
       case 'about':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">05 // {isPt ? 'PERFIL & FORMAÇÃO' : 'ABOUT'}</span>
+            <span className="ocean-preview__tag">05 // {isPt ? 'SOBRE MIM' : 'ABOUT ME'}</span>
             <h3 className="ocean-preview__title">UTFPR · SENAI · MCT Cursos</h3>
             <p className="ocean-preview__text">
               {isPt
-                ? 'Base técnica em Informática (SENAI), Administração (MCT Cursos, 2021), Logística e graduação em ADS na UTFPR. Português nativo e inglês intermediário.'
-                : 'Technical background in IT (SENAI), Business Administration (MCT Cursos, 2021), Logistics, and Technology Degree in ADS at UTFPR. Native Portuguese, intermediate English.'}
+                ? 'Comecei mexendo em hardware e rede no suporte técnico e nunca mais parei de programar. Formação técnica em TI, Administração e Logística + graduação na UTFPR.'
+                : 'Started out fixing hardware and networks in IT support and got hooked on building software. Technical degrees in IT, Business & Logistics + UTFPR.'}
             </p>
           </div>
         );
       case 'services':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">06 // {isPt ? 'SERVIÇOS' : 'SERVICES'}</span>
-            <h3 className="ocean-preview__title">{isPt ? 'Escopo Técnico' : 'Technical Scope'}</h3>
+            <span className="ocean-preview__tag">06 // {isPt ? 'FREELAS & PROJETOS' : 'FREELANCE & SCOPE'}</span>
+            <h3 className="ocean-preview__title">{isPt ? 'No que consigo ajudar' : 'How I Can Help'}</h3>
             <ul className="ocean-preview__list">
-              <li>{isPt ? 'Desenvolvimento Backend (Java / Spring Boot)' : 'Backend Development (Java / Spring Boot)'}</li>
-              <li>{isPt ? 'APIs REST, Webhooks & Integrações' : 'REST APIs, Webhooks & Integrations'}</li>
-              <li>{isPt ? 'Automação WhatsApp (Blip & Digisac)' : 'WhatsApp Automation (Blip & Digisac)'}</li>
-              <li>{isPt ? 'Aplicações Web (React & TypeScript)' : 'Web Applications (React & TypeScript)'}</li>
+              <li>{isPt ? 'Backends e APIs em Java / Spring Boot' : 'Java / Spring Boot Backends & APIs'}</li>
+              <li>{isPt ? 'Integrações com ERPs, Webhooks e PDFs' : 'ERP Integrations, Webhooks & PDFs'}</li>
+              <li>{isPt ? 'Bots e fluxos no WhatsApp (Blip / Digisac)' : 'WhatsApp Flows & Bots (Blip / Digisac)'}</li>
+              <li>{isPt ? 'Sites rápidos e painéis em React / Next.js' : 'Fast Web Apps & Dashboards in React / Next.js'}</li>
             </ul>
           </div>
         );
       case 'contact':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">07 // {isPt ? 'CONTATO & CV' : 'CONTACT & RESUME'}</span>
+            <span className="ocean-preview__tag">07 // {isPt ? 'BORA CONVERSAR' : "LET'S TALK"}</span>
             <h3 className="ocean-preview__title">{PROFILE.email}</h3>
             <p className="ocean-preview__text">
               {isPt
-                ? 'Canais diretos por e-mail, GitHub e LinkedIn, além do currículo em PDF de 1 página em português e inglês.'
-                : 'Direct channels via email, GitHub, and LinkedIn, plus 1-page PDF resumes in Portuguese and English.'}
+                ? 'Disponível agora pra vagas Júnior (Backend ou Full Stack) e projetos freelance. Currículo em PDF prontinho pra baixar.'
+                : 'Currently available for Junior Backend / Full-Stack roles and freelance work. 1-page PDF resume ready to download.'}
             </p>
             <div className="ocean-preview__meta">
               <span>GitHub: @{PROFILE.githubUsername}</span>
@@ -201,13 +216,11 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
         <div className="container site-header__inner">
           <div className="header-left">
             <a href={localizePath(locale)} className="brand-mark" aria-label="Vito.dev Home">
-              <span className="brand-mark__slash" aria-hidden="true" />
-              <span className="brand-mark__text">
-                VITO<span className="brand-mark__dot">.DEV</span>
-              </span>
+              <span className="brand-mark__badge">VITO</span>
+              <span className="brand-mark__dot">.DEV</span>
             </a>
             <span className="header-route-indicator" aria-hidden="true">
-              {activeItem.code} / {activeItem.label}
+              <strong>{activeItem.code}</strong> // {activeItem.label}
             </span>
           </div>
 
@@ -232,7 +245,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
               aria-controls="aquatic-nav-overlay"
               aria-label={menuOpen ? controls.menuClose : controls.menuOpen}
             >
-              {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+              {menuOpen ? <X size={17} aria-hidden="true" /> : <Menu size={17} aria-hidden="true" />}
               <span>MENU</span>
             </button>
           </div>
@@ -252,14 +265,26 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             animate={{
               opacity: 1,
               clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-              transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+              transition: { duration: 0.82, ease: [0.22, 1, 0.36, 1] },
             }}
             exit={{
               opacity: 0,
               clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)',
-              transition: { duration: 0.95, ease: [0.22, 1, 0.36, 1] },
+              transition: { duration: 0.62, ease: [0.76, 0, 0.24, 1] },
             }}
           >
+            {/* Tactical Persona side stripes & giant dynamic watermark */}
+            <div className="ocean-overlay__stripe-red" aria-hidden="true" />
+            <div className="ocean-overlay__stripe-cyan" aria-hidden="true" />
+            <div
+              className="ocean-overlay__watermark"
+              aria-hidden="true"
+              style={{
+                transform: `rotate(-8deg) translate3d(${cursorOffset.x * -0.8}px, ${cursorOffset.y * -0.8}px, 0)`,
+              }}
+            >
+              {previewItem.label}
+            </div>
             <div
               className="ocean-overlay__refraction"
               aria-hidden="true"
@@ -274,8 +299,8 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             <div className="container ocean-overlay__inner">
               <div className="ocean-overlay__top">
                 <span className="ocean-overlay__brand">
-                  <span className="brand-mark__slash" aria-hidden="true" />
-                  VITO<span className="brand-mark__dot">.DEV</span>
+                  <span className="brand-mark__badge">VITO</span>
+                  <span className="brand-mark__dot">.DEV</span>
                 </span>
                 <div className="ocean-overlay__top-actions">
                   <a href={altPath} className="lang-switch">
@@ -306,13 +331,13 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
                       return (
                         <motion.li
                           key={item.key}
-                          style={{ '--stagger-x': `${idx * 8}px` } as React.CSSProperties}
+                          style={{ '--stagger-x': `${idx * 10}px` } as React.CSSProperties}
                           className="ocean-nav__item"
-                          initial={{ opacity: 0, x: -36 }}
+                          initial={{ opacity: 0, x: -48 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{
-                            duration: 0.62,
-                            delay: 0.28 + idx * 0.135,
+                            duration: 0.48,
+                            delay: 0.14 + idx * 0.065,
                             ease: [0.22, 1, 0.36, 1],
                           }}
                         >
@@ -321,21 +346,27 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
                               itemRefs.current[idx] = el;
                             }}
                             href={localizePath(locale, item.slug)}
-                            className={`ocean-nav__link ${active ? 'is-active' : ''}`}
+                            className={`ocean-nav__link ${active ? 'is-active' : ''} ${highlighted ? 'is-highlighted' : ''}`}
                             aria-current={active ? 'page' : undefined}
                             onMouseEnter={() => setFocusedKey(item.key)}
                             onFocus={() => setFocusedKey(item.key)}
                             onClick={() => setMenuOpen(false)}
                           >
                             {highlighted && (
-                              <motion.span
-                                layoutId="p3-aquatic-select"
-                                className="ocean-nav__highlight"
-                                transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
-                              />
+                              <>
+                                <motion.span
+                                  layoutId="p3-shadow-shard"
+                                  className="ocean-nav__shadow-shard"
+                                  transition={{ type: 'spring', stiffness: 420, damping: 26 }}
+                                />
+                                <motion.span
+                                  layoutId="p3-aquatic-select"
+                                  className="ocean-nav__highlight"
+                                  transition={{ type: 'spring', stiffness: 460, damping: 30 }}
+                                />
+                              </>
                             )}
                             <span className="ocean-nav__code">{item.code}</span>
-                            <span className="ocean-nav__slash" aria-hidden="true">/</span>
                             <span className="ocean-nav__label">{item.label}</span>
                           </a>
                         </motion.li>
@@ -347,9 +378,9 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
                 <motion.aside
                   key={previewKey}
                   className="ocean-preview"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0, x: 18, rotate: -1 }}
+                  animate={{ opacity: 1, x: 0, rotate: -1 }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {renderPreview()}
                 </motion.aside>

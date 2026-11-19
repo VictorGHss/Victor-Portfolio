@@ -55,30 +55,30 @@ export const EXPERIENCE: ExperienceItem[] = [
     },
     progressionNote: {
       'pt-br':
-        'Comecei como Estagiário de TI (Jan 2025 – Set 2025) e fui efetivado como Técnico de TI em Outubro de 2025, ficando até Outubro de 2026.',
-      en: 'Started as an IT Intern (Jan 2025 – Sep 2025) and was hired full-time as an IT Technician in October 2025, staying through October 2026.',
+        'Atuei como Estagiário de TI (Jan 2025 – Set 2025) e fui efetivado como Técnico de TI em Outubro de 2025, permanecendo até Outubro de 2026.',
+      en: 'Started as an IT Intern (Jan 2025 – Sep 2025) and transitioned to IT Technician in October 2025, remaining until October 2026.',
     },
     summary: {
       'pt-br':
-        'No dia a dia eu cuidava da infra, das redes e do suporte N1/N2 pra equipe não parar. Em paralelo, puxei pra mim o desafio de criar do zero o CTRLS-ITSM pra automatizar agendamentos, portaria e chamados — o sistema rodou na prática por cerca de 3 meses antes de ter o ciclo encerrado e ser desativado.',
-      en: 'Day to day, I kept local infrastructure, networks, and N1/N2 support running smoothly. Alongside that, I took the initiative to build CTRLS-ITSM from scratch to automate scheduling, reception access, and internal IT tickets — running in real operations for roughly 3 months before its cycle concluded and it was deactivated.',
+        'Cuidei da infraestrutura, redes e suporte N1/N2 no dia a dia. Em paralelo, desenvolvi e coloquei em operação o CTRLS-ITSM para automatizar agendamentos, portaria e chamados internos — o sistema rodou em ambiente real por cerca de três meses antes de ter seu ciclo encerrado e ser desativado.',
+      en: 'Handled daily infrastructure, networking, and N1/N2 support. Alongside that, I built and deployed CTRLS-ITSM to automate scheduling, reception access, and internal ticketing — running in real operations for around three months before its cycle concluded and it was deactivated.',
     },
     highlights: {
       'pt-br': [
-        'Coloquei pra rodar por ~3 meses o CTRLS-ITSM (Java 21 + Spring Boot), conectando o ERP médico Feegow ao WhatsApp (Take Blip) por APIs REST e webhooks assíncronos',
-        'Automatizei confirmações e lembretes preventivos de consulta no WhatsApp, processando mais de 10.000 mensagens e derrubando as faltas de pacientes',
-        'Criei o autoatendimento da portaria integrado às catracas (gerAcesso), enviando QR Codes temporários no WhatsApp pra mais de 1.700 visitantes e acabando com a fila na recepção',
-        'Subi uma rotina automática de pós-consulta pra pedir avaliação no Google Meu Negócio — a nota pública da clínica subiu de 3.3 pra 3.8 estrelas em 30 dias',
-        'Organizei a casa na TI com inventário de máquinas, controle de insumos e abertura/triagem de chamados caindo direto no Discord via bot e webhook',
-        'Segurei o suporte técnico N1/N2 presencial, resolvendo bucha de rede local, manutenção de hardware e padronização das máquinas Windows',
+        'Implantei e operei por ~3 meses o CTRLS-ITSM (Java 21 + Spring Boot), integrando o ERP médico Feegow ao WhatsApp (Take Blip) via APIs REST e webhooks assíncronos',
+        'Automatizei confirmações e lembretes de consultas no WhatsApp, processando mais de 10.000 mensagens e reduzindo faltas de pacientes',
+        'Criei o fluxo de autoatendimento da portaria integrado às catracas (gerAcesso), gerando QR Codes temporários no WhatsApp para mais de 1.700 visitantes',
+        'Implementei uma rotina automática de captação de avaliações pós-consulta no Google Meu Negócio, elevando a nota pública de 3.3 para 3.8 estrelas em 30 dias',
+        'Estruturei a gestão interna de TI com inventário de equipamentos, controle de consumíveis e triagem de chamados integrada via webhook e bot ao Discord',
+        'Atuei no suporte técnico N1/N2, diagnóstico de redes locais, manutenção de hardware e padronização de estações Windows',
       ],
       en: [
-        'Deployed and ran CTRLS-ITSM (Java 21 + Spring Boot) for ~3 months, bridging the Feegow medical ERP with WhatsApp (Take Blip) over REST APIs and async webhooks',
-        'Automated WhatsApp appointment confirmations and reminders — 10,000+ messages handled, cutting patient no-shows',
-        'Built self-service turnstile check-in integrated with gerAcesso, sending temporary WhatsApp QR Codes to 1,700+ visitors and clearing reception lines',
-        'Set up an automated post-appointment Google review follow-up that lifted the public clinic rating from 3.3 to 3.8 stars in 30 days',
-        'Structured internal IT with hardware asset tracking, consumables inventory, and ticket triage wired straight into Discord',
-        'Handled hands-on N1/N2 support, LAN troubleshooting, PC repairs, and Windows workstation setup',
+        'Deployed and operated CTRLS-ITSM (Java 21 + Spring Boot) for ~3 months, integrating Feegow ERP with WhatsApp (Take Blip) via REST APIs and async webhooks',
+        'Automated WhatsApp appointment confirmations and reminders, processing 10,000+ messages and reducing patient no-shows',
+        'Built a self-service reception check-in flow integrated with gerAcesso turnstiles, issuing temporary QR Codes via WhatsApp for 1,700+ visitors',
+        'Implemented an automated post-visit Google review workflow that raised the public rating from 3.3 to 3.8 stars in 30 days',
+        'Structured internal IT operations with hardware asset tracking, consumables inventory, and Discord-integrated ticket triage',
+        'Provided hands-on N1/N2 support, LAN troubleshooting, hardware maintenance, and Windows workstation setup',
       ],
     },
     tags: ['Java 21', 'Spring Boot 3', 'React', 'PostgreSQL', 'Redis', 'Take Blip', 'GerAcesso', 'Docker'],
@@ -98,23 +98,23 @@ export const EXPERIENCE: ExperienceItem[] = [
     },
     summary: {
       'pt-br':
-        'Minha porta de entrada na área: estágio mão na massa atendendo tanto o pessoal do escritório quanto o chão de fábrica, mexendo com hardware, cabeamento, rede TCP/IP e ajudando a tirar do papel o portal interno de chamados.',
-      en: 'My first hands-on role in tech: an IT internship supporting both office staff and the factory floor — fixing machines, testing cabling and TCP/IP networks, and co-building a lightweight internal ticketing portal.',
+        'Estágio voltado para suporte técnico N1/N2 nos setores corporativo e fabril, manutenção de estações, testes de rede TCP/IP e desenvolvimento colaborativo do portal interno de chamados.',
+      en: 'IT internship focused on N1/N2 support across corporate and manufacturing teams, workstation maintenance, TCP/IP networking, and co-building the internal ticketing portal.',
     },
     highlights: {
       'pt-br': [
-        'Atendia os chamados N1/N2 do administrativo e da fábrica, diagnosticando e resolvendo pepino de máquina, sistema e rede no dia a dia',
-        'Fazia manutenção preventiva e corretiva de PCs, montagem de bancadas do zero e recuperação de máquinas paradas',
-        'Configurava impressoras em rede, periféricos e testava pontos de cabeamento estruturado e conectividade TCP/IP',
-        'Padronizava as estações corporativas com formatação, imagens do Windows e homologação dos programas internos',
-        'Junto com meu supervisor João Gabriel Anjos, desenvolvi o Portal da T.I. pra organizar pedidos de suporte, toners e equipamentos direto no Google Sheets via SheetMonkey',
+        'Atendi chamados técnicos N1/N2 para os setores administrativo e fabril, diagnosticando e resolvendo incidentes de hardware, software e rede',
+        'Realizei manutenção preventiva e corretiva de computadores, montagem de bancadas e recuperação de máquinas paradas',
+        'Configurei impressoras compartilhadas em rede, periféricos e testes de cabeamento estruturado e conectividade TCP/IP',
+        'Padronizei estações corporativas com formatação, imagens Windows e homologação de softwares internos',
+        'Desenvolvi o Portal da T.I. em colaboração com o supervisor João Gabriel Anjos para centralizar chamados, solicitações de toners e equipamentos no Google Sheets via SheetMonkey',
       ],
       en: [
-        'Handled daily N1/N2 tickets across corporate offices and the manufacturing plant',
-        'Performed preventive and corrective PC repairs, workstation assembly, and recovery of dead machines',
-        'Set up networked printers and peripherals, and tested structured cabling and TCP/IP links',
-        'Standardized Windows workstations with disk imaging and internal software validation',
-        'Co-built the internal IT Portal alongside my supervisor João Gabriel Anjos (HTML, CSS, JavaScript, SheetMonkey, and Google Sheets)',
+        'Handled daily N1/N2 support requests across corporate offices and the manufacturing floor',
+        'Performed preventive and corrective PC maintenance, workstation assembly, and recovery of failed machines',
+        'Configured networked printers and peripherals, and tested structured cabling and TCP/IP links',
+        'Standardized corporate workstations with Windows imaging and internal software validation',
+        'Co-developed the internal IT Portal with supervisor João Gabriel Anjos to centralize tickets, toner requests, and equipment orders in Google Sheets via SheetMonkey',
       ],
     },
     tags: ['Suporte N1/N2', 'TCP/IP', 'Windows', 'Hardware', 'HTML/CSS/JS', 'Google Sheets'],
@@ -212,8 +212,8 @@ export const LANGUAGES: LanguageItem[] = [
   {
     name: { 'pt-br': 'Inglês', en: 'English' },
     level: {
-      'pt-br': 'Intermediário — leio documentação técnica tranquilo e me viro bem na escrita',
-      en: 'Intermediate — comfortable reading technical docs, codebases, and writing clearly',
+      'pt-br': 'Intermediário (boa leitura técnica, documentação e escrita funcional)',
+      en: 'Intermediate (solid technical reading, documentation, and functional writing)',
     },
   },
 ];
@@ -221,7 +221,7 @@ export const LANGUAGES: LanguageItem[] = [
 export const SKILL_GROUPS: SkillGroup[] = [
   {
     category: {
-      'pt-br': 'Backend & Banco de Dados',
+      'pt-br': 'Backend & Bancos de Dados',
       en: 'Backend & Databases',
     },
     tier: 'primary',
@@ -237,7 +237,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
   {
     category: {
       'pt-br': 'Frontend & Interfaces',
-      en: 'Frontend & UI',
+      en: 'Frontend & Interfaces',
     },
     tier: 'primary',
     items: ['React', 'TypeScript', 'JavaScript', 'Next.js (App Router)', 'Tailwind CSS', 'HTML5 & CSS3'],
@@ -258,11 +258,12 @@ export const SKILL_GROUPS: SkillGroup[] = [
   },
   {
     category: {
-      'pt-br': 'Infra, Linux & Deploy',
-      en: 'Infra, Linux & Deploy',
+      'pt-br': 'IA no Fluxo, Infra & Deploy',
+      en: 'AI Workflow, Infra & Deploy',
     },
     tier: 'primary',
     items: [
+      'Engenharia assistida por IA & automação de tarefas',
       'Docker & Docker Compose',
       'Linux (Debian / Ubuntu / Home Server)',
       'GitHub Actions (CI/CD)',
@@ -272,8 +273,8 @@ export const SKILL_GROUPS: SkillGroup[] = [
   },
   {
     category: {
-      'pt-br': 'Outras stacks que uso nos meus projetos',
-      en: 'Other tools from my side projects',
+      'pt-br': 'Outras tecnologias aplicadas em projetos',
+      en: 'Additional technologies used in projects',
     },
     tier: 'secondary',
     items: [
@@ -295,12 +296,12 @@ export const SERVICES: ServiceItem[] = [
     },
     summary: {
       'pt-br':
-        'Precisa de uma API confiável pra segurar regra de negócio chata, login com permissões por perfil e banco relacional bem organizado? Eu monto do zero.',
-      en: 'Need a solid API with clean business rules, role-based auth, and a properly versioned PostgreSQL database? I build that end to end.',
+        'Desenvolvimento de APIs REST em Java e Spring Boot com regras de negócio bem definidas, autenticação JWT/RBAC e banco relacional versionado.',
+      en: 'Java and Spring Boot REST APIs with clear business rules, JWT/RBAC authentication, and versioned PostgreSQL schemas.',
     },
     proof: {
-      'pt-br': 'Na prática: CTRLS ITSM (18 módulos em Java 21) e CTRLS Forms (multi-tenant com X-Clinic-ID e Flyway).',
-      en: 'Built in: CTRLS ITSM (18 Java 21 modules) and CTRLS Forms (multi-tenant with X-Clinic-ID & Flyway).',
+      'pt-br': 'Referências: CTRLS ITSM (18 módulos em Java 21) e CTRLS Forms (multi-tenant com X-Clinic-ID e Flyway).',
+      en: 'References: CTRLS ITSM (18 Java 21 modules) and CTRLS Forms (multi-tenant with X-Clinic-ID & Flyway).',
     },
     deliverables: {
       'pt-br': ['Java 21 & Spring Boot 3', 'PostgreSQL + Flyway', 'JWT, RBAC, 2FA e proteção LGPD'],
@@ -309,21 +310,21 @@ export const SERVICES: ServiceItem[] = [
   },
   {
     title: {
-      'pt-br': 'Fazer sistemas conversarem',
-      en: 'Connecting Systems Together',
+      'pt-br': 'Integrações entre sistemas & automação com IA',
+      en: 'System Integrations & AI Automation',
     },
     summary: {
       'pt-br':
-        'Se sua equipe copia dado de um ERP pra colar em outro sistema, dá pra automatizar isso via API, webhook assíncrono e fila com controle de limite.',
-      en: 'If your team is copying data out of one ERP and pasting it somewhere else, I can wire them together via REST APIs, webhooks, and rate-limited queues.',
+        'Conexão entre ERPs, financeiro, webhooks assíncronos e rotinas assistidas por IA para acelerar processos operacionais e eliminar retrabalho manual.',
+      en: 'Connecting ERPs, financial APIs, asynchronous webhooks, and AI-assisted workflows to speed up operations and eliminate manual data entry.',
     },
     proof: {
-      'pt-br': 'Na prática: integrações reais com Feegow, Conta Azul V2, catracas GerAcesso e bots no Discord.',
-      en: 'Built in: real integrations with Feegow ERP, Conta Azul V2, GerAcesso turnstiles, and Discord bots.',
+      'pt-br': 'Referências: integrações com Feegow, Conta Azul V2, catracas GerAcesso, Discord e camada de IA com controles no Job Hunter.',
+      en: 'References: integrations with Feegow ERP, Conta Azul V2, GerAcesso turnstiles, Discord, and controlled AI workflows in Job Hunter.',
     },
     deliverables: {
-      'pt-br': ['Integrações REST & Webhooks', 'Rate Limiting com Redis', 'Documentação no Swagger'],
-      en: ['REST & Webhook pipelines', 'Redis rate limiting', 'OpenAPI / Swagger docs'],
+      'pt-br': ['APIs REST & Webhooks', 'Rate Limiting com Redis', 'Fluxos automatizados e assistidos por IA'],
+      en: ['REST & Webhook pipelines', 'Redis rate limiting', 'Automated & AI-assisted workflows'],
     },
   },
   {
@@ -333,12 +334,12 @@ export const SERVICES: ServiceItem[] = [
     },
     summary: {
       'pt-br':
-        'Confirmação de horário, lembrete automático, envio de QR Code ou roteamento pro setor certo — conectado direto ao banco ou ERP da empresa.',
-      en: 'Appointment confirmations, smart reminders, QR Code delivery, and queue routing plugged directly into your system or ERP.',
+        'Fluxos de confirmação, lembretes, envio de QR Codes e roteamento de atendimento integrados diretamente ao sistema interno da operação.',
+      en: 'Confirmation flows, reminders, QR Code delivery, and queue routing connected directly to your internal platform.',
     },
     proof: {
-      'pt-br': 'Na prática: +10.000 mensagens processadas com Take Blip e vivência com Digisac.',
-      en: 'Built in: 10,000+ automated messages with Take Blip plus hands-on Digisac workflows.',
+      'pt-br': 'Referências: +10.000 mensagens processadas via Take Blip e experiência prática com Digisac.',
+      en: 'References: 10,000+ automated messages via Take Blip plus hands-on Digisac workflows.',
     },
     deliverables: {
       'pt-br': ['Take Blip & Digisac', 'Confirmações, lembretes e menus', 'Pós-atendimento e avaliações'],
@@ -347,17 +348,17 @@ export const SERVICES: ServiceItem[] = [
   },
   {
     title: {
-      'pt-br': 'Sistemas Web & Páginas Rápidas',
-      en: 'Web Apps & Fast Landing Pages',
+      'pt-br': 'Aplicações Web & Páginas Rápidas',
+      en: 'Web Apps & Fast Pages',
     },
     summary: {
       'pt-br':
-        'Desde painéis internos e formulários dinâmicos em React até páginas rápidas na Cloudflare que abrem na hora quando o cliente lê um QR Code.',
-      en: 'From React admin panels and dynamic forms to instant-loading Next.js pages on Cloudflare built for mobile QR Code scans.',
+        'Painéis administrativos, formulários dinâmicos com geração de PDF e páginas leves na Cloudflare Edge otimizadas para acesso via celular e QR Code.',
+      en: 'Admin panels, dynamic forms with automated PDF exports, and fast Cloudflare Edge pages built for mobile QR Code access.',
     },
     proof: {
-      'pt-br': 'Na prática: CTRLS Forms (React + Vite + Nginx) e Portal Clínico (Next.js na Cloudflare Edge).',
-      en: 'Built in: CTRLS Forms (React + Vite + Nginx) and Clinical Portal (Next.js on Cloudflare Edge).',
+      'pt-br': 'Referências: CTRLS Forms (React + Vite + Nginx) e Portal Clínico (Next.js na Cloudflare Pages).',
+      en: 'References: CTRLS Forms (React + Vite + Nginx) and Clinical Portal (Next.js on Cloudflare Pages).',
     },
     deliverables: {
       'pt-br': ['React, Next.js & TypeScript', 'Formulários dinâmicos & PDFs', 'Deploy na Cloudflare ou Docker'],

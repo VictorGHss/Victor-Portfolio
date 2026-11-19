@@ -15,9 +15,11 @@ const t = UI[locale];
 const isPt = locale === 'pt-br';
 const flagship = PROJECTS[0];
 const selectedProjects = PROJECTS.filter(
-  (p) => p.slug !== flagship.slug && p.status !== 'in-development'
+  (p) => p.slug !== flagship.slug && p.status !== 'in-development' && p.status !== 'concept-planning'
 );
-const inDevProjects = PROJECTS.filter((p) => p.status === 'in-development');
+const inDevProjects = PROJECTS.filter(
+  (p) => p.status === 'in-development' || p.status === 'concept-planning'
+);
 const primarySkills = SKILL_GROUPS.filter((g) => g.tier === 'primary');
 const resumeUrl = PROFILE.resumeFiles[locale];
 const flagshipRepoLabel = flagship.repoLabel ? flagship.repoLabel[locale] : t.projects.publicShowcaseLabel;
@@ -32,7 +34,7 @@ const heroBlades: CommandBlade[] = [
   {
     code: '02',
     label: isPt ? 'PROJETOS' : 'PROJECTS',
-    meta: isPt ? '6 NO GITHUB' : '6 ON GITHUB',
+    meta: isPt ? '7 PROJETOS' : '7 PROJECTS',
     href: localizePath(locale, 'projects'),
   },
   {
@@ -51,7 +53,7 @@ const heroBlades: CommandBlade[] = [
   {
     code: '05',
     label: isPt ? 'CONTATO' : 'CONTACT',
-    meta: isPt ? 'BORA CONVERSAR' : "LET'S CHAT",
+    meta: isPt ? 'CANAIS DIRETOS' : 'DIRECT LINKS',
     href: localizePath(locale, 'contact'),
   },
 ];
@@ -59,8 +61,8 @@ const heroBlades: CommandBlade[] = [
 const tickerItems = [
   'JAVA 21',
   'SPRING BOOT 3',
-  'SPRING SECURITY',
   'REACT & TYPESCRIPT',
+  'IA & AUTOMAÇÕES',
   'POSTGRESQL',
   'REST APIS & WEBHOOKS',
   'REDIS',
@@ -207,9 +209,11 @@ const tickerItems = [
       <h3 class="sub-kicker sub-kicker--accent">{t.home.inDevTitle}</h3>
       <div class="indev-grid">
         {inDevProjects.map((project) => (
-          <a href={localizePath(locale, `projects/${project.slug}`)} class="indev-card">
+          <a href={localizePath(locale, `projects/${project.slug}`)} class={`indev-card ${project.status === 'concept-planning' ? 'indev-card--concept' : ''}`}>
             <div class="indev-card__top">
-              <span class="status-label status-label--cyan">{t.projects.statusLabels[project.status]}</span>
+              <span class={`status-label ${project.status === 'concept-planning' ? 'status-label--accent' : 'status-label--cyan'}`}>
+                {t.projects.statusLabels[project.status]}
+              </span>
               <span class="indev-card__num">0{project.priority}</span>
             </div>
             <strong class="indev-card__title">{project.name[locale]}</strong>
@@ -343,8 +347,9 @@ const tickerItems = [
 
   .hero__line-shard {
     display: inline-block;
-    margin-top: 0.12em;
-    padding: 0.06em 0.36em 0.08em 0.28em;
+    margin-top: 0.14em;
+    padding: 0.14em 0.36em 0.12em 0.28em;
+    line-height: 1.08;
     background: var(--color-pure-white);
     color: var(--text-inverse);
     transform: skewX(-7deg);
@@ -621,8 +626,12 @@ const tickerItems = [
 
   .indev-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-5);
+  }
+
+  .indev-card--concept {
+    border-left-color: var(--color-accent);
   }
 
   .indev-card {
@@ -812,7 +821,8 @@ const tickerItems = [
   @media (max-width: 1024px) {
     .hero__grid,
     .flagship,
-    .exp-stack-split {
+    .exp-stack-split,
+    .indev-grid {
       grid-template-columns: 1fr;
     }
 

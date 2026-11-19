@@ -111,8 +111,8 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             <h3 className="ocean-preview__title">Victor Gabriel</h3>
             <p className="ocean-preview__text">
               {isPt
-                ? 'Estudante de ADS na UTFPR. Curto pegar pepino do dia a dia e resolver com código — principalmente Java + Spring Boot no backend e React/TypeScript no front.'
-                : "ADS student at UTFPR. I like taking messy day-to-day bottlenecks and fixing them with code — mostly Java + Spring Boot on the backend and React/TypeScript on the front."}
+                ? 'Estudante de ADS na UTFPR. Desenvolvo backends em Java + Spring Boot, interfaces em React + TypeScript e automações apoiadas por IA no dia a dia.'
+                : 'ADS student at UTFPR. Building Java + Spring Boot backends, React + TypeScript interfaces, and AI-assisted automations in practice.'}
             </p>
             <div className="ocean-preview__meta">
               <span>Ponta Grossa, PR</span>
@@ -123,8 +123,8 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
       case 'projects':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">02 // {isPt ? 'MEUS PROJETOS' : 'MY PROJECTS'}</span>
-            <h3 className="ocean-preview__title">CTRLS ITSM &amp; +5</h3>
+            <span className="ocean-preview__tag">02 // {isPt ? 'PROJETOS' : 'PROJECTS'}</span>
+            <h3 className="ocean-preview__title">CTRLS ITSM &amp; +6</h3>
             <img
               src="/images/projects/ctrls-itsm/dashboard_chamados.png"
               alt="CTRLS ITSM dashboard preview"
@@ -134,8 +134,8 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             />
             <p className="ocean-preview__text">
               {isPt
-                ? 'Do CTRLS ITSM (18 módulos em Java 21, usado por ~3 meses e já encerrado) até o CTRLS Forms, Portal Clínico, Rewit e Job Hunter.'
-                : 'From CTRLS ITSM (18 Java 21 modules, ~3 months of real use, now concluded) to CTRLS Forms, Clinical Portal, Rewit, and Job Hunter.'}
+                ? 'CTRLS ITSM, CTRLS Forms, Portal Clínico, Portal da T.I., Rewit, Job Hunter e Tocaí (conceito MusicTech/EdTech em planejamento).'
+                : 'CTRLS ITSM, CTRLS Forms, Clinical Portal, IT Service Portal, Rewit, Job Hunter, and Tocaí (planned MusicTech/EdTech concept).'}
             </p>
           </div>
         );
@@ -143,7 +143,7 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
         return (
           <div className="ocean-preview__card">
             <span className="ocean-preview__tag">03 // {isPt ? 'TRAJETÓRIA' : 'EXPERIENCE'}</span>
-            <h3 className="ocean-preview__title">{isPt ? 'De onde eu vim' : 'Where I Worked'}</h3>
+            <h3 className="ocean-preview__title">{isPt ? 'Experiência Profissional' : 'Career Timeline'}</h3>
             <ul className="ocean-preview__list">
               <li>
                 <strong>Inovare Serviços de Saúde</strong>
@@ -159,10 +159,10 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
       case 'skills':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">04 // {isPt ? 'FERRAMENTAS' : 'TECH STACK'}</span>
-            <h3 className="ocean-preview__title">Java · Spring · React · SQL</h3>
+            <span className="ocean-preview__tag">04 // {isPt ? 'STACK' : 'TECH STACK'}</span>
+            <h3 className="ocean-preview__title">Java · Spring · React · IA</h3>
             <p className="ocean-preview__stack">
-              Java 17/21 · Spring Boot 3 · Spring Security · React · TypeScript · Next.js · PostgreSQL · Redis · Docker · Linux · Cloudflare
+              Java 17/21 · Spring Boot 3 · Spring Security · React · TypeScript · Next.js · PostgreSQL · Redis · Docker · Linux · Engenharia assistida por IA
             </p>
           </div>
         );
@@ -173,33 +173,33 @@ export default function HeaderNav({ locale, currentPath, navItems, controls }: H
             <h3 className="ocean-preview__title">UTFPR · SENAI · MCT Cursos</h3>
             <p className="ocean-preview__text">
               {isPt
-                ? 'Comecei mexendo em hardware e rede no suporte técnico e nunca mais parei de programar. Formação técnica em TI, Administração e Logística + graduação na UTFPR.'
-                : 'Started out fixing hardware and networks in IT support and got hooked on building software. Technical degrees in IT, Business & Logistics + UTFPR.'}
+                ? 'Comecei em TI no suporte e infraestrutura e migrei para o desenvolvimento criando sistemas reais. Formação técnica em TI, Administração e Logística + ADS na UTFPR.'
+                : 'Started in IT support and infrastructure before moving into software development through real-world systems. Technical degrees in IT, Business & Logistics + UTFPR.'}
             </p>
           </div>
         );
       case 'services':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">06 // {isPt ? 'FREELAS & PROJETOS' : 'FREELANCE & SCOPE'}</span>
-            <h3 className="ocean-preview__title">{isPt ? 'No que consigo ajudar' : 'How I Can Help'}</h3>
+            <span className="ocean-preview__tag">06 // {isPt ? 'SERVIÇOS' : 'SERVICES'}</span>
+            <h3 className="ocean-preview__title">{isPt ? 'Como Posso Ajudar' : 'How I Can Help'}</h3>
             <ul className="ocean-preview__list">
               <li>{isPt ? 'Backends e APIs em Java / Spring Boot' : 'Java / Spring Boot Backends & APIs'}</li>
-              <li>{isPt ? 'Integrações com ERPs, Webhooks e PDFs' : 'ERP Integrations, Webhooks & PDFs'}</li>
-              <li>{isPt ? 'Bots e fluxos no WhatsApp (Blip / Digisac)' : 'WhatsApp Flows & Bots (Blip / Digisac)'}</li>
-              <li>{isPt ? 'Sites rápidos e painéis em React / Next.js' : 'Fast Web Apps & Dashboards in React / Next.js'}</li>
+              <li>{isPt ? 'Integrações entre sistemas & automação com IA' : 'System Integrations & AI Automation'}</li>
+              <li>{isPt ? 'Automações no WhatsApp (Take Blip / Digisac)' : 'WhatsApp Automation (Take Blip / Digisac)'}</li>
+              <li>{isPt ? 'Aplicações Web em React / Next.js' : 'Web Apps in React / Next.js'}</li>
             </ul>
           </div>
         );
       case 'contact':
         return (
           <div className="ocean-preview__card">
-            <span className="ocean-preview__tag">07 // {isPt ? 'BORA CONVERSAR' : "LET'S TALK"}</span>
+            <span className="ocean-preview__tag">07 // {isPt ? 'CONTATO' : 'CONTACT'}</span>
             <h3 className="ocean-preview__title">{PROFILE.email}</h3>
             <p className="ocean-preview__text">
               {isPt
-                ? 'Disponível agora pra vagas Júnior (Backend ou Full Stack) e projetos freelance. Currículo em PDF prontinho pra baixar.'
-                : 'Currently available for Junior Backend / Full-Stack roles and freelance work. 1-page PDF resume ready to download.'}
+                ? 'Disponível para início imediato em vagas Júnior (Backend ou Full Stack) e projetos sob medida. Currículo de 1 página em PDF pronto para download.'
+                : 'Immediately available for Junior Backend / Full-Stack roles and custom projects. 1-page PDF resume ready to download.'}
             </p>
             <div className="ocean-preview__meta">
               <span>GitHub: @{PROFILE.githubUsername}</span>

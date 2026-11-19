@@ -27,6 +27,8 @@ const EXPECTED_FILES = [
   'en/projects/rewit/index.html',
   'pt-br/projects/job-hunter/index.html',
   'en/projects/job-hunter/index.html',
+  'pt-br/projects/tocai/index.html',
+  'en/projects/tocai/index.html',
   'pt-br/projects/ctrls-forms/index.html',
   'en/projects/ctrls-forms/index.html',
   'pt-br/projects/digital-professional-profiles/index.html',
@@ -129,4 +131,21 @@ test('career timeline, MCT Cursos education, collaboration credit, and Portal Cl
   assert.ok(!/Persona 3 Reload/i.test(ptHome));
   assert.match(ptItsm, /Ver showcase no GitHub/);
   assert.match(enItsm, /View public showcase on GitHub/);
+  assert.match(ptItsm, /cmdb_ativos\.png/);
+  assert.match(ptItsm, /totem_pre_cadastro_paciente\.png/);
+  assert.match(ptItsm, /cartao_digital_qrcode_catraca\.png/);
+  assert.match(ptItsm, /agendamento_relatorios\.png/);
+
+  const ptTocai = fs.readFileSync(path.join(DIST, 'pt-br/projects/tocai/index.html'), 'utf8');
+  const enTocai = fs.readFileSync(path.join(DIST, 'en/projects/tocai/index.html'), 'utf8');
+  assert.match(ptTocai, /Em concepção e planejamento/);
+  assert.match(ptTocai, /sabiá-laranjeira/i);
+  assert.match(ptTocai, /Aprendizado adaptativo/i);
+  assert.match(ptTocai, /instrumentos reais/i);
+  assert.match(ptTocai, /Árvore de habilidades/i);
+  assert.match(ptTocai, /Núcleo Inicial Planejado/i);
+  assert.match(ptTocai, /Expansão Futura/i);
+  assert.ok(!/revolucionário|disruptivo/i.test(ptTocai), 'Avoid hype buzzwords in Tocaí copy');
+  assert.match(enTocai, /Concept &amp; planning/);
+  assert.match(enTocai, /MusicTech\/EdTech/);
 });

@@ -19,7 +19,15 @@ const detailHref = localizePath(locale, `projects/${project.slug}`);
 
   <div class="proj-row__body">
     <div class="proj-row__meta">
-      <span class={`status-label ${project.status === 'concluded-operation' || project.status === 'collaborative' ? 'status-label--cyan' : ''}`}>
+      <span
+        class={`status-label ${
+          project.status === 'concept-planning'
+            ? 'status-label--accent'
+            : project.status === 'concluded-operation' || project.status === 'collaborative'
+              ? 'status-label--cyan'
+              : ''
+        }`}
+      >
         {statusLabel}
       </span>
       {project.priority === 1 && (

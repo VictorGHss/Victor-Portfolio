@@ -100,35 +100,58 @@ export default function ScreenshotGallery({
         .shot-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 1.75rem;
+          gap: 1.5rem;
           margin-top: 1.5rem;
+          align-items: stretch;
         }
         .shot-grid--single {
           grid-template-columns: 1fr;
         }
         .shot-frame {
           margin: 0;
-          padding: 1rem;
-          background: #0b1628;
-          border: 1px solid rgba(232, 242, 255, 0.1);
+          padding: 0.9rem;
+          background: #08152b;
+          border: 1px solid rgba(60, 226, 255, 0.24);
+          box-shadow: 6px 6px 0 rgba(14, 124, 255, 0.35);
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+        }
+        .shot-frame:hover {
+          transform: translate(-2px, -2px);
+          border-color: rgba(60, 226, 255, 0.6);
         }
         .shot-frame--compact {
           max-width: 540px;
         }
         .shot-frame__btn {
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 100%;
-          padding: 0;
+          height: 310px;
+          padding: 0.5rem;
           border: none;
-          background: #07101f;
+          background: #040b16;
           cursor: zoom-in;
           position: relative;
           overflow: hidden;
         }
+        .shot-frame--compact .shot-frame__btn {
+          height: auto;
+          padding: 0;
+        }
         .shot-frame__btn img {
+          max-width: 100%;
+          max-height: 100%;
+          width: auto;
+          height: auto;
+          object-fit: contain;
+          display: block;
+        }
+        .shot-frame--compact .shot-frame__btn img {
           width: 100%;
           height: auto;
-          display: block;
         }
         .shot-frame__zoom {
           position: absolute;
@@ -137,16 +160,17 @@ export default function ScreenshotGallery({
           display: inline-flex;
           align-items: center;
           gap: 0.35rem;
-          padding: 0.3rem 0.6rem;
-          background: rgba(7, 20, 38, 0.86);
-          border: 1px solid rgba(232, 242, 255, 0.18);
-          color: #e8f2ff;
+          padding: 0.3rem 0.65rem;
+          background: rgba(4, 11, 22, 0.9);
+          border: 1px solid rgba(60, 226, 255, 0.45);
+          color: #f4f9ff;
           font-family: var(--font-mono);
           font-size: 0.72rem;
-          opacity: 0.9;
+          font-weight: 700;
+          text-transform: uppercase;
         }
         .shot-frame__caption {
-          margin-top: 0.75rem;
+          margin-top: 0.8rem;
           font-size: 0.88rem;
           color: var(--text-secondary);
         }
@@ -154,7 +178,7 @@ export default function ScreenshotGallery({
           position: fixed;
           inset: 0;
           z-index: 1200;
-          background: rgba(4, 11, 22, 0.9);
+          background: rgba(4, 11, 22, 0.92);
           backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
@@ -167,8 +191,9 @@ export default function ScreenshotGallery({
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
-          background: #0b1628;
-          border: 1px solid rgba(232, 242, 255, 0.16);
+          background: #08152b;
+          border: 1px solid rgba(60, 226, 255, 0.35);
+          box-shadow: 10px 10px 0 #0e7cff;
           padding: 1rem;
         }
         .shot-lightbox__bar {
@@ -187,11 +212,12 @@ export default function ScreenshotGallery({
           align-items: center;
           gap: 0.35rem;
           padding: 0.4rem 0.75rem;
-          background: rgba(18, 59, 112, 0.6);
-          border: 1px solid rgba(85, 200, 255, 0.35);
-          color: #e8f2ff;
+          background: #ff2e54;
+          border: none;
+          color: #ffffff;
           font-family: var(--font-mono);
           font-size: 0.76rem;
+          font-weight: 700;
           cursor: pointer;
           flex-shrink: 0;
         }
@@ -206,6 +232,9 @@ export default function ScreenshotGallery({
         @media (max-width: 900px) {
           .shot-grid {
             grid-template-columns: 1fr;
+          }
+          .shot-frame__btn {
+            height: 250px;
           }
         }
       `}</style>

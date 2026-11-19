@@ -13,10 +13,11 @@ const { project, locale } = Astro.props;
 const t = UI[locale];
 const statusLabel = t.projects.statusLabels[project.status];
 const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub';
+const isConcept = project.status === 'concept-planning';
 ---
 
 <section class="section">
-  <div class="section-watermark" aria-hidden="true">0{project.priority} // CASE</div>
+  <div class="section-watermark" aria-hidden="true">0{project.priority} // {isConcept ? 'VISION' : 'CASE'}</div>
   <div class="container">
     <a href={localizePath(locale, 'projects')} class="p3-link back-link">
       ← {t.projects.backToProjects}
@@ -24,7 +25,15 @@ const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub'
 
     <header class="case-header surface-block">
       <div class="case-header__badges">
-        <span class={`status-label ${project.status === 'concluded-operation' || project.status === 'collaborative' ? 'status-label--cyan' : ''}`}>
+        <span
+          class={`status-label ${
+            isConcept
+              ? 'status-label--accent'
+              : project.status === 'concluded-operation' || project.status === 'collaborative'
+                ? 'status-label--cyan'
+                : ''
+          }`}
+        >
           {statusLabel}
         </span>
         {project.priority === 1 && (
@@ -36,27 +45,42 @@ const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub'
       <p class="case-header__tagline">{project.tagline[locale]}</p>
       <p class="case-header__timeline">{project.timelineContext[locale]}</p>
 
-      <div class="case-header__actions">
-        {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
-            <span>{project.liveLabel ? project.liveLabel[locale] : 'Live'} ↗</span>
-          </a>
-        )}
-        {project.repoUrl && (
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class={`p3-btn ${project.liveUrl ? 'p3-btn--secondary' : 'p3-btn--primary'}`}
-          >
-            <span>{repoButtonLabel} ↗</span>
-          </a>
-        )}
-        {project.isPrivateCore && (
-          <span class="case-header__private-note">{t.projects.privateNoteLabel}</span>
-        )}
-      </div>
+      {(project.liveUrl || project.repoUrl || project.isPrivateCore) && (
+        <div class="case-header__actions">
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="p3-btn p3-btn--primary">
+              <span>{project.liveLabel ? project.liveLabel[locale] : 'Live'} ↗</span>
+            </a>
+          )}
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={`p3-btn ${project.liveUrl ? 'p3-btn--secondary' : 'p3-btn--primary'}`}
+            >
+              <span>{repoButtonLabel} ↗</span>
+            </a>
+          )}
+          {project.isPrivateCore && (
+            <span class="case-header__private-note">{t.projects.privateNoteLabel}</span>
+          )}
+        </div>
+      )}
     </header>
+
+    {isConcept && (
+      <div class="concept-notice paper-slab" data-reveal>
+        <span class="concept-notice__tag">
+          {locale === 'pt-br' ? 'CONCEITO // PLANEJAMENTO' : 'CONCEPT // PLANNING'}
+        </span>
+        <p class="concept-notice__text">
+          {locale === 'pt-br'
+            ? 'Iniciativa futura em fase de concepção e planejamento de produto — ainda não desenvolvida, lançada ou em operação. Os blocos abaixo descrevem a visão, os diferenciais e o escopo modular planejado.'
+            : 'Future initiative currently in the product conception and planning phase — not yet developed, launched, or operating. The sections below outline the product vision, differentiators, and planned modular scope.'}
+        </p>
+      </div>
+    )}
 
     {project.metrics && (
       <div class="case-metrics paper-slab" data-reveal>
@@ -86,34 +110,82 @@ const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub'
           <p>{project.role[locale]}</p>
         </article>
 
+        {project.differentiators && (
+          <article class="case-block" data-reveal>
+            <h2 class="display-title case-block__title">{t.projects.differentiatorsLabel}</h2>
+            <ul class="case-list">
+              {project.differentiators[locale].map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        )}
+
+        {project.visualIdentity && (
+          <article class="case-block" data-reveal>
+            <h2 class="display-title case-block__title">{t.projects.visualIdentityLabel}</h2>
+            <p>{project.visualIdentity[locale]}</p>
+          </article>
+        )}
+
+        {project.visionScope && (
+          <article class="case-block" data-reveal>
+            <h2 class="display-title case-block__title">{t.projects.visionModulesLabel}</h2>
+            <div class="roadmap-groups">
+              <div>
+                <h3 class="roadmap-sub roadmap-sub--wip">{t.projects.initialCoreLabel}</h3>
+                <ul class="case-list">
+                  {project.visionScope.initialCore[locale].map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 class="roadmap-sub roadmap-sub--plan">{t.projects.futureExpansionLabel}</h3>
+                <ul class="case-list">
+                  {project.visionScope.futureExpansion[locale].map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        )}
+
         {project.roadmap && (
           <article class="case-block" data-reveal>
             <h2 class="display-title case-block__title">{t.projects.roadmapLabel}</h2>
             <div class="roadmap-groups">
-              <div>
-                <h3 class="roadmap-sub roadmap-sub--done">{t.projects.implementedLabel}</h3>
-                <ul class="case-list">
-                  {project.roadmap.implemented[locale].map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 class="roadmap-sub roadmap-sub--wip">{t.projects.inProgressLabel}</h3>
-                <ul class="case-list">
-                  {project.roadmap.inProgress[locale].map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 class="roadmap-sub roadmap-sub--plan">{t.projects.plannedLabel}</h3>
-                <ul class="case-list">
-                  {project.roadmap.planned[locale].map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </div>
+              {project.roadmap.implemented && (
+                <div>
+                  <h3 class="roadmap-sub roadmap-sub--done">{t.projects.implementedLabel}</h3>
+                  <ul class="case-list">
+                    {project.roadmap.implemented[locale].map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {project.roadmap.inProgress && (
+                <div>
+                  <h3 class="roadmap-sub roadmap-sub--wip">{t.projects.inProgressLabel}</h3>
+                  <ul class="case-list">
+                    {project.roadmap.inProgress[locale].map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {project.roadmap.planned && (
+                <div>
+                  <h3 class="roadmap-sub roadmap-sub--plan">{t.projects.plannedLabel}</h3>
+                  <ul class="case-list">
+                    {project.roadmap.planned[locale].map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </article>
         )}
@@ -132,7 +204,7 @@ const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub'
         {project.challenges && (
           <article class="case-block" data-reveal>
             <h2 class="display-title case-block__title">
-              {locale === 'pt-br' ? 'Desafios na prática' : 'Tricky parts I solved'}
+              {locale === 'pt-br' ? 'Desafios Técnicos' : 'Technical Challenges'}
             </h2>
             <ul class="case-list">
               {project.challenges[locale].map((item) => (
@@ -145,7 +217,9 @@ const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub'
 
       <aside class="case-aside surface-block" data-reveal>
         <div class="case-aside__section">
-          <h2 class="display-title case-block__title">{t.projects.stackLabel}</h2>
+          <h2 class="display-title case-block__title">
+            {isConcept ? t.projects.conceptScopeLabel : t.projects.stackLabel}
+          </h2>
           <p class="case-stack-text">{project.stack.join(' · ')}</p>
         </div>
 
@@ -234,6 +308,33 @@ const repoButtonLabel = project.repoLabel ? project.repoLabel[locale] : 'GitHub'
     gap: var(--space-5);
     margin-bottom: var(--space-6);
     padding: 1.4rem 1.5rem;
+  }
+
+  .concept-notice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.15rem;
+    margin-bottom: var(--space-6);
+    padding: 1.2rem 1.45rem;
+  }
+
+  .concept-notice__tag {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    background: var(--color-accent);
+    color: var(--color-pure-white);
+    padding: 0.18rem 0.6rem;
+    transform: skewX(-8deg);
+  }
+
+  .concept-notice__text {
+    margin: 0;
+    color: var(--text-inverse);
+    font-weight: 500;
+    font-size: 0.96rem;
+    flex: 1 1 320px;
   }
 
   .case-metric {
